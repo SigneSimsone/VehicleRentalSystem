@@ -1,9 +1,9 @@
 ﻿@model AdminViewModel
 
 <h5>"Role to user":</h5>
-<form asp-action="AddUserToRole" method="post">
+<form asp-action=AddUserToRole method="post">
 
-    <label asp-for="SelectedUser">"User"</label>
+    <label asp-for="SelectedUser">User</label>
     <select asp-for="SelectedUser" asp-items="Model.UserDropdown" class="form-control">
         <option value="">"Select user"</option>
     </select>
