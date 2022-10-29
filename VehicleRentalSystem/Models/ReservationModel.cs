@@ -11,7 +11,9 @@ namespace VehicleRentalSystem.Models
         public DateTime EndDate { get; set; }
 
         public UserModel User { get; set; }
-        public BillModel Bill { get; set; }
+        public virtual PaymentModel Payment { get; set; }
+        public Guid PaymentId { get; set; }
+
         public CarModel Car { get; set; }
 
         public ReservationModel()

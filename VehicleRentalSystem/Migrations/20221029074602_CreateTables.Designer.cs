@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleRentalSystem.Data;
 
@@ -11,9 +12,10 @@ using VehicleRentalSystem.Data;
 namespace VehicleRentalSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221029074602_CreateTables")]
+    partial class CreateTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,7 +274,13 @@ namespace VehicleRentalSystem.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("ReservationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ReservationId")
+                        .IsUnique();
 
                     b.ToTable("Payments");
                 });
@@ -289,9 +297,6 @@ namespace VehicleRentalSystem.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("PaymentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -301,9 +306,6 @@ namespace VehicleRentalSystem.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("PaymentId")
-                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -473,17 +475,22 @@ namespace VehicleRentalSystem.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("VehicleRentalSystem.Models.PaymentModel", b =>
+                {
+                    b.HasOne("VehicleRentalSystem.Models.ReservationModel", "Reservation")
+                        .WithOne("Payment")
+                        .HasForeignKey("VehicleRentalSystem.Models.PaymentModel", "ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reservation");
+                });
+
             modelBuilder.Entity("VehicleRentalSystem.Models.ReservationModel", b =>
                 {
                     b.HasOne("VehicleRentalSystem.Models.CarModel", "Car")
                         .WithMany()
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VehicleRentalSystem.Models.PaymentModel", "Payment")
-                        .WithOne("Reservation")
-                        .HasForeignKey("VehicleRentalSystem.Models.ReservationModel", "PaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -493,14 +500,12 @@ namespace VehicleRentalSystem.Migrations
 
                     b.Navigation("Car");
 
-                    b.Navigation("Payment");
-
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VehicleRentalSystem.Models.PaymentModel", b =>
+            modelBuilder.Entity("VehicleRentalSystem.Models.ReservationModel", b =>
                 {
-                    b.Navigation("Reservation")
+                    b.Navigation("Payment")
                         .IsRequired();
                 });
 

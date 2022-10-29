@@ -2,7 +2,7 @@
 
 namespace VehicleRentalSystem.Models
 {
-    public class BillModel
+    public class PaymentModel
     {
         [Key]
         public Guid Id { get; set; }
@@ -10,9 +10,9 @@ namespace VehicleRentalSystem.Models
         public DateTime Date { get; set; }
         public double Amount { get; set; }
 
-        public ReservationModel Reservation { get; set; }
+        public virtual ReservationModel Reservation { get; set; }
 
-        public BillModel()
+        public PaymentModel()
         {
             Id = Guid.NewGuid();
         }

@@ -25,6 +25,7 @@
     <Folder Include="Views\Car\" />
     <Folder Include="Views\Search\" />
     <Folder Include="Views\Reservation\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>
