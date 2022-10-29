@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Admin\" />
     <Folder Include="Views\Car\" />
     <Folder Include="Views\Search\" />
     <Folder Include="Views\Reservation\" />

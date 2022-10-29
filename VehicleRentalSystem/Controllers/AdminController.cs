@@ -22,7 +22,7 @@ namespace VehicleRentalSystem.Controllers
             _roleManager = roleManager;
         }
 
-        /*[HttpGet]
+        [HttpGet]
         public IActionResult Index()
         {
             UserModel[] users = _adminDataManager.GetUsers();
@@ -30,10 +30,8 @@ namespace VehicleRentalSystem.Controllers
             AdminViewModel viewModel = new AdminViewModel();
             viewModel.Users = users.Select(x => new UserViewModel()
             {
-                Artists = x.Artists,
-                Artworks = x.Artworks,
+                Reservations = x.Reservations,
                 Feedbacks = x.Feedbacks,
-                IsBlocked = x.IsBlocked,
                 UserName = x.UserName,
                 Email = x.Email,
                 EmailConfirmed = x.EmailConfirmed,
@@ -50,7 +48,7 @@ namespace VehicleRentalSystem.Controllers
             viewModel.RoleDropdown = new SelectList(rolesList, "Name");
 
             return View(viewModel);
-        }*/
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateRole(AdminViewModel model)

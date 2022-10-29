@@ -1,0 +1,60 @@
+﻿@model AdminViewModel
+
+<h5>"Role to user":</h5>
+<form asp-action="AddUserToRole" method="post">
+
+    <label asp-for="SelectedUser">"User"</label>
+    <select asp-for="SelectedUser" asp-items="Model.UserDropdown" class="form-control">
+        <option value="">"Select user"</option>
+    </select>
+
+    <label asp-for="SelectedRole">"Role"</label>
+    <select asp-for="SelectedRole" asp-items="Model.RoleDropdown" class="form-control">
+        <option value="">"Select role"</option>
+    </select>
+
+    <input type="submit" value="Submit" />
+</form>
+<br />
+
+
+<h5>"Create role":</h5>
+<form asp-action="CreateRole" method="post">
+
+    <label asp-for="NewRole">"New role"</label>
+    <input asp-for="NewRole" class="form-control" />
+
+    <input type="submit" value=""Submit"" />
+</form>
+<br />
+
+
+@if (Model != null)
+{
+    <h2 id="users">"Users"</h2>
+    <table id="UsersTable">
+        <thead id="thead">
+            <tr>
+                <th>"Name"</th>
+                <th>"Surname"</th>
+                <th>"Email"</th>
+
+                <th>"User roles"</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var user in Model.Users)
+            {
+                if (user.EmailConfirmed == true)
+                {
+                    <tr>
+                        <td>@user.Name</td>
+                        <td>@user.Surname</td>
+                        <td>@user.Email</td>
+                        <td>@user.RolesAsString</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
