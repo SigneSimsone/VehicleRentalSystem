@@ -6,12 +6,26 @@ namespace VehicleRentalSystem.Models
     {
         [Key]
         public Guid Id { get; set; }
-
-        public string Model { get; set; }
         public int Year { get; set; }
+        public string RegistrationNumber { get; set; }
+        public int FuelConsumption { get; set; }
+        public int Mileage { get; set; }
+        public string Gearbox { get; set; }
+        public int Passengers { get; set; }
+        public int Luggage { get; set; }
+        public int Doors { get; set; }
+        public bool AirConditioner { get; set; }
+        public bool Availability { get; set; }
+        public float DailyPrice { get; set; }
 
         public BrandModel Brand { get; set; }
+        public FuelTypeModel FuelType { get; set; }
+        public CarImageModel CarImage { get; set; }
+        public CarModelModel Model { get; set; }
         public LocationModel Location { get; set; }
+
+        public ICollection<FeedbackModel> Feedbacks { get; set; }
+        public ICollection<ReservationModel> Reservations { get; set; }
 
         public CarModel()
         {

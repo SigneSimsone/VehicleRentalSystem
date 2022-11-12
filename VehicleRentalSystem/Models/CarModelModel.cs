@@ -2,15 +2,14 @@
 
 namespace VehicleRentalSystem.Models
 {
-    public class LocationModel
+    public class CarModelModel
     {
         [Key]
         public Guid Id { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
-        public string Number { get; set; }
 
-        public LocationModel()
+        public string Model { get; set; }
+
+        public CarModelModel()
         {
             Id = Guid.NewGuid();
         }

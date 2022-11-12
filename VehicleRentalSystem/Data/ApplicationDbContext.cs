@@ -11,12 +11,14 @@ namespace VehicleRentalSystem.Data
         {
         }
         public DbSet<BrandModel> Brands { get; set; }
+        public DbSet<FuelTypeModel> FuelTypes { get; set; }
         public DbSet<CarImageModel> CarImages { get; set; }
+        public DbSet<CarModelModel> CarModels { get; set; }
+        public DbSet<LocationModel> Locations { get; set; }
         public DbSet<CarModel> Cars { get; set; }
         public DbSet<FeedbackModel> Feedbacks { get; set; }
-        public DbSet<LocationModel> Locations { get; set; }
-        public DbSet<PaymentModel> Payments { get; set; }
         public DbSet<ReservationModel> Reservations { get; set; }
+        public DbSet<PaymentModel> Payments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

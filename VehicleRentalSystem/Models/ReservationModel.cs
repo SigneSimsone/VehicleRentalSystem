@@ -13,7 +13,6 @@ namespace VehicleRentalSystem.Models
         public UserModel User { get; set; }
         public virtual PaymentModel Payment { get; set; }
         public Guid PaymentId { get; set; }
-
         public CarModel Car { get; set; }
 
         public ReservationModel()
