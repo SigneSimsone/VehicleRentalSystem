@@ -2,14 +2,14 @@
 
 namespace VehicleRentalSystem.Models
 {
-    public class CarImageModel
+    public class GearboxModel
     {
         [Key]
         public Guid Id { get; set; }
 
-        public string ImagePath { get; set; }
+        public string Gearbox { get; set; }
 
-        public CarImageModel()
+        public GearboxModel()
         {
             Id = Guid.NewGuid();
         }

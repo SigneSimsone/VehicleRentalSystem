@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleRentalSystem.Data;
 
@@ -11,9 +12,10 @@ using VehicleRentalSystem.Data;
 namespace VehicleRentalSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221114202545_CreateGearboxTable")]
+    partial class CreateGearboxTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,6 +176,21 @@ namespace VehicleRentalSystem.Migrations
                     b.ToTable("Brands");
                 });
 
+            modelBuilder.Entity("VehicleRentalSystem.Models.CarImageModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CarImages");
+                });
+
             modelBuilder.Entity("VehicleRentalSystem.Models.CarModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -189,6 +206,9 @@ namespace VehicleRentalSystem.Migrations
                     b.Property<Guid>("BrandId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CarImageId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<float>("DailyPrice")
                         .HasColumnType("real");
 
@@ -201,12 +221,8 @@ namespace VehicleRentalSystem.Migrations
                     b.Property<Guid>("FuelTypeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("GearboxTypeId")
+                    b.Property<Guid>("GearboxId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("LocationId")
                         .HasColumnType("uniqueidentifier");
@@ -234,9 +250,11 @@ namespace VehicleRentalSystem.Migrations
 
                     b.HasIndex("BrandId");
 
+                    b.HasIndex("CarImageId");
+
                     b.HasIndex("FuelTypeId");
 
-                    b.HasIndex("GearboxTypeId");
+                    b.HasIndex("GearboxId");
 
                     b.HasIndex("LocationId");
 
@@ -315,7 +333,7 @@ namespace VehicleRentalSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GearboxTypes");
+                    b.ToTable("GearboxModel");
                 });
 
             modelBuilder.Entity("VehicleRentalSystem.Models.LocationModel", b =>
@@ -529,15 +547,21 @@ namespace VehicleRentalSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("VehicleRentalSystem.Models.CarImageModel", "CarImage")
+                        .WithMany()
+                        .HasForeignKey("CarImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("VehicleRentalSystem.Models.FuelTypeModel", "FuelType")
                         .WithMany()
                         .HasForeignKey("FuelTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VehicleRentalSystem.Models.GearboxModel", "GearboxType")
+                    b.HasOne("VehicleRentalSystem.Models.GearboxModel", "Gearbox")
                         .WithMany()
-                        .HasForeignKey("GearboxTypeId")
+                        .HasForeignKey("GearboxId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -555,9 +579,11 @@ namespace VehicleRentalSystem.Migrations
 
                     b.Navigation("Brand");
 
+                    b.Navigation("CarImage");
+
                     b.Navigation("FuelType");
 
-                    b.Navigation("GearboxType");
+                    b.Navigation("Gearbox");
 
                     b.Navigation("Location");
 

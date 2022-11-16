@@ -8,6 +8,7 @@ namespace VehicleRentalSystem.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public int Age { get; set; }
+        public bool DriversLicense { get; set; }
 
         public ICollection<ReservationModel> Reservations { get; set; }
         public ICollection<FeedbackModel> Feedbacks { get; set; }

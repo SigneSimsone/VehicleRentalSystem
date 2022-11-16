@@ -1,0 +1,35 @@
+﻿@model CarViewModel
+
+<h5>Add new information for cars:</h5>
+<form asp-action="AddBrand" method="post">
+    <label for="new-brand">Brand:</label>
+    <input type="text" id="new-brand" name="brand" />
+    <input type="submit" value="Submit" />
+</form>
+<br />
+<form asp-action="AddCarModel" method="post">
+    <label for="new-car-model">Car model:</label>
+    <input type="text" id="new-car-model" name="carModel" />
+    <input type="submit" value="Submit" />
+</form>
+<br />
+<form asp-action="AddFuelType" method="post">
+    <label for="new-fuel-type">Fuel type:</label>
+    <input type="text" id="new-fuel-type" name="fuelType" />
+    <input type="submit" value="Submit" />
+</form>
+<br />
+<form asp-action="AddGearboxType" method="post">
+    <label for="new-gearbox-type">Gearbox type:</label>
+    <input type="text" id="new-gearbox-type" name="gearboxType" />
+    <input type="submit" value="Submit" />
+</form>
+<br />
+<form asp-action="AddLocation" method="post">
+    <label for="new-location">Location:</label>
+    <input type="text" id="new-city" name="city" />
+    <input type="text" id="new-street" name="street" />
+    <input type="text" id="new-number" name="number" />
+    <input type="submit" value="Submit" />
+</form>
+<br />
