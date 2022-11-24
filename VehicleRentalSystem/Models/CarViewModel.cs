@@ -42,6 +42,8 @@ namespace VehicleRentalSystem.Models
         public int Luggage { get; set; }
         public int Doors { get; set; }
         public bool AirConditioner { get; set; }
+
+        [Required(ErrorMessage = "Daily Price field error")]
         public float DailyPrice { get; set; }
         public bool Availability { get; set; }
         #endregion

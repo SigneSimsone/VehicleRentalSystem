@@ -12,15 +12,26 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext = dbContext;
         }
 
-      /*public CarModel[] GetCars()
+        public CarModel[] GetCars()
         {
             var result = _dbContext
-                .Artists
-                .Include(x => x.Users)
+                .Cars
                 .ToArray();
 
             return result;
-        }*/
+        }
+
+        public CarModel GetOneCar(Guid id)
+        {
+            var item = _dbContext.Cars.Include(x => x.Brand)
+                                          .Include(x => x.FuelType)
+                                          .Include(x => x.GearboxType)
+                                          .Include(x => x.Model)
+                                          .Include(x => x.Location)
+                                          .First(x => x.Id == id);
+
+            return item;
+        }
 
         internal void AddCar(BrandModel brand, CarModelModel model, GearboxModel gearbox, FuelTypeModel fuelType, int year, string registrationNumber, int fuelConsumption, int mileage, int passengers, int luggage, int doors, bool airConditioner, bool availability, float dailyPrice, string imagePath, LocationModel location)
         {
@@ -48,6 +59,46 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext.SaveChanges();
         }
 
+        internal void Edit(Guid id, BrandModel brand, CarModelModel model, GearboxModel gearbox, FuelTypeModel fuelType, int year, string registrationNumber, int fuelConsumption, int mileage, int passengers, int luggage, int doors, bool airConditioner, bool availability, float dailyPrice, string imagePath, LocationModel location)
+        {
+            var item = _dbContext.Cars.First(x => x.Id == id);
+            item.Brand = brand;
+            item.Model = model;
+            item.GearboxType = gearbox;
+            item.FuelType = fuelType;
+            item.Year = year;
+            item.RegistrationNumber = registrationNumber;
+            item.FuelConsumption = fuelConsumption;
+            item.Mileage = mileage;
+            item.Passengers = passengers;
+            item.Luggage = luggage;
+            item.Doors = doors;
+            item.AirConditioner = airConditioner;
+            item.Availability = availability;
+            item.DailyPrice = dailyPrice;
+            item.ImagePath = imagePath;
+            item.Location = location ;
+
+            _dbContext.SaveChanges();
+        }
+
+        internal void Delete(Guid id)
+        {
+            var item = _dbContext
+                .Cars
+                .Include(x => x.Feedbacks)
+                .Include(x => x.Reservations)
+                .First(x => x.Id == id);
+
+            item.Feedbacks.Clear();
+            _dbContext.SaveChanges();
+
+            item.Reservations.Clear();
+            _dbContext.SaveChanges();
+
+            _dbContext.Cars.Remove(item);
+            _dbContext.SaveChanges();
+        }
 
         internal void AddBrand(string brand)
         {
@@ -58,6 +109,14 @@ namespace VehicleRentalSystem.Data.Managers
 
             _dbContext.Brands.Add(item);
             _dbContext.SaveChanges();
+        }
+        public BrandModel[] GetBrands()
+        {
+            var result = _dbContext
+                .Brands
+                .ToArray();
+
+            return result;
         }
         public BrandModel GetOneBrand(Guid Id)
         {
@@ -77,6 +136,14 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext.FuelTypes.Add(item);
             _dbContext.SaveChanges();
         }
+        public FuelTypeModel[] GetFuelTypes()
+        {
+            var result = _dbContext
+                .FuelTypes
+                .ToArray();
+
+            return result;
+        }
         public FuelTypeModel GetOneFuelType(Guid Id)
         {
             var item = _dbContext.FuelTypes.First(x => x.Id == Id);
@@ -95,6 +162,14 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext.GearboxTypes.Add(item);
             _dbContext.SaveChanges();
         }
+        public GearboxModel[] GetGearboxTypes()
+        {
+            var result = _dbContext
+                .GearboxTypes
+                .ToArray();
+
+            return result;
+        }
         public GearboxModel GetOneGearboxType(Guid Id)
         {
             var item = _dbContext.GearboxTypes.First(x => x.Id == Id);
@@ -112,6 +187,14 @@ namespace VehicleRentalSystem.Data.Managers
 
             _dbContext.CarModels.Add(item);
             _dbContext.SaveChanges();
+        }
+        public CarModelModel[] GetCarModels()
+        {
+            var result = _dbContext
+                .CarModels
+                .ToArray();
+
+            return result;
         }
         public CarModelModel GetOneCarModel(Guid Id)
         {
@@ -132,11 +215,42 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext.Locations.Add(item);
             _dbContext.SaveChanges();
         }
+        public LocationModel[] GetLocations()
+        {
+            var result = _dbContext
+                .Locations
+                .ToArray();
+
+            return result;
+        }
         public LocationModel GetOneLocation(Guid Id)
         {
             var item = _dbContext.Locations.First(x => x.Id == Id);
 
             return item;
+        }
+
+        internal void AddFeedback(Guid Id, string comment, UserModel user)
+        {
+            var car = GetOneCar(Id);
+            var item = new FeedbackModel()
+            {
+                Comment = comment,
+                Date = DateTime.Now,
+                User = user,
+                Car = car
+            };
+
+            _dbContext.Feedbacks.Add(item);
+            _dbContext.SaveChanges();
+        }
+
+        internal void DeleteFeedback(Guid Id)
+        {
+            var item = _dbContext.Feedbacks.First(x => x.Id == Id);
+            _dbContext.Feedbacks.Remove(item);
+
+            _dbContext.SaveChanges();
         }
     }
 }
