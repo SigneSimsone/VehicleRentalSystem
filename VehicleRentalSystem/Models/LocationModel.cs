@@ -14,5 +14,13 @@ namespace VehicleRentalSystem.Models
         {
             Id = Guid.NewGuid();
         }
+
+        public string FullLocation
+        {
+            get
+            {
+                return $"{City}, {Street} {Number}";
+            }
+        }
     }
 }
