@@ -88,16 +88,17 @@
 
     <label asp-for="Doors">Doors</label>
     <input asp-for="Doors" class="form-control" />
+    <span asp-validation-for="Doors" class="text-danger"></span><br />
 
     <label asp-for="AirConditioner">Air Conditioner</label>
-    <input asp-for="AirConditioner" class="form-control" />
+    @Html.CheckBoxFor(t=>t.AirConditioner) <br />
 
     <label asp-for="DailyPrice">Daily Price</label>
     <input asp-for="DailyPrice" class="form-control" />
     <span asp-validation-for="DailyPrice" class="text-danger"></span><br />
 
     <label asp-for="Availability">Availability</label>
-    <input asp-for="Availability" class="form-control" />
+    @Html.CheckBoxFor(t=>t.Availability) <br />
 
     <label asp-for="File">File</label>
     <input asp-for="File" class="form-control" />
@@ -106,7 +107,7 @@
 </form>
 <br />
 
-@if (Model != null && Model.Cars.Length > 0)
+@if (Model != null && Model.Cars != null && Model.Cars.Any())
 {
     <h2 id="cars">Cars</h2>
     <table id="CarsTable">

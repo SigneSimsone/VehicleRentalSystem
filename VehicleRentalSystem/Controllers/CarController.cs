@@ -20,12 +20,15 @@ namespace VehicleRentalSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(CarViewModel viewModel = null)
         {
             CarModel[] cars = _carDataManager.GetCars();
             var userId = _userManager.GetUserId(User);
 
-            CarViewModel viewModel = new CarViewModel();
+            if(viewModel == null)
+            {
+                viewModel = new CarViewModel();
+            }
             viewModel.Cars = cars;
             viewModel.UserId = userId;
 
@@ -56,10 +59,10 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCar(CarViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction(nameof(Index), model);
-            }
+           // if (!ModelState.IsValid)
+            //{
+           //     return RedirectToAction(nameof(Index), model);
+          //  }
 
             string relativeFilePath = null;
             BrandModel brandmodel = _carDataManager.GetOneBrand(model.SelectedBrand);
@@ -72,7 +75,7 @@ namespace VehicleRentalSystem.Controllers
             {
                 //upload files to wwwroot
                 string fileName = $"{brandmodel.Brand}_{carmodelmodel.Model}.jpg".Replace(" ", "");
-                var absoluteFilePath = Path.Combine(_hostingEnv.WebRootPath, "images", fileName);
+                var absoluteFilePath = Path.Combine(_hostingEnv.WebRootPath, "img", fileName);
 
                 using (var fileSteam = new FileStream(absoluteFilePath, FileMode.Create))
                 {
@@ -192,17 +195,17 @@ namespace VehicleRentalSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddGearboxType(string gearbox)
+        public IActionResult AddGearboxType(string gearboxType)
         {
-            _carDataManager.AddGearboxType(gearbox);
+            _carDataManager.AddGearboxType(gearboxType);
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public IActionResult AddCarModel(string model)
+        public IActionResult AddCarModel(string carModel)
         {
-            _carDataManager.AddCarModel(model);
+            _carDataManager.AddCarModel(carModel);
 
             return RedirectToAction(nameof(Index));
         }

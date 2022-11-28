@@ -34,21 +34,34 @@ namespace VehicleRentalSystem.Models
 
         [Required(ErrorMessage = "Location field error")]
         public Guid SelectedLocation { get; set; }
+
+        [Required]
         public int Year { get; set; }
+
+        [Required]
         public string RegistrationNumber { get; set; }
+        [Required]
         public int FuelConsumption { get; set; }
+        [Required]
         public int Mileage { get; set; }
+        [Required]
         public int Passengers { get; set; }
+        [Required]
         public int Luggage { get; set; }
+
+        [Required]
         public int Doors { get; set; }
+        [Required]
         public bool AirConditioner { get; set; }
 
         [Required(ErrorMessage = "Daily Price field error")]
         public float DailyPrice { get; set; }
+        [Required]
         public bool Availability { get; set; }
         #endregion
 
 
+        [Required]
         public IFormFile File { get; set; }
         public string ImagePath { get; set; }
     }
