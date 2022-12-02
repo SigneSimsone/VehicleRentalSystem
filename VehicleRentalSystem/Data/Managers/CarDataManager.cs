@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VehicleRentalSystem.Data.Requests;
 using VehicleRentalSystem.Models;
 
 namespace VehicleRentalSystem.Data.Managers
@@ -24,11 +25,12 @@ namespace VehicleRentalSystem.Data.Managers
         public CarModel GetOneCar(Guid id)
         {
             var item = _dbContext.Cars.Include(x => x.Brand)
-                                          .Include(x => x.FuelType)
-                                          .Include(x => x.GearboxType)
-                                          .Include(x => x.Model)
-                                          .Include(x => x.Location)
-                                          .First(x => x.Id == id);
+                                      .Include(x => x.FuelType)
+                                      .Include(x => x.GearboxType)
+                                      .Include(x => x.Model)
+                                      .Include(x => x.Location)
+                                      .Include(x => x.Feedbacks)
+                                      .First(x => x.Id == id);
 
             return item;
         }
@@ -77,7 +79,7 @@ namespace VehicleRentalSystem.Data.Managers
             item.Availability = availability;
             item.DailyPrice = dailyPrice;
             item.ImagePath = imagePath;
-            item.Location = location ;
+            item.Location = location;
 
             _dbContext.SaveChanges();
         }
@@ -251,6 +253,105 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext.Feedbacks.Remove(item);
 
             _dbContext.SaveChanges();
+        }
+
+
+        internal CarModel[] SearchCars(CarSearchRequest model)
+        {
+            var cars = _dbContext
+                .Cars.Include(x => x.Brand)
+                     .Include(x => x.FuelType)
+                     .Include(x => x.GearboxType)
+                     .Include(x => x.Model)
+                     .Include(x => x.Location)
+                     .AsQueryable();
+
+            if (model.Brand != null && model.Brand.Brand != "" && model.Brand.Brand != null)
+            {
+                cars = cars.Where(x => x.Brand.Brand.Contains(model.Brand.Brand));
+            }
+
+            if (model.Model != null && model.Model.Model != "" && model.Model.Model != null)
+            {
+                cars = cars.Where(x => x.Brand.Brand.Contains(model.Model.Model));
+            }
+
+            if (model.GearboxType != null && model.GearboxType.Gearbox != "" && model.GearboxType.Gearbox != null)
+            {
+                cars = cars.Where(x => x.GearboxType.Gearbox.Contains(model.GearboxType.Gearbox));
+            }
+
+            if (model.FuelType != null && model.FuelType.FuelType != "" && model.FuelType.FuelType != null)
+            {
+                cars = cars.Where(x => x.FuelType.FuelType.Contains(model.FuelType.FuelType));
+            }
+
+            if (model.Location != null && model.Location.FullLocation != "" && model.Location.FullLocation != null)
+            {
+                cars = cars.Where(x => x.Location.FullLocation.Contains(model.Location.FullLocation));
+            }
+
+            if (model.Year != 0)
+            {
+                cars = cars.Where(x => x.Year == model.Year);
+            }
+
+            if (model.RegistrationNumber != "" && model.RegistrationNumber != null)
+            {
+                cars = cars.Where(x => x.RegistrationNumber.Contains(model.RegistrationNumber));
+            }
+
+            if (model.FuelConsumption != 0)
+            {
+                cars = cars.Where(x => x.FuelConsumption <= model.FuelConsumption);
+            }
+
+            if (model.Mileage != 0)
+            {
+                cars = cars.Where(x => x.Mileage <= model.Mileage);
+            }
+
+            if (model.Passengers != 0)
+            {
+                cars = cars.Where(x => x.Passengers >= model.Passengers);
+            }
+
+            if (model.Luggage != 0)
+            {
+                cars = cars.Where(x => x.Luggage >= model.Luggage);
+            }
+
+            if (model.Doors != 0)
+            {
+                cars = cars.Where(x => x.Doors >= model.Doors);
+            }
+
+            if (model.DailyPrice != 0)
+            {
+                cars = cars.Where(x => x.DailyPrice <= model.DailyPrice);
+            }
+
+            if (model.AirConditioner == 2)
+            {
+                cars = cars.Where(x => x.AirConditioner == false);
+            }
+
+            if (model.AirConditioner == 1)
+            {
+                cars = cars.Where(x => x.AirConditioner == true);
+            }
+
+            if (model.Availability == 2)
+            {
+                cars = cars.Where(x => x.Availability == false);
+            }
+
+            if (model.Availability == 1)
+            {
+                cars = cars.Where(x => x.Availability == true);
+            }
+
+            return cars.ToArray();
         }
     }
 }

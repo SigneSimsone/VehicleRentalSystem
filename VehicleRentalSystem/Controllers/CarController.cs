@@ -149,7 +149,7 @@ namespace VehicleRentalSystem.Controllers
             viewModel.FuelTypeDropdown = new SelectList(fuelTypeList, "Id", "FuelType", model.FuelType.FuelType);
 
             LocationModel[] locations = _carDataManager.GetLocations();
-            var locationList = locations.Select(x => new { x.Id, x.City, x.Street, x.Number }).ToList();
+            var locationList = locations.Select(x => new { x.Id, x.FullLocation }).ToList();
             viewModel.LocationDropdown = new SelectList(locationList, "Id", "FullLocation", model.Location.FullLocation);
 
             viewModel.Year = model.Year;
