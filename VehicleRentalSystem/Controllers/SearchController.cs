@@ -23,10 +23,6 @@ namespace VehicleRentalSystem.Controllers
             var brandList = brands.Select(x => new { x.Id, x.Brand }).ToList();
             viewModel.BrandDropdown = new SelectList(brandList, "Id", "Brand");
 
-            CarModelModel[] carModels = _carDataManager.GetCarModels();
-            var carModelList = carModels.Select(x => new { x.Id, x.Model }).ToList();
-            viewModel.CarModelDropdown = new SelectList(carModelList, "Id", "Model");
-
             GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
             var gearboxTypeList = gearboxTypes.Select(x => new { x.Id, x.Gearbox }).ToList();
             viewModel.GearboxTypeDropdown = new SelectList(gearboxTypeList, "Id", "Gearbox");
@@ -39,22 +35,6 @@ namespace VehicleRentalSystem.Controllers
             var locationList = locations.Select(x => new { x.Id, x.FullLocation }).ToList();
             viewModel.LocationDropdown = new SelectList(locationList, "Id", "FullLocation");
 
-            var airConditionerList = new[] {
-                new {Id = 0, AirConditioner = "Both"},
-                new {Id = 1, AirConditioner = "Available" },
-                new {Id = 2, AirConditioner = "Unavailable" }
-            }.ToList();
-
-            viewModel.AirConditionerDropdown = new SelectList(airConditionerList, "Id", "AirConditioner");
-
-            var availablityList = new[] {
-                new {Id = 0, Availability = "Both"},
-                new {Id = 1, Availability = "Available" },
-                new {Id = 2, Availability = "Unavailable" }
-            }.ToList();
-
-            viewModel.AvailabilityDropdown = new SelectList(availablityList, "Id", "Availability");
-
             return View(viewModel);
         }
 
@@ -63,7 +43,6 @@ namespace VehicleRentalSystem.Controllers
         {
 
             BrandModel brandmodel = null;
-            CarModelModel carmodelmodel = null;
             GearboxModel gearboxmodel = null;
             FuelTypeModel fueltypemodel = null;
             LocationModel locationmodel = null;
@@ -72,10 +51,6 @@ namespace VehicleRentalSystem.Controllers
             {
                 brandmodel = _carDataManager.GetOneBrand(model.SelectedBrand);
 
-            }
-            if (model.SelectedCarModel != Guid.Empty)
-            {
-                carmodelmodel = _carDataManager.GetOneCarModel(model.SelectedCarModel);
             }
             if (model.SelectedGearboxType != Guid.Empty)
             {
@@ -96,20 +71,14 @@ namespace VehicleRentalSystem.Controllers
             CarSearchRequest requestModel = new CarSearchRequest()
             {
                 Brand = brandmodel,
-                Model = carmodelmodel,
                 GearboxType = gearboxmodel,
                 FuelType = fueltypemodel,
                 Location = locationmodel,
                 Year = model.Year,
-                RegistrationNumber = model.RegistrationNumber,
                 FuelConsumption = model.FuelConsumption,
                 Mileage = model.Mileage,
                 Passengers = model.Passengers,
-                Luggage = model.Luggage,
-                Doors = model.Doors,
                 DailyPrice = model.DailyPrice,
-                AirConditioner = model.SelectedAirConditioner,
-                Availability = model.SelectedAvailability
             };
 
             CarModel[] cars = _carDataManager.SearchCars(requestModel);

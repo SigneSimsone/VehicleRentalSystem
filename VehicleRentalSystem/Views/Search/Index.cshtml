@@ -8,11 +8,6 @@
         <option value="">Select brand</option>
     </select>
 
-    <label asp-for="SelectedCarModel">Model</label>
-    <select asp-for="SelectedCarModel" asp-items="Model.CarModelDropdown" class="form-control">
-        <option value="">Select model</option>
-    </select>
-
     <label asp-for="SelectedGearboxType">Gearbox type</label>
     <select asp-for="SelectedGearboxType" asp-items="Model.GearboxTypeDropdown" class="form-control">
         <option value="">Select gearbox type</option>
@@ -31,9 +26,6 @@
     <label asp-for="Year">Year</label>
     <input asp-for="Year" class="form-control" />
 
-    <label asp-for="RegistrationNumber">Registration Number</label>
-    <input asp-for="RegistrationNumber" class="form-control" />
-
     <label asp-for="FuelConsumption">Fuel Consumption</label>
     <input asp-for="FuelConsumption" class="form-control" />
 
@@ -43,24 +35,9 @@
     <label asp-for="Passengers">Passengers</label>
     <input asp-for="Passengers" class="form-control" />
 
-    <label asp-for="Luggage">Luggage</label>
-    <input asp-for="Luggage" class="form-control" />
-
-    <label asp-for="Doors">Doors</label>
-    <input asp-for="Doors" class="form-control" />
-    <span asp-validation-for="Doors" class="text-danger"></span><br />
-
-    <label asp-for="SelectedAirConditioner">AirConditioner</label>
-    <select asp-for="SelectedAirConditioner" asp-items="Model.AirConditionerDropdown" class="form-control">
-    </select>
-
     <label asp-for="DailyPrice">Daily Price</label>
     <input asp-for="DailyPrice" class="form-control" />
     <span asp-validation-for="DailyPrice" class="text-danger"></span><br />
-
-    <label asp-for="SelectedAvailability">Availability</label>
-    <select asp-for="SelectedAvailability" asp-items="Model.AvailabilityDropdown" class="form-control">
-    </select>
 
     <input type="submit" value="Submit" />
 </form>

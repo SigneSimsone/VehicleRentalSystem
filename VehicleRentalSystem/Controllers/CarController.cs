@@ -167,6 +167,20 @@ namespace VehicleRentalSystem.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public IActionResult OpenCar(Guid CarId)
+        {
+            if (CarId == Guid.Empty)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            // get car from database (CarModel)
+            CarModel model = _carDataManager.GetOneCar(CarId);
+
+            return View("OneCar", model);
+        }
+
         [HttpPost]
         public IActionResult Delete(Guid CarId)
         {
@@ -176,11 +190,44 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public IActionResult ShowFilteredCars(Guid[] carsId)
+        {
+            var userId = _userManager.GetUserId(User);
+            CarModel[] cars = _carDataManager.GetCars(carsId.ToList());
+
+            CarViewModel viewModel = new CarViewModel();
+            viewModel.Cars = cars;
+            viewModel.UserId = userId;
+
+            BrandModel[] brands = _carDataManager.GetBrands();
+            var brandList = brands.Select(x => new { x.Id, x.Brand }).ToList();
+            viewModel.BrandDropdown = new SelectList(brandList, "Id", "Brand");
+
+            CarModelModel[] carModels = _carDataManager.GetCarModels();
+            var carModelList = carModels.Select(x => new { x.Id, x.Model }).ToList();
+            viewModel.CarModelDropdown = new SelectList(carModelList, "Id", "Model");
+
+            GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
+            var gearboxTypeList = gearboxTypes.Select(x => new { x.Id, x.Gearbox }).ToList();
+            viewModel.GearboxTypeDropdown = new SelectList(gearboxTypeList, "Id", "Gearbox");
+
+            FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
+            var fuelTypeList = fuelTypes.Select(x => new { x.Id, x.FuelType }).ToList();
+            viewModel.FuelTypeDropdown = new SelectList(fuelTypeList, "Id", "FuelType");
+
+            LocationModel[] locations = _carDataManager.GetLocations();
+            var locationList = locations.Select(x => new { x.Id, x.FullLocation }).ToList();
+            viewModel.LocationDropdown = new SelectList(locationList, "Id", "FullLocation");
+
+            return View("Index", viewModel);
+        }
+
+
+
         [HttpPost]
         public IActionResult AddBrand(string brand)
         {
-            //if(brand == null)
-
             _carDataManager.AddBrand(brand);
 
             return RedirectToAction(nameof(Index));
@@ -218,18 +265,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult OpenCar(Guid CarId)
-        {
-            if (CarId == Guid.Empty)
-            {
-                return RedirectToAction(nameof(Index));
-            }
 
-            // get car from database (CarModel)
-            CarModel model = _carDataManager.GetOneCar(CarId);
-
-            return View("OneCar", model);
-        }
 
         [HttpPost]
         public IActionResult AddFeedback(Guid CarId, string comment)
