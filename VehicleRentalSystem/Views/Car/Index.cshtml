@@ -117,6 +117,7 @@
                 <th>Model</th>
                 <th>Image</th>
                 <th>Open</th>
+                <th>Rent</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -131,6 +132,12 @@
                     <td>
                         <form asp-action="OpenCar" method="get">
                             <input type="submit" value="Open" />
+                            @Html.Hidden("CarId", car.Id)
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-controller="Reservation" asp-action="AddReservation" method="get">
+                            <input type="submit" value="Rent" />
                             @Html.Hidden("CarId", car.Id)
                         </form>
                     </td>

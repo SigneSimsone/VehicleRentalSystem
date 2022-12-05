@@ -53,6 +53,12 @@
     <br />
     <br />
 
+    <td>
+        <form asp-controller="Reservation" asp-action="AddReservation" method="get">
+            <input type="submit" value="Rent" />
+            @Html.Hidden("CarId", Model.Id)
+        </form>
+    </td>
 
     <h5>Feedback</h5>
 

@@ -39,5 +39,18 @@
     <input asp-for="DailyPrice" class="form-control" />
     <span asp-validation-for="DailyPrice" class="text-danger"></span><br />
 
+    <div class="mb-3 row">
+        <label class="col-3 col-form-label text-info">Start date</label>
+        <div class="col-9">
+            @Html.TextBoxFor(m => m.StartDate, new { @case = "form-control", placeholder = "Reservation start date", type = "datetime-local"})
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label class="col-3 col-form-label text-info">End date</label>
+        <div class="col-9">
+            @Html.TextBoxFor(m => m.EndDate, new { @case = "form-control", placeholder = "Reservation end date", type = "datetime-local"})
+        </div>
+    </div>
+
     <input type="submit" value="Submit" />
 </form>

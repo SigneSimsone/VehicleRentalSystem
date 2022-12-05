@@ -47,24 +47,24 @@ namespace VehicleRentalSystem.Controllers
             FuelTypeModel fueltypemodel = null;
             LocationModel locationmodel = null;
 
-            if (model.SelectedBrand != Guid.Empty)
+            if (model.SelectedBrand.HasValue)
             {
-                brandmodel = _carDataManager.GetOneBrand(model.SelectedBrand);
+                brandmodel = _carDataManager.GetOneBrand(model.SelectedBrand.Value);
 
             }
-            if (model.SelectedGearboxType != Guid.Empty)
+            if (model.SelectedGearboxType.HasValue)
             {
-                gearboxmodel = _carDataManager.GetOneGearboxType(model.SelectedGearboxType);
+                gearboxmodel = _carDataManager.GetOneGearboxType(model.SelectedGearboxType.Value);
 
             }
-            if (model.SelectedFuelType != Guid.Empty)
+            if (model.SelectedFuelType.HasValue)
             {
-                fueltypemodel = _carDataManager.GetOneFuelType(model.SelectedFuelType);
+                fueltypemodel = _carDataManager.GetOneFuelType(model.SelectedFuelType.Value);
 
             }
-            if (model.SelectedLocation != Guid.Empty)
+            if (model.SelectedLocation.HasValue)
             {
-                locationmodel = _carDataManager.GetOneLocation(model.SelectedLocation);
+                locationmodel = _carDataManager.GetOneLocation(model.SelectedLocation.Value);
 
             }
 
@@ -79,6 +79,8 @@ namespace VehicleRentalSystem.Controllers
                 Mileage = model.Mileage,
                 Passengers = model.Passengers,
                 DailyPrice = model.DailyPrice,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate
             };
 
             CarModel[] cars = _carDataManager.SearchCars(requestModel);

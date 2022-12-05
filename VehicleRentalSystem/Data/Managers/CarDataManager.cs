@@ -280,72 +280,209 @@ namespace VehicleRentalSystem.Data.Managers
 
         internal CarModel[] SearchCars(CarSearchRequest model)
         {
-            var cars = _dbContext
+            IQueryable<CarModel>? cars = _dbContext
                 .Cars.Include(x => x.Brand)
                      .Include(x => x.FuelType)
                      .Include(x => x.GearboxType)
                      .Include(x => x.Model)
                      .Include(x => x.Location)
+                     .Include(x => x.Reservations)
                      .AsQueryable();
 
-            if (model.Brand != null && model.Brand.Brand != "" && model.Brand.Brand != null)
+            if (model.Brand != null)
             {
                 cars = cars.Where(x => x.Brand.Brand.Contains(model.Brand.Brand));
             }
 
-            if (model.GearboxType != null && model.GearboxType.Gearbox != "" && model.GearboxType.Gearbox != null)
+            if (model.GearboxType != null)
             {
                 cars = cars.Where(x => x.GearboxType.Gearbox.Contains(model.GearboxType.Gearbox));
             }
 
-            if (model.FuelType != null && model.FuelType.FuelType != "" && model.FuelType.FuelType != null)
+            if (model.FuelType != null)
             {
                 cars = cars.Where(x => x.FuelType.FuelType.Contains(model.FuelType.FuelType));
             }
 
-            if (model.Location != null && model.Location.City != "" && model.Location.City != null)
+            if (model.Location != null)
             {
                 cars = cars.Where(x => x.Location.City.Contains(model.Location.City));
             }
 
-            if (model.Location != null && model.Location.Street != "" && model.Location.Street != null)
+            if (model.Location != null)
             {
                 cars = cars.Where(x => x.Location.Street.Contains(model.Location.Street));
             }
 
-            if (model.Location != null && model.Location.Number != "" && model.Location.Number != null)
+            if (model.Location != null)
             {
                 cars = cars.Where(x => x.Location.Number.Contains(model.Location.Number));
             }
 
-            if (model.Year != 0)
+            if (model.Year.HasValue)
             {
-                cars = cars.Where(x => x.Year == model.Year);
+                cars = cars.Where(x => x.Year == model.Year.Value);
             }
 
-            if (model.FuelConsumption != 0)
+            if (model.FuelConsumption.HasValue)
             {
-                cars = cars.Where(x => x.FuelConsumption <= model.FuelConsumption);
+                cars = cars.Where(x => x.FuelConsumption <= model.FuelConsumption.Value);
             }
 
-            if (model.Mileage != 0)
+            if (model.Mileage.HasValue)
             {
-                cars = cars.Where(x => x.Mileage <= model.Mileage);
+                cars = cars.Where(x => x.Mileage <= model.Mileage.Value);
             }
 
-            if (model.Passengers != 0)
+            if (model.Passengers.HasValue)
             {
-                cars = cars.Where(x => x.Passengers >= model.Passengers);
+                cars = cars.Where(x => x.Passengers >= model.Passengers.Value);
             }
 
-            if (model.DailyPrice != 0)
+            if (model.DailyPrice.HasValue)
             {
-                cars = cars.Where(x => x.DailyPrice <= model.DailyPrice);
+                cars = cars.Where(x => x.DailyPrice <= model.DailyPrice.Value);
             }
 
-            cars = cars.Where(x => x.Availability == true);
+            CarModel[]? carList = cars.Where(x => x.Availability == true).ToArray();
+            List<CarModel> result = new List<CarModel>();
 
-            return cars.ToArray();
+            if (model.StartDate.HasValue || model.EndDate.HasValue)
+            {
+                var carsWithoutReservations = carList.Where(t => !t.Reservations.Any()).ToList();
+                result.AddRange(carsWithoutReservations);
+            }
+            else
+            {
+                //if reservation dates are not requested - return list of cars that meet requested requirements
+                return carList.ToArray();
+            }
+
+            if (model.StartDate.HasValue)
+            {
+                var carsWithReservation = carList.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
+                (x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) ||
+                (x.StartDate < model.StartDate.Value && x.EndDate < model.StartDate.Value)));
+
+                result.AddRange(carsWithReservation);
+            }
+
+            if (model.EndDate.HasValue)
+            {
+                var carsWithReservation = result.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
+                (x.StartDate > model.EndDate.Value && x.EndDate > model.EndDate.Value) ||
+                (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value)));
+
+                result.AddRange(carsWithReservation);
+            }
+
+            return result.ToArray();
+        }
+
+
+        internal CarModel[] CheckIfDatesValid(DateTime requestedStartDate, DateTime requestedEndDate)
+        {
+            IQueryable<CarModel>? cars = _dbContext
+                .Cars.Include(x => x.Brand)
+                     .Include(x => x.FuelType)
+                     .Include(x => x.GearboxType)
+                     .Include(x => x.Model)
+                     .Include(x => x.Location)
+                     .Include(x => x.Reservations)
+                     .AsQueryable();
+
+            CarModel[]? carList = cars.Where(x => x.Availability == true).ToArray();
+            List<CarModel> result = new List<CarModel>();
+
+            var carsWithoutReservations = carList.Where(t => !t.Reservations.Any()).ToList();
+            result.AddRange(carsWithoutReservations);
+
+            var carsWithReservation = carList.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
+            ((x.StartDate > requestedStartDate && x.EndDate > requestedStartDate) ||
+            (x.StartDate < requestedStartDate && x.EndDate < requestedStartDate)) &&
+            ((x.StartDate > requestedEndDate && x.EndDate > requestedEndDate) ||
+            (x.StartDate < requestedEndDate && x.EndDate < requestedEndDate))));
+
+            result.AddRange(carsWithReservation);
+
+            return result.ToArray();
+        }
+
+
+        public ReservationModel[] GetReservations()
+        {
+            var result = _dbContext
+                .Reservations
+                .Include(x => x.Payment)
+                .Include(x => x.Car)
+                .ToArray();
+
+            return result;
+        }
+
+        public ReservationModel[] GetReservations(Guid carId)
+        {
+            var result = _dbContext
+                .Reservations
+                .Include(x => x.Car)
+                .Include(x => x.Payment)
+                .Include(x => x.User)
+                .Where(x => x.Car.Id == carId)
+                .ToArray();
+
+            return result;
+        }
+
+        public ReservationModel GetOneReservation(Guid id)
+        {
+            var item = _dbContext
+                .Reservations
+                .Include(x => x.Car)
+                .Include(x => x.Payment)
+                .Include(x => x.User)
+                .First(x => x.Id == id);
+
+            return item;
+        }
+
+        internal void AddReservation(DateTime startDate, DateTime endDate, Guid id, UserModel user, PaymentModel payment)
+        {
+            var car = GetOneCar(id);
+            var item = new ReservationModel()
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                User = user,
+                Car = car,
+                Payment = payment
+            };
+
+            _dbContext.Reservations.Add(item);
+            _dbContext.SaveChanges();
+        }
+
+        internal void AddPayment(double amount, Guid id)
+        {
+            var reservation = GetOneReservation(id);
+            var item = new PaymentModel()
+            {
+                Date = DateTime.Now,
+                Amount = amount,
+                Reservation = reservation
+            };
+
+            _dbContext.Payments.Add(item);
+            _dbContext.SaveChanges();
+        }
+
+        public PaymentModel GetPayment(Guid reservationId)
+        {
+            var item = _dbContext
+                .Payments
+                .Include(x => x.Reservation)
+                .First(x => x.Reservation.Id == reservationId);
+
+            return item;
         }
     }
 }
