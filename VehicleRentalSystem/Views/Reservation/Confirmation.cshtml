@@ -5,12 +5,12 @@
         <div class="col-6 offset-3">
             <div class="mt-3 p-3 shadow rounded">
                 <div class="text-center border-bottom mb-3 p-3">
-                    <h2 class="text-info">Information about the Reservation and the Payment</h2>
+                    <h2 class="text-info">Reservation information</h2>
                 </div>
-                <div>
-                    @if (!string.IsNullOrEmpty(ViewBag.message))
+                <div class="green">
+                    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
                     {
-                        <p>@ViewBag.message</p>
+                        <p><strong>@Model.SuccessMessage </strong></p>
                     }
                 </div>
                 <div class="p-3">
@@ -42,7 +42,7 @@
                         <label asp-for="EndDateString">Reservation end date</label>
                         <input asp-for="EndDateString" class="form-control" readonly />
 
-                        <label asp-for="Amount">Total Amount</label>
+                        <label asp-for="Amount">Total amount</label>
                         <input asp-for="Amount" class="form-control" readonly />
                     </form>
                 </div>

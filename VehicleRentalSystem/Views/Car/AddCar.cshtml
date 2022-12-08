@@ -1,0 +1,80 @@
+﻿@model CarViewModel
+
+<h5>Add a new car:</h5>
+<form asp-action="AddCar" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <label asp-for="SelectedBrand">Brand</label>
+    <select asp-for="SelectedBrand" asp-items="Model.BrandDropdown" class="form-control">
+        <option value="">Select brand</option>
+    </select>
+    <span asp-validation-for="SelectedBrand" class="text-danger"></span><br />
+
+    <label asp-for="SelectedCarModel">Model</label>
+    <select asp-for="SelectedCarModel" asp-items="Model.CarModelDropdown" class="form-control">
+        <option value="">Select model</option>
+    </select>
+    <span asp-validation-for="SelectedCarModel" class="text-danger"></span><br />
+
+    <label asp-for="SelectedGearboxType">Gearbox type</label>
+    <select asp-for="SelectedGearboxType" asp-items="Model.GearboxTypeDropdown" class="form-control">
+        <option value="">Select gearbox type</option>
+    </select>
+    <span asp-validation-for="SelectedGearboxType" class="text-danger"></span><br />
+
+    <label asp-for="SelectedFuelType">Fuel type</label>
+    <select asp-for="SelectedFuelType" asp-items="Model.FuelTypeDropdown" class="form-control">
+        <option value="">Select fuel type</option>
+    </select>
+    <span asp-validation-for="SelectedFuelType" class="text-danger"></span><br />
+
+    <label asp-for="SelectedLocation">Location</label>
+    <select asp-for="SelectedLocation" asp-items="Model.LocationDropdown" class="form-control">
+        <option value="">Select location</option>
+    </select>
+    <span asp-validation-for="SelectedLocation" class="text-danger"></span><br />
+
+    <label asp-for="Year">Year</label>
+    <input asp-for="Year" class="form-control" />
+    <span asp-validation-for="Year" class="text-danger"></span><br />
+
+    <label asp-for="RegistrationNumber">Registration Number</label>
+    <input asp-for="RegistrationNumber" class="form-control" />
+    <span asp-validation-for="RegistrationNumber" class="text-danger"></span><br />
+
+    <label asp-for="FuelConsumption">Fuel Consumption</label>
+    <input asp-for="FuelConsumption" class="form-control" />
+    <span asp-validation-for="FuelConsumption" class="text-danger"></span><br />
+
+    <label asp-for="Mileage">Mileage</label>
+    <input asp-for="Mileage" class="form-control" />
+    <span asp-validation-for="Mileage" class="text-danger"></span><br />
+
+    <label asp-for="Passengers">Passengers</label>
+    <input asp-for="Passengers" class="form-control" />
+    <span asp-validation-for="Passengers" class="text-danger"></span><br />
+
+    <label asp-for="Luggage">Luggage</label>
+    <input asp-for="Luggage" class="form-control" />
+    <span asp-validation-for="Luggage" class="text-danger"></span><br />
+
+    <label asp-for="Doors">Doors</label>
+    <input asp-for="Doors" class="form-control" />
+    <span asp-validation-for="Doors" class="text-danger"></span><br />
+
+    <label asp-for="AirConditioner">Air Conditioner</label>
+    @Html.CheckBoxFor(t=>t.AirConditioner) <br />
+
+    <label asp-for="DailyPrice">Daily Price</label>
+    <input asp-for="DailyPrice" class="form-control" />
+    <span asp-validation-for="DailyPrice" class="text-danger"></span><br />
+
+    <label asp-for="Availability">Availability</label>
+    @Html.CheckBoxFor(t=>t.Availability) <br />
+
+    <label asp-for="File">File</label>
+    <input asp-for="File" class="form-control" />
+    <span asp-validation-for="File" class="text-danger"></span><br />
+    <br />
+    <input type="submit" value="Submit" />
+</form>

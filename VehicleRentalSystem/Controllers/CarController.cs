@@ -32,28 +32,6 @@ namespace VehicleRentalSystem.Controllers
             viewModel.Cars = cars;
             viewModel.UserId = userId;
 
-            BrandModel[] brands = _carDataManager.GetBrands();
-            var brandList = brands.Select(x => new { x.Id, x.Brand }).ToList();
-            viewModel.BrandDropdown = new SelectList(brandList, "Id", "Brand");
-
-            CarModelModel[] carModels = _carDataManager.GetCarModels();
-            var carModelList = carModels.Select(x => new { x.Id, x.Model }).ToList();
-            viewModel.CarModelDropdown = new SelectList(carModelList, "Id", "Model");
-
-            GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
-            var gearboxTypeList = gearboxTypes.Select(x => new { x.Id, x.Gearbox }).ToList();
-            viewModel.GearboxTypeDropdown = new SelectList(gearboxTypeList, "Id", "Gearbox");
-
-            FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
-            var fuelTypeList = fuelTypes.Select(x => new { x.Id, x.FuelType }).ToList();
-            viewModel.FuelTypeDropdown = new SelectList(fuelTypeList, "Id", "FuelType");
-
-            LocationModel[] locations = _carDataManager.GetLocations();
-            var locationList = locations.Select(x => new { x.Id, x.FullLocation }).ToList();
-            viewModel.LocationDropdown = new SelectList(locationList, "Id", "FullLocation");
-
-            viewModel.FuelConsumption = null;
-
             return View(viewModel);
         }
 
@@ -87,7 +65,7 @@ namespace VehicleRentalSystem.Controllers
                 relativeFilePath = Path.Combine("\\images", fileName);
             }
 
-            _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage, model.Passengers, model.Luggage, model.Doors, model.AirConditioner, model.Availability, model.DailyPrice, relativeFilePath, locationmodel);
+            _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year.Value, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage.Value, model.Passengers.Value, model.Luggage.Value, model.Doors.Value, model.AirConditioner, model.Availability, model.DailyPrice.Value, relativeFilePath, locationmodel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -121,7 +99,7 @@ namespace VehicleRentalSystem.Controllers
                 relativeFilePath = Path.Combine("\\images", fileName);
             }
 
-            _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage, model.Passengers, model.Luggage, model.Doors, model.AirConditioner, model.Availability, model.DailyPrice, relativeFilePath, locationmodel);
+            _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year.Value, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage.Value, model.Passengers.Value, model.Luggage.Value, model.Doors.Value, model.AirConditioner, model.Availability, model.DailyPrice.Value, relativeFilePath, locationmodel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -130,41 +108,41 @@ namespace VehicleRentalSystem.Controllers
         public IActionResult Edit(Guid CarId)
         {
             // get car from database (CarModel)
-            CarModel model = _carDataManager.GetOneCar(CarId);
+            CarModel car = _carDataManager.GetOneCar(CarId);
             CarViewModel viewModel = new CarViewModel();
-            viewModel.Id = model.Id;
+            viewModel.Id = car.Id;
 
             BrandModel[] brands = _carDataManager.GetBrands();
             var brandList = brands.Select(x => new { x.Id, x.Brand }).ToList();
-            viewModel.BrandDropdown = new SelectList(brandList, "Id", "Brand", model.Brand.Brand);
+            viewModel.BrandDropdown = new SelectList(brandList, "Id", "Brand", car.Brand.Brand);
 
             CarModelModel[] carModels = _carDataManager.GetCarModels();
             var carModelList = carModels.Select(x => new { x.Id, x.Model }).ToList();
-            viewModel.CarModelDropdown = new SelectList(carModelList, "Id", "Model", model.Model.Model);
+            viewModel.CarModelDropdown = new SelectList(carModelList, "Id", "Model", car.Model.Model);
 
             GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
             var gearboxTypeList = gearboxTypes.Select(x => new { x.Id, x.Gearbox }).ToList();
-            viewModel.GearboxTypeDropdown = new SelectList(gearboxTypeList, "Id", "Gearbox", model.GearboxType.Gearbox);
+            viewModel.GearboxTypeDropdown = new SelectList(gearboxTypeList, "Id", "Gearbox", car.GearboxType.Gearbox);
 
             FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
             var fuelTypeList = fuelTypes.Select(x => new { x.Id, x.FuelType }).ToList();
-            viewModel.FuelTypeDropdown = new SelectList(fuelTypeList, "Id", "FuelType", model.FuelType.FuelType);
+            viewModel.FuelTypeDropdown = new SelectList(fuelTypeList, "Id", "FuelType", car.FuelType.FuelType);
 
             LocationModel[] locations = _carDataManager.GetLocations();
             var locationList = locations.Select(x => new { x.Id, x.FullLocation }).ToList();
-            viewModel.LocationDropdown = new SelectList(locationList, "Id", "FullLocation", model.Location.FullLocation);
+            viewModel.LocationDropdown = new SelectList(locationList, "Id", "FullLocation", car.Location.FullLocation);
 
-            viewModel.Year = model.Year;
-            viewModel.RegistrationNumber = model.RegistrationNumber;
-            viewModel.FuelConsumption = model.FuelConsumption;
-            viewModel.Mileage = model.Mileage;
-            viewModel.Passengers = model.Passengers;
-            viewModel.Luggage = model.Luggage;
-            viewModel.Doors = model.Doors;
-            viewModel.AirConditioner = model.AirConditioner;
-            viewModel.Availability = model.Availability;
-            viewModel.DailyPrice = model.DailyPrice;
-            viewModel.ImagePath = model.ImagePath;
+            viewModel.Year = car.Year;
+            viewModel.RegistrationNumber = car.RegistrationNumber;
+            viewModel.FuelConsumption = car.FuelConsumption;
+            viewModel.Mileage = car.Mileage;
+            viewModel.Passengers = car.Passengers;
+            viewModel.Luggage = car.Luggage;
+            viewModel.Doors = car.Doors;
+            viewModel.AirConditioner = car.AirConditioner;
+            viewModel.Availability = car.Availability;
+            viewModel.DailyPrice = car.DailyPrice;
+            viewModel.ImagePath = car.ImagePath;
 
             return View(viewModel);
         }
@@ -202,6 +180,18 @@ namespace VehicleRentalSystem.Controllers
             viewModel.Cars = cars;
             viewModel.UserId = userId;
 
+            if(!cars.Any())
+            {
+                viewModel.NoCarFoundMessage = "No cars were found!";
+            }
+
+            return View("Index", viewModel);
+        }
+
+
+        [HttpGet]
+        public IActionResult OpenAddCar(CarViewModel viewModel = null)
+        {
             BrandModel[] brands = _carDataManager.GetBrands();
             var brandList = brands.Select(x => new { x.Id, x.Brand }).ToList();
             viewModel.BrandDropdown = new SelectList(brandList, "Id", "Brand");
@@ -222,49 +212,78 @@ namespace VehicleRentalSystem.Controllers
             var locationList = locations.Select(x => new { x.Id, x.FullLocation }).ToList();
             viewModel.LocationDropdown = new SelectList(locationList, "Id", "FullLocation");
 
-            return View("Index", viewModel);
+            viewModel.FuelConsumption = null;
+
+            return View("AddCar", viewModel);
         }
 
-
-
-        [HttpPost]
-        public IActionResult AddBrand(string brand)
+        [HttpGet]
+        public IActionResult OpenAddCarProperties()
         {
-            _carDataManager.AddBrand(brand);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        public IActionResult AddFuelType(string fuelType)
-        {
-            _carDataManager.AddFuelType(fuelType);
-
-            return RedirectToAction(nameof(Index));
+            return View("AddCarProperties");
         }
 
         [HttpPost]
-        public IActionResult AddGearboxType(string gearboxType)
+        public IActionResult AddBrand(string Brand)
         {
-            _carDataManager.AddGearboxType(gearboxType);
+            _carDataManager.AddBrand(Brand);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ShowCarProperties));
         }
 
         [HttpPost]
-        public IActionResult AddCarModel(string carModel)
+        public IActionResult AddFuelType(string FuelType)
         {
-            _carDataManager.AddCarModel(carModel);
+            _carDataManager.AddFuelType(FuelType);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ShowCarProperties));
         }
 
         [HttpPost]
-        public IActionResult AddLocation(string city, string street, string number)
+        public IActionResult AddGearboxType(string Gearbox)
         {
-            _carDataManager.AddLocation(city, street, number);
+            _carDataManager.AddGearboxType(Gearbox);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpPost]
+        public IActionResult AddCarModel(string Model)
+        {
+            _carDataManager.AddCarModel(Model);
+
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpPost]
+        public IActionResult AddLocation(string City, string Street, string Number)
+        {
+            _carDataManager.AddLocation(City, Street, Number);
+
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpGet]
+        public IActionResult ShowCarProperties(CarInfoViewModel viewModel = null)
+        {
+            BrandModel[] brands = _carDataManager.GetBrands();
+            CarModelModel[] models = _carDataManager.GetCarModels();
+            FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
+            GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
+            LocationModel[] locations = _carDataManager.GetLocations();
+
+
+            if (viewModel == null)
+            {
+                viewModel = new CarInfoViewModel();
+            }
+            viewModel.Brands = brands;
+            viewModel.Models = models;
+            viewModel.FuelTypes = fuelTypes;
+            viewModel.GearboxTypes = gearboxTypes;
+            viewModel.Locations = locations;
+
+            return View("ShowCarProperties", viewModel);
         }
 
 

@@ -20,8 +20,6 @@ namespace VehicleRentalSystem.Controllers
         [HttpGet]
         public IActionResult Confirmation(ReservationViewModel viewModel)
         {
-            ViewBag.message = "Success";
-            //CarModel car = _carDataManager.GetOneCar(CarId);
             var userId = _userManager.GetUserId(User);
 
             if (viewModel == null)
@@ -95,7 +93,9 @@ namespace VehicleRentalSystem.Controllers
 
             model.ReservationId = _carDataManager.AddReservation(model.StartDate, model.EndDate, carModel.Id, user, payment);
             model.Amount = amount;
-            //padod ConfirmationModel?
+
+            model.SuccessMessage = "Reservation successful!";
+
             return RedirectToAction(nameof(Confirmation), model);
         }
 

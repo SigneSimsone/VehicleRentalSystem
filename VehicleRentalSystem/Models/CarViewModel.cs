@@ -10,13 +10,13 @@ namespace VehicleRentalSystem.Models
         public CarModel[] Cars { get; set; }
         public string UserId { get; set; }
 
+        public string NoCarFoundMessage { get; set; }
+
         public SelectList BrandDropdown { get; set; }
         public SelectList CarModelDropdown { get; set; }
         public SelectList GearboxTypeDropdown { get; set; }
         public SelectList FuelTypeDropdown { get; set; }
         public SelectList LocationDropdown { get; set; }
-        public SelectList AvailabilityDropdown { get; set; }
-        public int SelectedAvailability { get; set; }
 
 
         #region NewCarFields
@@ -35,28 +35,37 @@ namespace VehicleRentalSystem.Models
         [Required(ErrorMessage = "The field Location is required.")]
         public Guid SelectedLocation { get; set; }
 
-        [Required]
-        public int Year { get; set; }
+        [Required(ErrorMessage = "The field Year is required.")]
+        public int? Year { get; set; }
+
         [Required(ErrorMessage = "The field Registration Number is required.")]
-        public string RegistrationNumber { get; set; }
-        [Required]
+        public string? RegistrationNumber { get; set; }
+
+        [Required(ErrorMessage = "The field Fuel Consumption is required.")]
         public int? FuelConsumption { get; set; }
-        [Required]
-        public int Mileage { get; set; }
-        [Required]
-        public int Passengers { get; set; }
-        [Required]
-        public int Luggage { get; set; }
-        [Required]
-        public int Doors { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "The field Mileage is required.")]
+        public int? Mileage { get; set; }
+
+        [Required(ErrorMessage = "The field Passengers is required.")]
+        public int? Passengers { get; set; }
+
+        [Required(ErrorMessage = "The field Luggage is required.")]
+        public int? Luggage { get; set; }
+
+        [Required(ErrorMessage = "The field Doors is required.")]
+        public int? Doors { get; set; }
+
+        [Required(ErrorMessage = "The field Air Conditioner is required.")]
         public bool AirConditioner { get; set; }
+
         [Required(ErrorMessage = "The field Daily Price is required.")]
-        public float DailyPrice { get; set; }
-        [Required]
+        public float? DailyPrice { get; set; }
+
+        [Required(ErrorMessage = "The field Availability is required.")]
         public bool Availability { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Image is required.")]
         public IFormFile File { get; set; }
         public string ImagePath { get; set; }
         #endregion

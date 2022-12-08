@@ -1,0 +1,176 @@
+﻿@model CarInfoViewModel
+
+<form asp-action="OpenAddCarProperties" method="get">
+    <input type="submit" value="Add Car Properties" />
+</form>
+<br />
+
+@if (Model != null && Model.Brands != null && Model.Brands.Any())
+{
+    <h3 id="brands">Brands</h3>
+    <table id="BrandsTable">
+        <thead id="thead">
+            <tr>
+                <th>Brand</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var brand in Model.Brands)
+            {
+                <tr>
+                    <td>@brand.Brand</td>
+                    <td>
+                        <form asp-action="EditBrand" method="get">
+                            <input type="submit" value="Edit" />
+                            @Html.Hidden("BrandId", brand.Id)
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteBrand" method="post">
+                            <input type="submit" value="Delete" />
+                            @Html.Hidden("BrandId", brand.Id)
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+@if (Model != null && Model.Models != null && Model.Models.Any())
+{
+    <h3 id="models">Models</h3>
+    <table id="ModelsTable">
+        <thead id="thead">
+            <tr>
+                <th>Model</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var carModel in Model.Models)
+            {
+                <tr>
+                    <td>@carModel.Model</td>
+                    <td>
+                        <form asp-action="EditModel" method="get">
+                            <input type="submit" value="Edit" />
+                            @Html.Hidden("ModelId", carModel.Id)
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteModel" method="post">
+                            <input type="submit" value="Delete" />
+                            @Html.Hidden("ModelId", carModel.Id)
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+@if (Model != null && Model.FuelTypes != null && Model.FuelTypes.Any())
+{
+    <h3 id="fuelTypes">FuelTypes</h3>
+    <table id="FuelTypesTable">
+        <thead id="thead">
+            <tr>
+                <th>Fuel Type</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var fuelType in Model.FuelTypes)
+            {
+                <tr>
+                    <td>@fuelType.FuelType</td>
+                    <td>
+                        <form asp-action="EditFuelType" method="get">
+                            <input type="submit" value="Edit" />
+                            @Html.Hidden("FuelTypeId", fuelType.Id)
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteFuelType" method="post">
+                            <input type="submit" value="Delete" />
+                            @Html.Hidden("FuelTypeId", fuelType.Id)
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+@if (Model != null && Model.GearboxTypes != null && Model.GearboxTypes.Any())
+{
+    <h3 id="gearboxTypes">Gearbox Types</h3>
+    <table id="GearboxTypesTable">
+        <thead id="thead">
+            <tr>
+                <th>Gearbox Types</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var gearboxType in Model.GearboxTypes)
+            {
+                <tr>
+                    <td>@gearboxType.Gearbox</td>
+                    <td>
+                        <form asp-action="EditGearbox" method="get">
+                            <input type="submit" value="Edit" />
+                            @Html.Hidden("GearboxTypeId", gearboxType.Id)
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteGearbox" method="post">
+                            <input type="submit" value="Delete" />
+                            @Html.Hidden("GearboxTypeId", gearboxType.Id)
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+@if (Model != null && Model.Locations != null && Model.Locations.Any())
+{
+    <h3 id="locations">Locations</h3>
+    <table id="LocationsTable">
+        <thead id="thead">
+            <tr>
+                <th>Locations</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var location in Model.Locations)
+            {
+                <tr>
+                    <td>@location.FullLocation</td>
+                    <td>
+                        <form asp-action="EditLocation" method="get">
+                            <input type="submit" value="Edit" />
+                            @Html.Hidden("LocationId", location.Id)
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteLocation" method="post">
+                            <input type="submit" value="Delete" />
+                            @Html.Hidden("LocationId", location.Id)
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

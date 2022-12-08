@@ -27,5 +27,7 @@ namespace VehicleRentalSystem.Models
         public float DailyPrice { get; set; }
 
         public double Amount { get; set; }
+
+        public string SuccessMessage { get; set; }
     }
 }

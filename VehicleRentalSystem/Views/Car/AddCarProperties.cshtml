@@ -1,0 +1,45 @@
+﻿@model CarInfoViewModel
+
+<h5>Add new properties for cars:</h5>
+<form asp-action="AddBrand" method="post">
+    <label asp-for="Brand">New Brand</label>
+    <input asp-for="Brand" class="form-control" autocomplete="off"/>
+    <span asp-validation-for="Brand" class="text-danger"></span><br />
+    <input type="submit" value="Submit" />
+</form>
+<br />
+<form asp-action="AddCarModel" method="post">
+    <label asp-for="Model">New Car Model</label>
+    <input asp-for="Model" class="form-control" />
+    <span asp-validation-for="Model" class="text-danger"></span><br />
+    <input type="submit" value="Submit" />
+</form>
+<br />
+<form asp-action="AddFuelType" method="post">
+    <label asp-for="FuelType">New Fuel Type</label>
+    <input asp-for="FuelType" class="form-control" />
+    <span asp-validation-for="FuelType" class="text-danger"></span><br />
+    <input type="submit" value="Submit" />
+</form>
+<br />
+<form asp-action="AddGearboxType" method="post">
+    <label asp-for="Gearbox">New Gearbox Type</label>
+    <input asp-for="Gearbox" class="form-control" />
+    <span asp-validation-for="Gearbox" class="text-danger"></span><br />
+    <input type="submit" value="Submit" />
+</form>
+<br />
+<form asp-action="AddLocation" method="post">
+    <label asp-for="FullLocation">New Location</label><br />
+    <label asp-for="City">City</label>
+    <input asp-for="City" class="form-control" />
+    <span asp-validation-for="City" class="text-danger"></span><br />
+    <label asp-for="Street">Street</label>
+    <input asp-for="Street" class="form-control" />
+    <span asp-validation-for="Street" class="text-danger"></span><br />
+    <label asp-for="Number">Number</label>
+    <input asp-for="Number" class="form-control" />
+    <span asp-validation-for="Number" class="text-danger"></span><br />
+    <input type="submit" value="Submit" />
+</form>
+<br />
