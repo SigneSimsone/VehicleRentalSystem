@@ -40,7 +40,7 @@ namespace VehicleRentalSystem.Models
         [Required(ErrorMessage = "The field Registration Number is required.")]
         public string RegistrationNumber { get; set; }
         [Required]
-        public int FuelConsumption { get; set; }
+        public int? FuelConsumption { get; set; }
         [Required]
         public int Mileage { get; set; }
         [Required]

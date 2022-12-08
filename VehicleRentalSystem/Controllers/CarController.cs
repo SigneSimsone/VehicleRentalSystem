@@ -52,6 +52,8 @@ namespace VehicleRentalSystem.Controllers
             var locationList = locations.Select(x => new { x.Id, x.FullLocation }).ToList();
             viewModel.LocationDropdown = new SelectList(locationList, "Id", "FullLocation");
 
+            viewModel.FuelConsumption = null;
+
             return View(viewModel);
         }
 
@@ -85,7 +87,7 @@ namespace VehicleRentalSystem.Controllers
                 relativeFilePath = Path.Combine("\\images", fileName);
             }
 
-            _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year, model.RegistrationNumber, model.FuelConsumption, model.Mileage, model.Passengers, model.Luggage, model.Doors, model.AirConditioner, model.Availability, model.DailyPrice, relativeFilePath, locationmodel);
+            _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage, model.Passengers, model.Luggage, model.Doors, model.AirConditioner, model.Availability, model.DailyPrice, relativeFilePath, locationmodel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -119,7 +121,7 @@ namespace VehicleRentalSystem.Controllers
                 relativeFilePath = Path.Combine("\\images", fileName);
             }
 
-            _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year, model.RegistrationNumber, model.FuelConsumption, model.Mileage, model.Passengers, model.Luggage, model.Doors, model.AirConditioner, model.Availability, model.DailyPrice, relativeFilePath, locationmodel);
+            _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage, model.Passengers, model.Luggage, model.Doors, model.AirConditioner, model.Availability, model.DailyPrice, relativeFilePath, locationmodel);
 
             return RedirectToAction(nameof(Index));
         }

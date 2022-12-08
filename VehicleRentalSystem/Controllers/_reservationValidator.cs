@@ -11,17 +11,17 @@ namespace VehicleRentalSystem.Controllers
         {
             _carDataManager = carDataManager;
         }
-        internal void AreDatesValid(Guid carId, DateTime requestedStartDate, DateTime requestedEndDate)
+        internal bool AreDatesValid(Guid carId, DateTime requestedStartDate, DateTime requestedEndDate)
         {
-            CarModel[] cars = _carDataManager.CheckIfDatesValid(requestedStartDate, requestedEndDate);
-            Guid[] carIdList = cars.Select(x => x.Id).ToArray();
+            CarModel[] cars = _carDataManager.CheckIfDatesValid(carId, requestedStartDate, requestedEndDate);
+            //Guid[] carIdList = cars.Select(x => x.Id).ToArray();
             if(!cars.Any())
             {
-                return;
+                return true;
             }
             else
             {
-
+                return false;
             }
         }
     }

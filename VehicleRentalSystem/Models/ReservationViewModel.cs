@@ -5,12 +5,19 @@ namespace VehicleRentalSystem.Models
 {
     public class ReservationViewModel
     {
+        public Guid ReservationId { get; set; }
+        public Guid PaymentId { get; set; }
+
         public Guid CarId { get; set; }
 
-        [Required]
+        [DataType(DataType.Date), Required]
         public DateTime StartDate { get; set; }
-        [Required]
+
+        [DataType(DataType.Date), Required]
         public DateTime EndDate { get; set; }
+
+        public string StartDateString { get; set; }
+        public string EndDateString { get; set; }
 
         public string Brand { get; set; }
         public string CarModel { get; set; }
@@ -19,10 +26,6 @@ namespace VehicleRentalSystem.Models
         public string Location { get; set; }
         public float DailyPrice { get; set; }
 
-        public CarModel Car { get; set; }
-        public string UserId { get; set; }
-
-        public PaymentModel Payment { get; set; }
         public double Amount { get; set; }
     }
 }

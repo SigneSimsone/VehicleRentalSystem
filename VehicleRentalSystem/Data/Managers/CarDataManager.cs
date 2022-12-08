@@ -380,7 +380,7 @@ namespace VehicleRentalSystem.Data.Managers
         }
 
 
-        internal CarModel[] CheckIfDatesValid(DateTime requestedStartDate, DateTime requestedEndDate)
+        internal CarModel[] CheckIfDatesValid(Guid carId, DateTime requestedStartDate, DateTime requestedEndDate)
         {
             IQueryable<CarModel>? cars = _dbContext
                 .Cars.Include(x => x.Brand)
@@ -391,17 +391,14 @@ namespace VehicleRentalSystem.Data.Managers
                      .Include(x => x.Reservations)
                      .AsQueryable();
 
-            CarModel[]? carList = cars.Where(x => x.Availability == true).ToArray();
+            CarModel[]? carList = cars.Where(x => x.Id == carId).ToArray();
             List<CarModel> result = new List<CarModel>();
 
-            var carsWithoutReservations = carList.Where(t => !t.Reservations.Any()).ToList();
-            result.AddRange(carsWithoutReservations);
-
             var carsWithReservation = carList.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
-            ((x.StartDate > requestedStartDate && x.EndDate > requestedStartDate) ||
-            (x.StartDate < requestedStartDate && x.EndDate < requestedStartDate)) &&
-            ((x.StartDate > requestedEndDate && x.EndDate > requestedEndDate) ||
-            (x.StartDate < requestedEndDate && x.EndDate < requestedEndDate))));
+            ((x.StartDate > requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate > requestedEndDate)) ||
+            ((x.StartDate < requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate > requestedEndDate)) ||
+            ((x.StartDate < requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate < requestedEndDate)) ||
+            ((x.StartDate > requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate < requestedEndDate))));
 
             result.AddRange(carsWithReservation);
 
@@ -433,21 +430,21 @@ namespace VehicleRentalSystem.Data.Managers
             return result;
         }
 
-        public ReservationModel GetOneReservation(Guid id)
+        public ReservationModel GetOneReservation(Guid reservationId)
         {
             var item = _dbContext
                 .Reservations
                 .Include(x => x.Car)
                 .Include(x => x.Payment)
                 .Include(x => x.User)
-                .First(x => x.Id == id);
+                .FirstOrDefault(x => x.Id == reservationId);
 
             return item;
         }
 
-        internal void AddReservation(DateTime startDate, DateTime endDate, Guid id, UserModel user, PaymentModel payment)
+        internal Guid AddReservation(DateTime startDate, DateTime endDate, Guid carId, UserModel user, PaymentModel payment)
         {
-            var car = GetOneCar(id);
+            var car = GetOneCar(carId);
             var item = new ReservationModel()
             {
                 StartDate = startDate,
@@ -459,28 +456,41 @@ namespace VehicleRentalSystem.Data.Managers
 
             _dbContext.Reservations.Add(item);
             _dbContext.SaveChanges();
+            return item.Id;
         }
 
-        internal void AddPayment(double amount, Guid id)
+        internal Guid AddPayment(double amount, DateTime startDate, DateTime endDate, Guid carId)
         {
-            var reservation = GetOneReservation(id);
+            //var reservation = GetOneReservation(startDate, endDate, carId);
             var item = new PaymentModel()
             {
                 Date = DateTime.Now,
-                Amount = amount,
-                Reservation = reservation
+                Amount = amount
             };
 
             _dbContext.Payments.Add(item);
             _dbContext.SaveChanges();
+            return item.Id;
         }
 
-        public PaymentModel GetPayment(Guid reservationId)
+/*        public PaymentModel GetPayment(double amount, DateTime startDate, DateTime endDate, Guid carId)
         {
             var item = _dbContext
                 .Payments
                 .Include(x => x.Reservation)
-                .First(x => x.Reservation.Id == reservationId);
+                .Where(x => x.Amount == amount)
+                .Where(x => x.Reservation.StartDate == startDate)
+                .Where(x => x.Reservation.EndDate == endDate)
+                .Where(x => x.Reservation.Car.Id == carId);
+
+            return item;
+        }*/
+
+        public PaymentModel GetPayment(Guid paymentId)
+        {
+            var item = _dbContext
+                .Payments
+                .FirstOrDefault(x => x.Id == paymentId);
 
             return item;
         }

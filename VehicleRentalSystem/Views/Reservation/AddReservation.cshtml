@@ -17,32 +17,40 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                         <label asp-for="Brand">Brand</label>
-                        <input asp-for="Brand" class="form-control readonly" />
+                        <input asp-for="Brand" class="form-control" readonly />
                         <span asp-validation-for="Brand" class="text-danger"></span><br />
 
                         <label asp-for="CarModel">Model</label>
-                        <input asp-for="CarModel" class="form-control readonly" />
+                        <input asp-for="CarModel" class="form-control" readonly />
                         <span asp-validation-for="CarModel" class="text-danger"></span><br />
 
                         <label asp-for="FuelType">Fuel Type</label>
-                        <input asp-for="FuelType" class="form-control readonly" />
+                        <input asp-for="FuelType" class="form-control" readonly />
                         <span asp-validation-for="FuelType" class="text-danger"></span><br />
 
                         <label asp-for="GearboxType">Gearbox Type</label>
-                        <input asp-for="GearboxType" class="form-control readonly" />
+                        <input asp-for="GearboxType" class="form-control" readonly />
                         <span asp-validation-for="GearboxType" class="text-danger"></span><br />
 
                         <label asp-for="Location">Location</label>
-                        <input asp-for="Location" class="form-control readonly" />
+                        <input asp-for="Location" class="form-control" readonly />
                         <span asp-validation-for="Location" class="text-danger"></span><br />
 
                         <label asp-for="DailyPrice">Daily Price</label>
-                        <input asp-for="DailyPrice" class="form-control readonly" />
+                        <input asp-for="DailyPrice" class="form-control" readonly />
                         <span asp-validation-for="DailyPrice" class="text-danger"></span><br />
 
                         <br />
 
-                        <div class="mb-3 row">
+                        <label asp-for="StartDate">Reservation start date</label>
+                        <input asp-for="StartDate" class="form-control" type = "datetime-local" value=""/>
+                        <span asp-validation-for="StartDate" class="text-danger"></span><br />
+
+                        <label asp-for="EndDate">Reservation end date</label>
+                        <input asp-for="EndDate" class="form-control" type = "datetime-local" value=""/>
+                        <span asp-validation-for="EndDate" class="text-danger"></span><br />
+
+                        @*<div class="mb-3 row">
                             <label class="col-3 col-form-label text-info">Reservation start date</label>
                             <div class="col-9">
                                 @Html.TextBoxFor(m => m.StartDate, new { @case = "form-control", placeholder = "Enter start date", type = "datetime-local"})
@@ -53,7 +61,7 @@
                             <div class="col-9">
                                 @Html.TextBoxFor(m => m.EndDate, new { @case = "form-control", placeholder = "Enter end date", type = "datetime-local"})
                             </div>
-                        </div>
+                        </div>*@
                         <div class="mb-3">
                             <button class="btn btn-sm p-2 btn-success" type="submit">Save</button>
                         </div>

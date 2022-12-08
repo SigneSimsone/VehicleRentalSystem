@@ -17,9 +17,10 @@ namespace VehicleRentalSystem.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Confirmation(ReservationViewModel viewModel)
         {
+            ViewBag.message = "Success";
             //CarModel car = _carDataManager.GetOneCar(CarId);
             var userId = _userManager.GetUserId(User);
 
@@ -43,11 +44,11 @@ namespace VehicleRentalSystem.Controllers
             viewModel.Location = car.Location.FullLocation;
             viewModel.DailyPrice = car.DailyPrice;
 
-            PaymentModel payment = _carDataManager.GetPayment(viewModel.CarId);
-            ReservationModel reservation = _carDataManager.GetOneReservation(viewModel.CarId);
+            PaymentModel payment = _carDataManager.GetPayment(viewModel.PaymentId);
+            ReservationModel reservation = _carDataManager.GetOneReservation(viewModel.ReservationId);
 
-            viewModel.StartDate = reservation.StartDate;
-            viewModel.EndDate = reservation.EndDate;
+            viewModel.StartDateString = reservation.StartDate.ToString("dd/MM/yyyy HH:mm");
+            viewModel.EndDateString = reservation.EndDate.ToString("dd/MM/yyyy HH:mm");
             viewModel.Amount = payment.Amount;
 
             return View(viewModel);
@@ -56,16 +57,30 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReservation(ReservationViewModel model)
         {
-            if (!ModelState.IsValid)
-            {//vai direkto uz pareizo tagad?
-                return RedirectToAction(nameof(AddReservation), model);
+            //nav valid - nevar saglabat
+            //if (!ModelState.IsValid)
+            //{
+            //    return RedirectToAction(nameof(AddReservation), model);
+            //}
+
+            if(model.StartDate < DateTime.Now || model.StartDate > model.EndDate || model.EndDate < DateTime.Now)
+            {
+                ModelState.AddModelError("IncorrectDates", "Please input correct dates");
+                return View(nameof(AddReservation), model);
             }
 
-            //if(!_reservationValidator.AreDatesValid(model.CarId, model.StartDate, model.EndDate)) //logika
+            //if (!_reservationValidator.AreDatesValid(model.CarId, model.StartDate, model.EndDate))
             //{
             //    ModelState.AddModelError("CarNotAvailable", "this car not available for this period");
             //    return View(nameof(AddReservation), model);
             //}
+
+            CarModel[] cars = _carDataManager.CheckIfDatesValid(model.CarId, model.StartDate, model.EndDate);
+            if (cars.Any())
+            {
+                ModelState.AddModelError("CarNotAvailable", "this car not available for this period");
+                return View(nameof(AddReservation), model);
+            }
 
             var user = await _userManager.GetUserAsync(User);
 
@@ -73,15 +88,13 @@ namespace VehicleRentalSystem.Controllers
 
             TimeSpan timeSpan = model.EndDate - model.StartDate;
             double days = timeSpan.TotalDays;
-            double amount = model.Car.DailyPrice * days;
+            double amount = carModel.DailyPrice * days;
 
-            _carDataManager.AddPayment(amount, model.CarId);
-            PaymentModel payment = _carDataManager.GetPayment(model.CarId);
+            model.PaymentId = _carDataManager.AddPayment(amount, model.StartDate, model.EndDate, carModel.Id);
+            PaymentModel payment = _carDataManager.GetPayment(model.PaymentId);
 
-            _carDataManager.AddReservation(model.StartDate, model.EndDate, model.CarId, user, payment);
-            ReservationModel reservation = _carDataManager.GetOneReservation(model.CarId);
-
-            //no carmodel atlasa info par brand utt
+            model.ReservationId = _carDataManager.AddReservation(model.StartDate, model.EndDate, carModel.Id, user, payment);
+            model.Amount = amount;
             //padod ConfirmationModel?
             return RedirectToAction(nameof(Confirmation), model);
         }
