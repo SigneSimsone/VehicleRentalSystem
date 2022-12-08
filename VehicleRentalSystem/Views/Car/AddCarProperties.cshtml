@@ -1,4 +1,4 @@
-﻿@model CarInfoViewModel
+﻿@model CarPropertiesViewModel
 
 <h5>Add new properties for cars:</h5>
 <form asp-action="AddBrand" method="post">
@@ -9,9 +9,9 @@
 </form>
 <br />
 <form asp-action="AddCarModel" method="post">
-    <label asp-for="Model">New Car Model</label>
-    <input asp-for="Model" class="form-control" />
-    <span asp-validation-for="Model" class="text-danger"></span><br />
+    <label asp-for="CarModel">New Car Model</label>
+    <input asp-for="CarModel" class="form-control" />
+    <span asp-validation-for="CarModel" class="text-danger"></span><br />
     <input type="submit" value="Submit" />
 </form>
 <br />

@@ -1,0 +1,11 @@
+﻿@model CarPropertiesViewModel
+
+<h5>Edit the brand:</h5>
+<form asp-action="EditBrand" method="post" enctype="multipart/form-data">
+    @Html.Hidden("BrandId", Model.BrandId)
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
+    <label asp-for="Brand">Brand</label>
+    <input asp-for="Brand" class="form-control" />
+    <span asp-validation-for="Brand" class="text-danger"></span><br />
+    <input type="submit" value="Submit" />
+</form>

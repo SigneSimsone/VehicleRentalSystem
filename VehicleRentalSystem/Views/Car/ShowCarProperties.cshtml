@@ -1,4 +1,4 @@
-﻿@model CarInfoViewModel
+﻿@model CarPropertiesViewModel
 
 <form asp-action="OpenAddCarProperties" method="get">
     <input type="submit" value="Add Car Properties" />
@@ -58,13 +58,13 @@
                     <td>
                         <form asp-action="EditModel" method="get">
                             <input type="submit" value="Edit" />
-                            @Html.Hidden("ModelId", carModel.Id)
+                            @Html.Hidden("CarModelId", carModel.Id)
                         </form>
                     </td>
                     <td>
                         <form asp-action="DeleteModel" method="post">
                             <input type="submit" value="Delete" />
-                            @Html.Hidden("ModelId", carModel.Id)
+                            @Html.Hidden("CarModelId", carModel.Id)
                         </form>
                     </td>
                 </tr>

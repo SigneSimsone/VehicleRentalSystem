@@ -1,0 +1,18 @@
+﻿@model CarPropertiesViewModel
+
+<h5>Edit the location:</h5>
+<form asp-action="EditLocation" method="post" enctype="multipart/form-data">
+    @Html.Hidden("LocationId", Model.LocationId)
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
+    <label asp-for="FullLocation">Location</label><br />
+    <label asp-for="City">City</label>
+    <input asp-for="City" class="form-control" />
+    <span asp-validation-for="City" class="text-danger"></span><br />
+    <label asp-for="Street">Street</label>
+    <input asp-for="Street" class="form-control" />
+    <span asp-validation-for="Street" class="text-danger"></span><br />
+    <label asp-for="Number">Number</label>
+    <input asp-for="Number" class="form-control" />
+    <span asp-validation-for="Number" class="text-danger"></span><br />
+    <input type="submit" value="Submit" />
+</form>

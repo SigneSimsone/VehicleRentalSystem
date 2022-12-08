@@ -2,8 +2,15 @@
 
 namespace VehicleRentalSystem.Models
 {
-    public class CarInfoViewModel
+    public class CarPropertiesViewModel
     {
+        public Guid BrandId { get; set; }
+        public Guid CarModelId { get; set; }
+        public Guid FuelTypeId { get; set; }
+        public Guid GearboxId { get; set; }
+        public Guid LocationId { get; set; }
+
+
         public BrandModel[] Brands { get; set; }
         public CarModelModel[] Models { get; set; }
         public FuelTypeModel[] FuelTypes { get; set; }
@@ -15,7 +22,7 @@ namespace VehicleRentalSystem.Models
         public string Brand { get; set; }
 
         [Required(ErrorMessage = "The field Car Model is required.")]
-        public string Model { get; set; }
+        public string CarModel { get; set; }
 
         [Required(ErrorMessage = "The field Fuel Type is required.")]
         public string FuelType { get; set; }

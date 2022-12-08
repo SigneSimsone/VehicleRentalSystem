@@ -1,18 +1,18 @@
 ﻿@model AdminViewModel
 
-<h5>Role to user:</h5>
+<h5>Assign a new role to a user:</h5>
 <form asp-action=AddUserToRole method="post">
-
     <label asp-for="SelectedUser">User</label>
     <select asp-for="SelectedUser" asp-items="Model.UserDropdown" class="form-control">
         <option value="">Select user</option>
     </select>
-
+    <span asp-validation-for="SelectedUser" class="text-danger"></span><br />
+    
     <label asp-for="SelectedRole">Role</label>
     <select asp-for="SelectedRole" asp-items="Model.RoleDropdown" class="form-control">
         <option value="">Select role</option>
     </select>
-
+    <span asp-validation-for="SelectedRole" class="text-danger"></span><br />
     <input type="submit" value="Submit" />
 </form>
 <br />
@@ -20,10 +20,9 @@
 
 <h5>Create role:</h5>
 <form asp-action="CreateRole" method="post">
-
-    <label asp-for="NewRole">New role</label>
+    <label asp-for="NewRole">New Role</label>
     <input asp-for="NewRole" class="form-control" />
-
+    <span asp-validation-for="NewRole" class="text-danger"></span><br />
     <input type="submit" value="Submit" />
 </form>
 <br />

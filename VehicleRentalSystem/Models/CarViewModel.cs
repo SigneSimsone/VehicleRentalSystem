@@ -5,7 +5,7 @@ namespace VehicleRentalSystem.Models
 {
     public class CarViewModel
     {
-        public Guid Id { get; set; }
+        public Guid carId { get; set; }
 
         public CarModel[] Cars { get; set; }
         public string UserId { get; set; }

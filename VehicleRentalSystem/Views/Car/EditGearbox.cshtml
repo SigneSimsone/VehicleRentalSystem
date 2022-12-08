@@ -1,0 +1,11 @@
+﻿@model CarPropertiesViewModel
+
+<h5>Edit the gearbox type:</h5>
+<form asp-action="EditGearbox" method="post" enctype="multipart/form-data">
+    @Html.Hidden("GearboxId", Model.GearboxId)
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
+    <label asp-for="Gearbox">Gearbox Type</label>
+    <input asp-for="Gearbox" class="form-control" />
+    <span asp-validation-for="Gearbox" class="text-danger"></span><br />
+    <input type="submit" value="Submit" />
+</form>

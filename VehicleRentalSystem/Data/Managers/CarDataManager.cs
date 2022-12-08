@@ -144,9 +144,16 @@ namespace VehicleRentalSystem.Data.Managers
         }
         public BrandModel GetOneBrand(Guid Id)
         {
-            var item = _dbContext.Brands.First(x => x.Id == Id);
+            var item = _dbContext.Brands.FirstOrDefault(x => x.Id == Id);
 
             return item;
+        }
+        internal void EditBrand(Guid id, string brand)
+        {
+            var item = _dbContext.Brands.FirstOrDefault(x => x.Id == id);
+            item.Brand = brand;
+
+            _dbContext.SaveChanges();
         }
 
 
@@ -174,7 +181,13 @@ namespace VehicleRentalSystem.Data.Managers
 
             return item;
         }
+        internal void EditFuelType(Guid id, string fuelType)
+        {
+            var item = _dbContext.FuelTypes.FirstOrDefault(x => x.Id == id);
+            item.FuelType = fuelType;
 
+            _dbContext.SaveChanges();
+        }
 
         internal void AddGearboxType(string gearbox)
         {
@@ -199,6 +212,13 @@ namespace VehicleRentalSystem.Data.Managers
             var item = _dbContext.GearboxTypes.First(x => x.Id == Id);
 
             return item;
+        }
+        internal void EditGearboxType(Guid id, string gearbox)
+        {
+            var item = _dbContext.GearboxTypes.FirstOrDefault(x => x.Id == id);
+            item.Gearbox = gearbox;
+
+            _dbContext.SaveChanges();
         }
 
 
@@ -225,6 +245,13 @@ namespace VehicleRentalSystem.Data.Managers
             var item = _dbContext.CarModels.First(x => x.Id == Id);
 
             return item;
+        }
+        internal void EditCarModel(Guid id, string model)
+        {
+            var item = _dbContext.CarModels.FirstOrDefault(x => x.Id == id);
+            item.Model = model;
+
+            _dbContext.SaveChanges();
         }
 
         internal void AddLocation(string city, string street, string number)
@@ -253,6 +280,16 @@ namespace VehicleRentalSystem.Data.Managers
 
             return item;
         }
+        internal void EditLocation(Guid id, string city, string street, string number)
+        {
+            var item = _dbContext.Locations.FirstOrDefault(x => x.Id == id);
+            item.City = city;
+            item.Street = street;
+            item.Number = number;
+
+            _dbContext.SaveChanges();
+        }
+
 
         internal void AddFeedback(Guid Id, string comment, UserModel user)
         {
@@ -473,18 +510,18 @@ namespace VehicleRentalSystem.Data.Managers
             return item.Id;
         }
 
-/*        public PaymentModel GetPayment(double amount, DateTime startDate, DateTime endDate, Guid carId)
-        {
-            var item = _dbContext
-                .Payments
-                .Include(x => x.Reservation)
-                .Where(x => x.Amount == amount)
-                .Where(x => x.Reservation.StartDate == startDate)
-                .Where(x => x.Reservation.EndDate == endDate)
-                .Where(x => x.Reservation.Car.Id == carId);
+        /*        public PaymentModel GetPayment(double amount, DateTime startDate, DateTime endDate, Guid carId)
+                {
+                    var item = _dbContext
+                        .Payments
+                        .Include(x => x.Reservation)
+                        .Where(x => x.Amount == amount)
+                        .Where(x => x.Reservation.StartDate == startDate)
+                        .Where(x => x.Reservation.EndDate == endDate)
+                        .Where(x => x.Reservation.Car.Id == carId);
 
-            return item;
-        }*/
+                    return item;
+                }*/
 
         public PaymentModel GetPayment(Guid paymentId)
         {

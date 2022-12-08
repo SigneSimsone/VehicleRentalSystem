@@ -2,7 +2,7 @@
 
 <h5>Edit the car:</h5>
 <form asp-action="Edit" method="post" enctype="multipart/form-data">
-    @Html.Hidden("CarId", Model.Id)
+    @Html.Hidden("CarId", Model.carId)
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

@@ -99,7 +99,7 @@ namespace VehicleRentalSystem.Controllers
                 relativeFilePath = Path.Combine("\\images", fileName);
             }
 
-            _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year.Value, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage.Value, model.Passengers.Value, model.Luggage.Value, model.Doors.Value, model.AirConditioner, model.Availability, model.DailyPrice.Value, relativeFilePath, locationmodel);
+            _carDataManager.Edit(CarId, brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year.Value, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage.Value, model.Passengers.Value, model.Luggage.Value, model.Doors.Value, model.AirConditioner, model.Availability, model.DailyPrice.Value, relativeFilePath, locationmodel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -110,7 +110,7 @@ namespace VehicleRentalSystem.Controllers
             // get car from database (CarModel)
             CarModel car = _carDataManager.GetOneCar(CarId);
             CarViewModel viewModel = new CarViewModel();
-            viewModel.Id = car.Id;
+            viewModel.carId = car.Id;
 
             BrandModel[] brands = _carDataManager.GetBrands();
             var brandList = brands.Select(x => new { x.Id, x.Brand }).ToList();
@@ -164,7 +164,6 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult Delete(Guid CarId)
         {
-
             _carDataManager.Delete(CarId);
 
             return RedirectToAction(nameof(Index));
@@ -248,9 +247,9 @@ namespace VehicleRentalSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCarModel(string Model)
+        public IActionResult AddCarModel(string CarModel)
         {
-            _carDataManager.AddCarModel(Model);
+            _carDataManager.AddCarModel(CarModel);
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -264,7 +263,7 @@ namespace VehicleRentalSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult ShowCarProperties(CarInfoViewModel viewModel = null)
+        public IActionResult ShowCarProperties(CarPropertiesViewModel viewModel = null)
         {
             BrandModel[] brands = _carDataManager.GetBrands();
             CarModelModel[] models = _carDataManager.GetCarModels();
@@ -275,7 +274,7 @@ namespace VehicleRentalSystem.Controllers
 
             if (viewModel == null)
             {
-                viewModel = new CarInfoViewModel();
+                viewModel = new CarPropertiesViewModel();
             }
             viewModel.Brands = brands;
             viewModel.Models = models;
@@ -286,6 +285,127 @@ namespace VehicleRentalSystem.Controllers
             return View("ShowCarProperties", viewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EditBrand(CarPropertiesViewModel model)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return RedirectToAction(nameof(ShowCarProperties), model);
+            //}
+
+            _carDataManager.EditBrand(model.BrandId, model.Brand);
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpGet]
+        public IActionResult EditBrand(Guid BrandId)
+        {
+            // get brand from database
+            BrandModel brand = _carDataManager.GetOneBrand(BrandId);
+            CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
+            viewModel.BrandId = brand.Id;
+            viewModel.Brand = brand.Brand;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditModel(CarPropertiesViewModel model)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return RedirectToAction(nameof(ShowCarProperties), model);
+            //}
+
+            _carDataManager.EditCarModel(model.CarModelId, model.CarModel);
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpGet]
+        public IActionResult EditModel(Guid CarModelId)
+        {
+            // get car model from database
+            CarModelModel carModel = _carDataManager.GetOneCarModel(CarModelId);
+            CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
+            viewModel.CarModelId = carModel.Id;
+            viewModel.CarModel = carModel.Model;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditFuelType(CarPropertiesViewModel model)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return RedirectToAction(nameof(ShowCarProperties), model);
+            //}
+
+            _carDataManager.EditFuelType(model.FuelTypeId, model.FuelType);
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpGet]
+        public IActionResult EditFuelType(Guid FuelTypeId)
+        {
+            // get fuel type from database
+            FuelTypeModel fuelType = _carDataManager.GetOneFuelType(FuelTypeId);
+            CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
+            viewModel.FuelTypeId = fuelType.Id;
+            viewModel.FuelType = fuelType.FuelType;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditGearbox(CarPropertiesViewModel model)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return RedirectToAction(nameof(ShowCarProperties), model);
+            //}
+
+            _carDataManager.EditGearboxType(model.GearboxId, model.Gearbox);
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpGet]
+        public IActionResult EditGearbox(Guid GearboxTypeId)
+        {
+            // get gearbox type from database
+            GearboxModel gearbox = _carDataManager.GetOneGearboxType(GearboxTypeId);
+            CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
+            viewModel.GearboxId = gearbox.Id;
+            viewModel.Gearbox = gearbox.Gearbox;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditLocation(CarPropertiesViewModel model)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return RedirectToAction(nameof(ShowCarProperties), model);
+            //}
+
+            _carDataManager.EditLocation(model.LocationId, model.City, model.Street, model.Number);
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpGet]
+        public IActionResult EditLocation(Guid LocationId)
+        {
+            // get location from database
+            LocationModel location = _carDataManager.GetOneLocation(LocationId);
+            CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
+            viewModel.LocationId = location.Id;
+            viewModel.City = location.City;
+            viewModel.Street = location.Street;
+            viewModel.Number = location.Number;
+
+            return View(viewModel);
+        }
 
 
         [HttpPost]

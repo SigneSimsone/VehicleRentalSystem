@@ -1,0 +1,11 @@
+﻿@model CarPropertiesViewModel
+
+<h5>Edit the car model:</h5>
+<form asp-action="EditModel" method="post" enctype="multipart/form-data">
+    @Html.Hidden("CarModelId", Model.CarModelId)
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
+    <label asp-for="CarModel">Model</label>
+    <input asp-for="CarModel" class="form-control" />
+    <span asp-validation-for="CarModel" class="text-danger"></span><br />
+    <input type="submit" value="Submit" />
+</form>
