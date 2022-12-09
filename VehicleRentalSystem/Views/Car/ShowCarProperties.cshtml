@@ -5,35 +5,12 @@
 </form>
 <br />
 
-<div class="message">
-    @if (!string.IsNullOrEmpty(Model.BrandMessage))
-    {
-        <p><strong>@Model.BrandMessage </strong></p>
-    }
-</div>
-<div class="message">
-    @if (!string.IsNullOrEmpty(Model.CarModelMessage))
-    {
-        <p><strong>@Model.CarModelMessage </strong></p>
-    }
-</div>
-<div class="message">
-    @if (!string.IsNullOrEmpty(Model.FuelTypeMessage))
-    {
-        <p><strong>@Model.FuelTypeMessage </strong></p>
-    }
-</div>
-<div class="message">
-    @if (!string.IsNullOrEmpty(Model.GearboxTypeMessage))
-    {
-        <p><strong>@Model.GearboxTypeMessage </strong></p>
-    }
-</div>
-<div class="message">
-    @if (!string.IsNullOrEmpty(Model.LocationMessage))
-    {
-        <p><strong>@Model.LocationMessage </strong></p>
-    }
+<div>
+    @Html.ValidationMessage("BrandMessage")
+    @Html.ValidationMessage("CarModelMessage")
+    @Html.ValidationMessage("FuelTypeMessage")
+    @Html.ValidationMessage("GearboxMessage")
+    @Html.ValidationMessage("LocationMessage")
 </div>
 
 @if (Model != null && Model.Brands != null && Model.Brands.Any())

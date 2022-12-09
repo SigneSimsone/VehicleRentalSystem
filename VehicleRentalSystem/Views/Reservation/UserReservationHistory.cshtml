@@ -1,0 +1,51 @@
+﻿@model ReservationViewModel
+
+@if (Model != null && Model.Reservations.Length > 0)
+{
+    <h2 id="UserReservations">My Reservations</h2>
+    <table id="UserReservationsTable">
+        <thead id="thead">
+            <tr>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                @*<th>Car Brand</th>
+                <th>Car Model</th>*@
+                <th>Open</th>
+                <th>Edit</th>
+                <th>Cancel</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var reservation in Model.Reservations)
+            {
+                if (reservation.User.Id == Model.UserId)
+                {
+                    <tr>
+                        <td>@reservation.StartDate</td>
+                        <td>@reservation.EndDate</td>
+                        @*<td>@reservation.Car.Brand.Brand</td>
+                        <td>@reservation.Car.Model.Model</td>*@
+                        <td>
+                            <form asp-action="OpenReservation" method="get">
+                                <input type="submit" value="Open" />
+                                @Html.Hidden("ReservationId", reservation.Id)
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-action="EditReservation" method="post">
+                                <input type="submit" value="Edit" />
+                                @Html.Hidden("ReservationId", reservation.Id)
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-action="DeleteReservation" method="post">
+                                <input type="submit" value="Cancel" />
+                                @Html.Hidden("ReservationId", reservation.Id)
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

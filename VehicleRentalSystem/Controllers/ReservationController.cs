@@ -117,5 +117,19 @@ namespace VehicleRentalSystem.Controllers
 
             return View(viewModel);
         }
+
+
+        public IActionResult UserReservationHistory()
+        {
+            var user = _userManager.GetUserAsync(User).Result;
+
+            ReservationViewModel viewModel = new ReservationViewModel();
+            var reservations = _carDataManager.GetUserReservations(user);
+
+            viewModel.Reservations = reservations;
+            viewModel.UserId = user.Id;
+
+            return View("UserReservationHistory", viewModel);
+        }
     }
 }

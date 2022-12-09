@@ -590,6 +590,17 @@ namespace VehicleRentalSystem.Data.Managers
             return item;
         }
 
+        internal ReservationModel[] GetUserReservations(UserModel user)
+        {
+            var result = _dbContext
+                .Reservations
+                .Include(x => x.User)
+                .Where(x => x.User == user)
+                .ToArray();
+
+            return result;
+        }
+
         internal Guid AddReservation(DateTime startDate, DateTime endDate, Guid carId, UserModel user, PaymentModel payment)
         {
             var car = GetOneCar(carId);

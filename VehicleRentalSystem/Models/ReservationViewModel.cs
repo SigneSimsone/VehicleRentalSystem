@@ -8,6 +8,9 @@ namespace VehicleRentalSystem.Models
         public Guid ReservationId { get; set; }
         public Guid PaymentId { get; set; }
 
+        public ReservationModel[] Reservations { get; set; }
+        public string UserId { get; set; }
+
         public Guid CarId { get; set; }
 
         [DataType(DataType.Date), Required]

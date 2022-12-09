@@ -12,7 +12,8 @@ namespace VehicleRentalSystem.Models
 
         public string NoCarFoundMessage { get; set; }
         public string SameRegNrMessage { get; set; }
-        public string ActiveReservationsMessage { get; set; }
+
+        //public string ActiveReservationsMessage { get; set; }
 
         public SelectList BrandDropdown { get; set; }
         public SelectList CarModelDropdown { get; set; }

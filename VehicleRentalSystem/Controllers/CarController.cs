@@ -176,9 +176,11 @@ namespace VehicleRentalSystem.Controllers
 
             if(reservations.Any())
             {
-                CarViewModel viewModel = new CarViewModel();
-                viewModel.ActiveReservationsMessage = "Can't delete a car with active reservations!";
-                return RedirectToAction(nameof(Index), viewModel);
+                //CarViewModel viewModel = new CarViewModel();
+                //viewModel.ActiveReservationsMessage = "Can't delete a car with active reservations!";
+                //return RedirectToAction(nameof(Index), viewModel);
+                ModelState.AddModelError("ActiveReservationsMessage", "Can't delete a car with active reservations!");
+                return RedirectToAction(nameof(Index));
             }
 
             _carDataManager.Delete(CarId);
@@ -432,9 +434,8 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
-                viewModel.BrandMessage = "Can't delete a brand with an existing car!";
-                return RedirectToAction(nameof(ShowCarProperties), viewModel);
+                ModelState.AddModelError("BrandMessage", "Can't delete a brand with an existing car!");
+                return RedirectToAction(nameof(ShowCarProperties));
             }
 
             _carDataManager.DeleteBrand(BrandId);
@@ -449,9 +450,8 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
-                viewModel.CarModelMessage = "Can't delete a model with an existing car!";
-                return RedirectToAction(nameof(ShowCarProperties), viewModel);
+                ModelState.AddModelError("CarModelMessage", "Can't delete a model with an existing car!");
+                return RedirectToAction(nameof(ShowCarProperties));
             }
 
             _carDataManager.DeleteCarModel(CarModelId);
@@ -466,9 +466,8 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
-                viewModel.FuelTypeMessage = "Can't delete a fuel type with an existing car!";
-                return RedirectToAction(nameof(ShowCarProperties), viewModel);
+                ModelState.AddModelError("FuelTypeMessage", "Can't delete a fuel type with an existing car!");
+                return RedirectToAction(nameof(ShowCarProperties));
             }
 
             _carDataManager.DeleteFuelType(FuelTypeId);
@@ -483,9 +482,8 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
-                viewModel.GearboxTypeMessage = "Can't delete a gearbox type with an existing car!";
-                return RedirectToAction(nameof(ShowCarProperties), viewModel);
+                ModelState.AddModelError("GearboxMessage", "Can't delete a gearbox type with an existing car!");
+                return RedirectToAction(nameof(ShowCarProperties));
             }
 
             _carDataManager.DeleteGearboxType(GearboxTypeId);
@@ -500,9 +498,8 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
-                viewModel.LocationMessage = "Can't delete a location with an existing car!";
-                return RedirectToAction(nameof(ShowCarProperties), viewModel);
+                ModelState.AddModelError("LocationMessage", "Can't delete a location with an existing car!");
+                return RedirectToAction(nameof(ShowCarProperties));
             }
 
             _carDataManager.DeleteLocation(LocationId);
