@@ -559,6 +559,7 @@ namespace VehicleRentalSystem.Data.Managers
                 .Reservations
                 .Include(x => x.Payment)
                 .Include(x => x.Car)
+                .Include(x => x.User)
                 .ToArray();
 
             return result;
@@ -618,9 +619,32 @@ namespace VehicleRentalSystem.Data.Managers
             return item.Id;
         }
 
-        internal Guid AddPayment(double amount, DateTime startDate, DateTime endDate, Guid carId)
+        internal void EditReservation(Guid ReservationId, DateTime startDate, DateTime endDate, Guid carId, UserModel user, PaymentModel payment)
         {
-            //var reservation = GetOneReservation(startDate, endDate, carId);
+            var car = GetOneCar(carId);
+            var item = _dbContext.Reservations.FirstOrDefault(x => x.Id == ReservationId);
+            item.StartDate = startDate;
+            item.EndDate = endDate;
+            item.Car = car;
+            item.User = user;
+            item.Payment = payment;
+
+            _dbContext.SaveChanges();
+        }
+
+        internal void DeleteReservation(Guid reservationId)
+        {
+            var item = _dbContext
+                .Reservations
+                .FirstOrDefault(x => x.Id == reservationId);
+
+            _dbContext.Reservations.Remove(item);
+            _dbContext.SaveChanges();
+        }
+
+
+        internal Guid AddPayment(double amount)
+        {
             var item = new PaymentModel()
             {
                 Date = DateTime.Now,
@@ -639,6 +663,15 @@ namespace VehicleRentalSystem.Data.Managers
                 .FirstOrDefault(x => x.Id == paymentId);
 
             return item;
+        }
+        
+        internal void EditPayment(Guid paymentId, double amount)
+        {
+            var item = _dbContext.Payments.FirstOrDefault(x => x.Id == paymentId);
+            item.Date = DateTime.Now;
+            item.Amount = amount;
+
+            _dbContext.SaveChanges();
         }
     }
 }

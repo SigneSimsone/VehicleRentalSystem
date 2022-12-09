@@ -10,6 +10,10 @@ namespace VehicleRentalSystem.Models
 
         public ReservationModel[] Reservations { get; set; }
         public string UserId { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public string PhoneNr { get; set; }
 
         public Guid CarId { get; set; }
 

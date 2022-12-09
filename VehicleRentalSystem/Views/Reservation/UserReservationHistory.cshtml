@@ -32,7 +32,7 @@
                             </form>
                         </td>
                         <td>
-                            <form asp-action="EditReservation" method="post">
+                            <form asp-action="EditReservation" method="get">
                                 <input type="submit" value="Edit" />
                                 @Html.Hidden("ReservationId", reservation.Id)
                             </form>
