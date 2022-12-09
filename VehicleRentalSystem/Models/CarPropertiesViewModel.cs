@@ -4,6 +4,13 @@ namespace VehicleRentalSystem.Models
 {
     public class CarPropertiesViewModel
     {
+        public string BrandMessage { get; set; }
+        public string CarModelMessage { get; set; }
+        public string GearboxTypeMessage { get; set; }
+        public string FuelTypeMessage { get; set; }
+        public string LocationMessage { get; set; }
+
+
         public Guid BrandId { get; set; }
         public Guid CarModelId { get; set; }
         public Guid FuelTypeId { get; set; }

@@ -39,10 +39,18 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCar(CarViewModel model)
         {
-           // if (!ModelState.IsValid)
+            // if (!ModelState.IsValid)
             //{
-           //     return RedirectToAction(nameof(Index), model);
-          //  }
+            //     return RedirectToAction(nameof(Index), model);
+            //  }
+
+            CarModel[] cars = _carDataManager.GetCarsByRegNr(model.RegistrationNumber);
+
+            if (cars.Any())
+            {
+                model.SameRegNrMessage = "Car with the same registration number already exists!";
+                return View("AddCar", model);
+            }
 
             string relativeFilePath = null;
             BrandModel brandmodel = _carDataManager.GetOneBrand(model.SelectedBrand);
@@ -164,6 +172,15 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult Delete(Guid CarId)
         {
+            ReservationModel[] reservations = _carDataManager.GetReservations(CarId);
+
+            if(reservations.Any())
+            {
+                CarViewModel viewModel = new CarViewModel();
+                viewModel.ActiveReservationsMessage = "Can't delete a car with active reservations!";
+                return RedirectToAction(nameof(Index), viewModel);
+            }
+
             _carDataManager.Delete(CarId);
 
             return RedirectToAction(nameof(Index));
@@ -405,6 +422,92 @@ namespace VehicleRentalSystem.Controllers
             viewModel.Number = location.Number;
 
             return View(viewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult DeleteBrand(Guid BrandId)
+        {
+            CarModel[] cars = _carDataManager.GetCarsByBrand(BrandId);
+
+            if (cars.Any())
+            {
+                CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
+                viewModel.BrandMessage = "Can't delete a brand with an existing car!";
+                return RedirectToAction(nameof(ShowCarProperties), viewModel);
+            }
+
+            _carDataManager.DeleteBrand(BrandId);
+
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteModel(Guid CarModelId)
+        {
+            CarModel[] cars = _carDataManager.GetCarsByCarModel(CarModelId);
+
+            if (cars.Any())
+            {
+                CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
+                viewModel.CarModelMessage = "Can't delete a model with an existing car!";
+                return RedirectToAction(nameof(ShowCarProperties), viewModel);
+            }
+
+            _carDataManager.DeleteCarModel(CarModelId);
+
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteFuelType(Guid FuelTypeId)
+        {
+            CarModel[] cars = _carDataManager.GetCarsByFuelType(FuelTypeId);
+
+            if (cars.Any())
+            {
+                CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
+                viewModel.FuelTypeMessage = "Can't delete a fuel type with an existing car!";
+                return RedirectToAction(nameof(ShowCarProperties), viewModel);
+            }
+
+            _carDataManager.DeleteFuelType(FuelTypeId);
+
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteGearbox(Guid GearboxTypeId)
+        {
+            CarModel[] cars = _carDataManager.GetCarsByGearboxType(GearboxTypeId);
+
+            if (cars.Any())
+            {
+                CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
+                viewModel.GearboxTypeMessage = "Can't delete a gearbox type with an existing car!";
+                return RedirectToAction(nameof(ShowCarProperties), viewModel);
+            }
+
+            _carDataManager.DeleteGearboxType(GearboxTypeId);
+
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteLocation(Guid LocationId)
+        {
+            CarModel[] cars = _carDataManager.GetCarsByLocation(LocationId);
+
+            if (cars.Any())
+            {
+                CarPropertiesViewModel viewModel = new CarPropertiesViewModel();
+                viewModel.LocationMessage = "Can't delete a location with an existing car!";
+                return RedirectToAction(nameof(ShowCarProperties), viewModel);
+            }
+
+            _carDataManager.DeleteLocation(LocationId);
+
+            return RedirectToAction(nameof(ShowCarProperties));
         }
 
 

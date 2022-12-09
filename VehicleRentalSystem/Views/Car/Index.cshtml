@@ -17,6 +17,13 @@
     }
 </div>
 
+<div class="message">
+    @if (!string.IsNullOrEmpty(Model.ActiveReservationsMessage))
+    {
+        <p><strong>@Model.ActiveReservationsMessage </strong></p>
+    }
+</div>
+
 @if (Model != null && Model.Cars != null && Model.Cars.Any())
 {
     <h2 id="cars">Cars</h2>

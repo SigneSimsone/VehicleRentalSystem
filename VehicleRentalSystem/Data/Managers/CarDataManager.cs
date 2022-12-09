@@ -57,6 +57,74 @@ namespace VehicleRentalSystem.Data.Managers
             return item;
         }
 
+        public CarModel[] GetCarsByRegNr(string registrationNumber)
+        {
+            var result = _dbContext
+                .Cars
+                .Include(x => x.Brand)
+                .Include(x => x.FuelType)
+                .Include(x => x.GearboxType)
+                .Include(x => x.Model)
+                .Include(x => x.Location)
+                .Include(x => x.Feedbacks)
+                .Where(x => x.RegistrationNumber == registrationNumber)
+                .ToArray();
+
+            return result;
+        }
+
+        public CarModel[] GetCarsByBrand(Guid brandId)
+        {
+            var result = _dbContext
+                .Cars
+                .Include(x => x.Brand)
+                .Where(x => x.Brand.Id == brandId)
+                .ToArray();
+
+            return result;
+        }
+        public CarModel[] GetCarsByCarModel(Guid carModelId)
+        {
+            var result = _dbContext
+                .Cars
+                .Include(x => x.Model)
+                .Where(x => x.Model.Id == carModelId)
+                .ToArray();
+
+            return result;
+        }
+        public CarModel[] GetCarsByFuelType(Guid fuelTypeId)
+        {
+            var result = _dbContext
+                .Cars
+                .Include(x => x.FuelType)
+                .Where(x => x.FuelType.Id == fuelTypeId)
+                .ToArray();
+
+            return result;
+        }
+        public CarModel[] GetCarsByGearboxType(Guid gearboxTypeId)
+        {
+            var result = _dbContext
+                .Cars
+                .Include(x => x.GearboxType)
+                .Where(x => x.GearboxType.Id == gearboxTypeId)
+                .ToArray();
+
+            return result;
+        }
+        public CarModel[] GetCarsByLocation(Guid locationId)
+        {
+            var result = _dbContext
+                .Cars
+                .Include(x => x.Location)
+                .Where(x => x.Location.Id == locationId)
+                .ToArray();
+
+            return result;
+        }
+
+
         internal void AddCar(BrandModel brand, CarModelModel model, GearboxModel gearbox, FuelTypeModel fuelType, int year, string registrationNumber, int fuelConsumption, int mileage, int passengers, int luggage, int doors, bool airConditioner, bool availability, float dailyPrice, string imagePath, LocationModel location)
         {
             var item = new CarModel()
@@ -111,13 +179,9 @@ namespace VehicleRentalSystem.Data.Managers
             var item = _dbContext
                 .Cars
                 .Include(x => x.Feedbacks)
-                .Include(x => x.Reservations)
-                .First(x => x.Id == id);
+                .FirstOrDefault(x => x.Id == id);
 
             item.Feedbacks.Clear();
-            _dbContext.SaveChanges();
-
-            item.Reservations.Clear();
             _dbContext.SaveChanges();
 
             _dbContext.Cars.Remove(item);
@@ -155,6 +219,15 @@ namespace VehicleRentalSystem.Data.Managers
 
             _dbContext.SaveChanges();
         }
+        internal void DeleteBrand(Guid brandId)
+        {
+            var item = _dbContext
+                .Brands
+                .FirstOrDefault(x => x.Id == brandId);
+
+            _dbContext.Brands.Remove(item);
+            _dbContext.SaveChanges();
+        }
 
 
         internal void AddFuelType(string fuelType)
@@ -186,6 +259,15 @@ namespace VehicleRentalSystem.Data.Managers
             var item = _dbContext.FuelTypes.FirstOrDefault(x => x.Id == id);
             item.FuelType = fuelType;
 
+            _dbContext.SaveChanges();
+        }
+        internal void DeleteFuelType(Guid fuelTypeId)
+        {
+            var item = _dbContext
+                .FuelTypes
+                .FirstOrDefault(x => x.Id == fuelTypeId);
+
+            _dbContext.FuelTypes.Remove(item);
             _dbContext.SaveChanges();
         }
 
@@ -220,6 +302,15 @@ namespace VehicleRentalSystem.Data.Managers
 
             _dbContext.SaveChanges();
         }
+        internal void DeleteGearboxType(Guid gearboxTypeId)
+        {
+            var item = _dbContext
+                .GearboxTypes
+                .FirstOrDefault(x => x.Id == gearboxTypeId);
+
+            _dbContext.GearboxTypes.Remove(item);
+            _dbContext.SaveChanges();
+        }
 
 
         internal void AddCarModel(string model)
@@ -251,6 +342,15 @@ namespace VehicleRentalSystem.Data.Managers
             var item = _dbContext.CarModels.FirstOrDefault(x => x.Id == id);
             item.Model = model;
 
+            _dbContext.SaveChanges();
+        }
+        internal void DeleteCarModel(Guid carModelId)
+        {
+            var item = _dbContext
+                .CarModels
+                .FirstOrDefault(x => x.Id == carModelId);
+
+            _dbContext.CarModels.Remove(item);
             _dbContext.SaveChanges();
         }
 
@@ -289,6 +389,16 @@ namespace VehicleRentalSystem.Data.Managers
 
             _dbContext.SaveChanges();
         }
+        internal void DeleteLocation(Guid locationId)
+        {
+            var item = _dbContext
+                .Locations
+                .FirstOrDefault(x => x.Id == locationId);
+
+            _dbContext.Locations.Remove(item);
+            _dbContext.SaveChanges();
+        }
+
 
 
         internal void AddFeedback(Guid Id, string comment, UserModel user)
@@ -462,6 +572,7 @@ namespace VehicleRentalSystem.Data.Managers
                 .Include(x => x.Payment)
                 .Include(x => x.User)
                 .Where(x => x.Car.Id == carId)
+                .Where(x => x.EndDate >= DateTime.UtcNow)
                 .ToArray();
 
             return result;
@@ -509,19 +620,6 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext.SaveChanges();
             return item.Id;
         }
-
-        /*        public PaymentModel GetPayment(double amount, DateTime startDate, DateTime endDate, Guid carId)
-                {
-                    var item = _dbContext
-                        .Payments
-                        .Include(x => x.Reservation)
-                        .Where(x => x.Amount == amount)
-                        .Where(x => x.Reservation.StartDate == startDate)
-                        .Where(x => x.Reservation.EndDate == endDate)
-                        .Where(x => x.Reservation.Car.Id == carId);
-
-                    return item;
-                }*/
 
         public PaymentModel GetPayment(Guid paymentId)
         {
