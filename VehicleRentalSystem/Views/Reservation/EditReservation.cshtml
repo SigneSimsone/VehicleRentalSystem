@@ -14,6 +14,7 @@
                     <form action="/Reservation/EditReservation" method="post" autocomplete="off">
                         @Html.Hidden("CarId", Model.CarId)
                         @Html.Hidden("ReservationId", Model.ReservationId)
+                        @Html.Hidden("PaymentId", Model.PaymentId)
 
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

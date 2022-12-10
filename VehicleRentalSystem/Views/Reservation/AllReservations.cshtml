@@ -6,11 +6,11 @@
     <table id="AllUserReservationsTable">
         <thead id="thead">
             <tr>
-                @*<th>User</th>*@
+                <th>User</th>
                 <th>StartDate</th>
                 <th>EndDate</th>
-                @*<th>Car Brand</th>
-                    <th>Car Model</th>*@
+                <th>Car Brand</th>
+                <th>Car Model</th>
                 <th>Open</th>
                 <th>Cancel</th>
             </tr>
@@ -19,11 +19,11 @@
             @foreach (var reservation in Model.Reservations)
             {
                 <tr>
-                    @*<td>@reservation.User.Email</td>*@
+                    <td>@reservation.User.Email</td>
                     <td>@reservation.StartDate</td>
                     <td>@reservation.EndDate</td>
-                    @*<td>@reservation.Car.Brand.Brand</td>
-                        <td>@reservation.Car.Model.Model</td>*@
+                    <td>@reservation.Car.Brand.Brand</td>
+                    <td>@reservation.Car.Model.Model</td>
                     <td>
                         <form asp-action="OpenReservation" method="get">
                             <input type="submit" value="Open" />

@@ -39,10 +39,10 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCar(CarViewModel model)
         {
-            // if (!ModelState.IsValid)
-            //{
-            //     return RedirectToAction(nameof(Index), model);
-            //  }
+             if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index), model);
+            }
 
             CarModel[] cars = _carDataManager.GetCarsByRegNr(model.RegistrationNumber);
 
@@ -118,7 +118,7 @@ namespace VehicleRentalSystem.Controllers
             // get car from database (CarModel)
             CarModel car = _carDataManager.GetOneCar(CarId);
             CarViewModel viewModel = new CarViewModel();
-            viewModel.carId = car.Id;
+            viewModel.CarId = car.Id;
 
             BrandModel[] brands = _carDataManager.GetBrands();
             var brandList = brands.Select(x => new { x.Id, x.Brand }).ToList();

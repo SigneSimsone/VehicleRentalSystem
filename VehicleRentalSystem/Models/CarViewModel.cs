@@ -5,21 +5,21 @@ namespace VehicleRentalSystem.Models
 {
     public class CarViewModel
     {
-        public Guid carId { get; set; }
+        public Guid CarId { get; set; }
 
         public CarModel[] Cars { get; set; }
         public string UserId { get; set; }
 
-        public string NoCarFoundMessage { get; set; }
-        public string SameRegNrMessage { get; set; }
+        public string? NoCarFoundMessage { get; set; }
+        public string? SameRegNrMessage { get; set; }
 
-        //public string ActiveReservationsMessage { get; set; }
+        public string? ActiveReservationsMessage { get; set; }
 
-        public SelectList BrandDropdown { get; set; }
-        public SelectList CarModelDropdown { get; set; }
-        public SelectList GearboxTypeDropdown { get; set; }
-        public SelectList FuelTypeDropdown { get; set; }
-        public SelectList LocationDropdown { get; set; }
+        public SelectList? BrandDropdown { get; set; }
+        public SelectList? CarModelDropdown { get; set; }
+        public SelectList? GearboxTypeDropdown { get; set; }
+        public SelectList? FuelTypeDropdown { get; set; }
+        public SelectList? LocationDropdown { get; set; }
 
 
         #region NewCarFields
@@ -70,7 +70,7 @@ namespace VehicleRentalSystem.Models
 
         [Required(ErrorMessage = "Image is required.")]
         public IFormFile File { get; set; }
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
         #endregion
     }
 }

@@ -87,16 +87,16 @@ namespace VehicleRentalSystem.Controllers
 
             var user = await _userManager.GetUserAsync(User);
 
-            CarModel carModel = _carDataManager.GetOneCar(model.CarId);
+            CarModel car = _carDataManager.GetOneCar(model.CarId);
 
             TimeSpan timeSpan = model.EndDate - model.StartDate;
             double days = timeSpan.TotalDays;
-            double amount = carModel.DailyPrice * days;
+            double amount = car.DailyPrice * days;
 
             model.PaymentId = _carDataManager.AddPayment(amount);
             PaymentModel payment = _carDataManager.GetPayment(model.PaymentId);
 
-            model.ReservationId = _carDataManager.AddReservation(model.StartDate, model.EndDate, carModel.Id, user, payment);
+            model.ReservationId = _carDataManager.AddReservation(model.StartDate, model.EndDate, car.Id, user, payment);
             model.Amount = amount;
 
             model.SuccessMessage = "Reservation successful!";
@@ -147,6 +147,7 @@ namespace VehicleRentalSystem.Controllers
 
             viewModel.Reservations = reservations;
             viewModel.UserId = user.Id;
+            viewModel.Email = user.Email;
             
             return View("AllReservations", viewModel);
         }
@@ -186,10 +187,10 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> EditReservation(Guid ReservationId, ReservationViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction(nameof(Confirmation), model);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return RedirectToAction(nameof(Confirmation), model);
+            //}
 
             if (model.StartDate < DateTime.Now || model.StartDate > model.EndDate || model.EndDate < DateTime.Now)
             {
@@ -205,16 +206,18 @@ namespace VehicleRentalSystem.Controllers
             }
 
             var user = await _userManager.GetUserAsync(User);
-            CarModel carModel = _carDataManager.GetOneCar(model.CarId);
-            PaymentModel payment = _carDataManager.GetPayment(model.PaymentId);
+            ReservationModel reservation = _carDataManager.GetOneReservation(ReservationId);
+            CarModel car = _carDataManager.GetOneCar(model.CarId);
+            PaymentModel payment = _carDataManager.GetPayment(reservation.PaymentId);
 
             TimeSpan timeSpan = model.EndDate - model.StartDate;
             double days = timeSpan.TotalDays;
-            double amount = carModel.DailyPrice * days;
+            double amount = car.DailyPrice * days;
             model.Amount = amount;
+            model.PaymentId = reservation.PaymentId;
 
             _carDataManager.EditPayment(payment.Id, amount);
-            _carDataManager.EditReservation(ReservationId, model.StartDate, model.EndDate, carModel.Id, user, payment);
+            _carDataManager.EditReservation(ReservationId, model.StartDate, model.EndDate, car.Id, user, payment);
 
             model.SuccessMessage = "Reservation successful!";
             return RedirectToAction(nameof(Confirmation), model);
