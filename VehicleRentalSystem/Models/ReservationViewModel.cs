@@ -34,6 +34,8 @@ namespace VehicleRentalSystem.Models
         public float DailyPrice { get; set; }
 
         public double Amount { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public string? PaymentDateString { get; set; }
 
         public string SuccessMessage { get; set; }
     }

@@ -11,8 +11,10 @@
                 <th>EndDate</th>
                 <th>Car Brand</th>
                 <th>Car Model</th>
+                <th>Payment Date</th>
                 <th>Open</th>
                 <th>Cancel</th>
+                <th>Add Payment Date</th>
             </tr>
         </thead>
         <tbody id="tbody">
@@ -24,8 +26,16 @@
                     <td>@reservation.EndDate</td>
                     <td>@reservation.Car.Brand.Brand</td>
                     <td>@reservation.Car.Model.Model</td>
+                    @if (reservation.Payment.Date.HasValue)
+                    {
+                        <td>@reservation.Payment.Date.Value</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
                     <td>
-                        <form asp-action="OpenReservation" method="get">
+                        <form asp-action="OpenReservationAdmin" method="get">
                             <input type="submit" value="Open" />
                             @Html.Hidden("ReservationId", reservation.Id)
                         </form>
@@ -36,6 +46,15 @@
                             @Html.Hidden("ReservationId", reservation.Id)
                         </form>
                     </td>
+                    @if (!reservation.Payment.Date.HasValue)
+                    {
+                        <td>
+                            <form asp-action="AddPaymentDate" method="get">
+                                <input type="submit" value="Add Payment Date" />
+                                @Html.Hidden("ReservationId", reservation.Id)
+                            </form>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

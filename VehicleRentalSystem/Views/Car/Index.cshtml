@@ -10,19 +10,22 @@
 </form>
 <br />
 
-<div class="message">
+@*<div class="message">
     @if (!string.IsNullOrEmpty(Model.NoCarFoundMessage))
     {
         <p><strong>@Model.NoCarFoundMessage </strong></p>
     }
+</div>*@
+<div>
+    @Html.ValidationMessage("NoCarFoundMessage")
 </div>
 
-<div class="message">
+@*<div class="message">
     @if (!string.IsNullOrEmpty(Model.ActiveReservationsMessage))
     {
         <p><strong>@Model.ActiveReservationsMessage </strong></p>
     }
-</div>
+</div>*@
 
 <div>
     @Html.ValidationMessage("ActiveReservationsMessage")

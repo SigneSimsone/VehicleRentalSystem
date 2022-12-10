@@ -180,7 +180,7 @@ namespace VehicleRentalSystem.Controllers
                 //viewModel.ActiveReservationsMessage = "Can't delete a car with active reservations!";
                 //return RedirectToAction(nameof(Index), viewModel);
                 ModelState.AddModelError("ActiveReservationsMessage", "Can't delete a car with active reservations!");
-                return RedirectToAction(nameof(Index));
+                return View(nameof(Index));
             }
 
             _carDataManager.Delete(CarId);
@@ -200,7 +200,8 @@ namespace VehicleRentalSystem.Controllers
 
             if(!cars.Any())
             {
-                viewModel.NoCarFoundMessage = "No cars were found!";
+                //viewModel.NoCarFoundMessage = "No cars were found!";
+                ModelState.AddModelError("NoCarFoundMessage", "No cars were found!");
             }
 
             return View("Index", viewModel);

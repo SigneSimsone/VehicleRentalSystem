@@ -48,6 +48,7 @@ namespace VehicleRentalSystem.Controllers
             viewModel.StartDateString = reservation.StartDate.ToString("dd/MM/yyyy HH:mm");
             viewModel.EndDateString = reservation.EndDate.ToString("dd/MM/yyyy HH:mm");
             viewModel.Amount = payment.Amount;
+            viewModel.PaymentDateString = payment.Date.ToString();
 
             viewModel.Name = reservation.User.Name;
             viewModel.Surname = reservation.User.Surname;
@@ -66,7 +67,7 @@ namespace VehicleRentalSystem.Controllers
             //    return RedirectToAction(nameof(AddReservation), model);
             //}
 
-            if(model.StartDate < DateTime.Now || model.StartDate > model.EndDate || model.EndDate < DateTime.Now)
+            if (model.StartDate < DateTime.Now || model.StartDate > model.EndDate || model.EndDate < DateTime.Now)
             {
                 ModelState.AddModelError("IncorrectDates", "Please input correct dates");
                 return View(nameof(AddReservation), model);
@@ -148,9 +149,45 @@ namespace VehicleRentalSystem.Controllers
             viewModel.Reservations = reservations;
             viewModel.UserId = user.Id;
             viewModel.Email = user.Email;
-            
+
             return View("AllReservations", viewModel);
         }
+
+        [HttpPost]
+        public IActionResult AddPaymentDate(DateTime PaymentDate, Guid ReservationId, ReservationViewModel model)
+        {
+            ReservationModel reservation = _carDataManager.GetOneReservation(ReservationId);
+            _carDataManager.AddPaymentDate(reservation.PaymentId, PaymentDate);
+
+            return RedirectToAction(nameof(AllReservations));
+        }
+
+        [HttpGet]
+        public IActionResult AddPaymentDate(Guid ReservationId)
+        {
+            if (ReservationId == Guid.Empty)
+            {
+                return RedirectToAction(nameof(AllReservations));
+            }
+
+            ReservationModel reservation = _carDataManager.GetOneReservation(ReservationId);
+            CarModel car = _carDataManager.GetOneCar(reservation.Car.Id);
+
+            ReservationViewModel viewModel = new ReservationViewModel();
+
+            viewModel.CarId = car.Id;
+            viewModel.ReservationId = ReservationId;
+            viewModel.Brand = car.Brand.Brand;
+            viewModel.CarModel = car.Model.Model;
+            viewModel.StartDateString = reservation.StartDate.ToString("dd/MM/yyyy HH:mm");
+            viewModel.EndDateString = reservation.EndDate.ToString("dd/MM/yyyy HH:mm");
+            viewModel.Amount = reservation.Payment.Amount;
+            viewModel.PaymentDateString = reservation.Payment.Date.ToString();
+            viewModel.Email = reservation.User.Email;
+
+            return View(viewModel);
+        }
+
 
         [HttpGet]
         public IActionResult OpenReservation(Guid ReservationId)
@@ -176,6 +213,40 @@ namespace VehicleRentalSystem.Controllers
             viewModel.StartDateString = reservation.StartDate.ToString("dd/MM/yyyy HH:mm");
             viewModel.EndDateString = reservation.EndDate.ToString("dd/MM/yyyy HH:mm");
             viewModel.Amount = reservation.Payment.Amount;
+            viewModel.PaymentDateString = reservation.Payment.Date.ToString();
+            viewModel.Name = reservation.User.Name;
+            viewModel.Surname = reservation.User.Surname;
+            viewModel.Email = reservation.User.Email;
+            viewModel.PhoneNr = reservation.User.PhoneNumber;
+
+            return View(nameof(Confirmation), viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult OpenReservationAdmin(Guid ReservationId)
+        {
+            if (ReservationId == Guid.Empty)
+            {
+                return RedirectToAction(nameof(AllReservations));
+            }
+
+            // get reservation from database
+            ReservationModel reservation = _carDataManager.GetOneReservation(ReservationId);
+            CarModel car = _carDataManager.GetOneCar(reservation.Car.Id);
+
+            ReservationViewModel viewModel = new ReservationViewModel();
+
+            viewModel.CarId = car.Id;
+            viewModel.Brand = car.Brand.Brand;
+            viewModel.CarModel = car.Model.Model;
+            viewModel.FuelType = car.FuelType.FuelType;
+            viewModel.GearboxType = car.GearboxType.Gearbox;
+            viewModel.Location = car.Location.FullLocation;
+            viewModel.DailyPrice = car.DailyPrice;
+            viewModel.StartDateString = reservation.StartDate.ToString("dd/MM/yyyy HH:mm");
+            viewModel.EndDateString = reservation.EndDate.ToString("dd/MM/yyyy HH:mm");
+            viewModel.Amount = reservation.Payment.Amount;
+            viewModel.PaymentDateString = reservation.Payment.Date.ToString();
             viewModel.Name = reservation.User.Name;
             viewModel.Surname = reservation.User.Surname;
             viewModel.Email = reservation.User.Email;

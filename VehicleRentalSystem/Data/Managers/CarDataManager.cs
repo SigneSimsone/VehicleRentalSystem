@@ -647,7 +647,7 @@ namespace VehicleRentalSystem.Data.Managers
         {
             var item = new PaymentModel()
             {
-                Date = DateTime.Now,
+                Date = null,
                 Amount = amount
             };
 
@@ -664,7 +664,15 @@ namespace VehicleRentalSystem.Data.Managers
 
             return item;
         }
-        
+
+        internal void AddPaymentDate(Guid paymentId, DateTime paymentDate)
+        {
+            var item = _dbContext.Payments.FirstOrDefault(x => x.Id == paymentId);
+            item.Date = paymentDate;
+
+            _dbContext.SaveChanges();
+        }
+
         internal void EditPayment(Guid paymentId, double amount)
         {
             var item = _dbContext.Payments.FirstOrDefault(x => x.Id == paymentId);

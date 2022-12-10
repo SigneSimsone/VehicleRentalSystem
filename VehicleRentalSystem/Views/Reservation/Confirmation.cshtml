@@ -45,6 +45,14 @@
                         <label asp-for="Amount">Total amount</label>
                         <input asp-for="Amount" class="form-control" readonly />
 
+                        <label asp-for="PaymentDateString">Payment Date</label>
+                        <input asp-for="PaymentDateString" class="form-control" readonly />
+
+                        @if (string.IsNullOrEmpty(Model.PaymentDateString))
+                        {
+                            <p>Payment has not been made.</p>
+                        }
+
                         <label asp-for="Name">Name</label>
                         <input asp-for="Name" class="form-control" readonly />
 

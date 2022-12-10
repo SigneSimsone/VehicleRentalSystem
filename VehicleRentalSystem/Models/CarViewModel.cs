@@ -7,13 +7,13 @@ namespace VehicleRentalSystem.Models
     {
         public Guid CarId { get; set; }
 
-        public CarModel[] Cars { get; set; }
-        public string UserId { get; set; }
+        public CarModel[]? Cars { get; set; }
+        public string? UserId { get; set; }
 
-        public string? NoCarFoundMessage { get; set; }
+        //public string? NoCarFoundMessage { get; set; }
         public string? SameRegNrMessage { get; set; }
 
-        public string? ActiveReservationsMessage { get; set; }
+        //public string? ActiveReservationsMessage { get; set; }
 
         public SelectList? BrandDropdown { get; set; }
         public SelectList? CarModelDropdown { get; set; }
