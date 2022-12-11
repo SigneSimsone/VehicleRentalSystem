@@ -13,9 +13,9 @@ namespace VehicleRentalSystem.Controllers
         }
         internal bool AreDatesValid(Guid carId, DateTime requestedStartDate, DateTime requestedEndDate)
         {
-            CarModel[] cars = _carDataManager.CheckIfDatesValid(carId, requestedStartDate, requestedEndDate);
+            ReservationModel[] reservations = _carDataManager.CheckIfDatesValid(carId, requestedStartDate, requestedEndDate);
             //Guid[] carIdList = cars.Select(x => x.Id).ToArray();
-            if(!cars.Any())
+            if(!reservations.Any())
             {
                 return true;
             }

@@ -527,16 +527,36 @@ namespace VehicleRentalSystem.Data.Managers
         }
 
 
-        internal CarModel[] CheckIfDatesValid(Guid carId, DateTime requestedStartDate, DateTime requestedEndDate)
+        internal ReservationModel[] CheckIfDatesValid(Guid carId, DateTime requestedStartDate, DateTime requestedEndDate)
         {
-            IQueryable<CarModel>? cars = _dbContext
-                .Cars.Include(x => x.Brand)
-                     .Include(x => x.FuelType)
-                     .Include(x => x.GearboxType)
-                     .Include(x => x.Model)
-                     .Include(x => x.Location)
-                     .Include(x => x.Reservations)
+            IQueryable<ReservationModel>? reservations = _dbContext
+                     .Reservations
+                     .Include(x => x.Car)
+                     .Include(x => x.User)
+                     .Include(x => x.Payment)
                      .AsQueryable();
+
+            ReservationModel[]? reservationList = reservations.Where(x => x.Car.Id == carId).ToArray();
+            List<ReservationModel> result = new List<ReservationModel>();
+
+            var ReservationInPeriod = reservationList.Where(x =>
+            ((x.StartDate > requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate > requestedEndDate)) ||
+            ((x.StartDate < requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate > requestedEndDate)) ||
+            ((x.StartDate < requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate < requestedEndDate)) ||
+            ((x.StartDate > requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate < requestedEndDate)));
+
+            result.AddRange(ReservationInPeriod);
+
+            return result.ToArray();
+
+            /*IQueryable<CarModel>? cars = _dbContext
+               .Cars.Include(x => x.Brand)
+                    .Include(x => x.FuelType)
+                    .Include(x => x.GearboxType)
+                    .Include(x => x.Model)
+                    .Include(x => x.Location)
+                    .Include(x => x.Reservations)
+                    .AsQueryable();
 
             CarModel[]? carList = cars.Where(x => x.Id == carId).ToArray();
             List<CarModel> result = new List<CarModel>();
@@ -549,7 +569,7 @@ namespace VehicleRentalSystem.Data.Managers
 
             result.AddRange(carsWithReservation);
 
-            return result.ToArray();
+            return result.ToArray();*/
         }
 
 

@@ -79,8 +79,8 @@ namespace VehicleRentalSystem.Controllers
             //    return View(nameof(AddReservation), model);
             //}
 
-            CarModel[] cars = _carDataManager.CheckIfDatesValid(model.CarId, model.StartDate, model.EndDate);
-            if (cars.Any())
+            ReservationModel[] reservations = _carDataManager.CheckIfDatesValid(model.CarId, model.StartDate, model.EndDate);
+            if (reservations.Any())
             {
                 ModelState.AddModelError("CarNotAvailable", "this car not available for this period");
                 return View(nameof(AddReservation), model);
@@ -269,8 +269,8 @@ namespace VehicleRentalSystem.Controllers
                 return View(nameof(EditReservation), model);
             }
 
-            CarModel[] cars = _carDataManager.CheckIfDatesValid(model.CarId, model.StartDate, model.EndDate);
-            if (cars.Any())
+            ReservationModel[] reservations = _carDataManager.CheckIfDatesValid(model.CarId, model.StartDate, model.EndDate);
+            if (reservations.Any())
             {
                 ModelState.AddModelError("CarNotAvailable", "this car not available for this period");
                 return View(nameof(EditReservation), model);
