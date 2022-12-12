@@ -33,7 +33,7 @@
                         <label asp-for="Location">Location</label>
                         <input asp-for="Location" class="form-control" readonly />
 
-                        <label asp-for="DailyPrice">Daily Price</label>
+                        <label asp-for="DailyPrice">Daily Price (EUR)</label>
                         <input asp-for="DailyPrice" class="form-control" readonly />
 
                         <label asp-for="StartDateString">Reservation start date</label>
@@ -42,15 +42,17 @@
                         <label asp-for="EndDateString">Reservation end date</label>
                         <input asp-for="EndDateString" class="form-control" readonly />
 
-                        <label asp-for="Amount">Total amount</label>
+                        <label asp-for="Amount">Total amount (EUR)</label>
                         <input asp-for="Amount" class="form-control" readonly />
 
-                        <label asp-for="PaymentDateString">Payment Date</label>
-                        <input asp-for="PaymentDateString" class="form-control" readonly />
-
+                        <label asp-for="PaymentDateString">Payment Date</label>                      
                         @if (string.IsNullOrEmpty(Model.PaymentDateString))
                         {
                             <p>Payment has not been made.</p>
+                        }
+                        else
+                        {
+                            <input asp-for="PaymentDateString" class="form-control" readonly />
                         }
 
                         <label asp-for="Name">Name</label>

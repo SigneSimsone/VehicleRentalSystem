@@ -25,7 +25,7 @@ namespace VehicleRentalSystem.Controllers
             CarModel[] cars = _carDataManager.GetCars();
             var userId = _userManager.GetUserId(User);
 
-            if(viewModel == null)
+            if (viewModel == null)
             {
                 viewModel = new CarViewModel();
             }
@@ -39,7 +39,7 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCar(CarViewModel model)
         {
-             if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return RedirectToAction(nameof(Index), model);
             }
@@ -83,6 +83,14 @@ namespace VehicleRentalSystem.Controllers
         {
             if (!ModelState.IsValid)
             {
+                return RedirectToAction(nameof(Index), model);
+            }
+
+            CarModel[] cars = _carDataManager.GetCarsByRegNr(model.RegistrationNumber);
+
+            if (cars.Any())
+            {
+                model.SameRegNrMessage = "Car with the same registration number already exists!";
                 return RedirectToAction(nameof(Index), model);
             }
 
@@ -174,7 +182,7 @@ namespace VehicleRentalSystem.Controllers
         {
             ReservationModel[] reservations = _carDataManager.GetReservations(CarId);
 
-            if(reservations.Any())
+            if (reservations.Any())
             {
                 //CarViewModel viewModel = new CarViewModel();
                 //viewModel.ActiveReservationsMessage = "Can't delete a car with active reservations!";
@@ -198,7 +206,7 @@ namespace VehicleRentalSystem.Controllers
             viewModel.Cars = cars;
             viewModel.UserId = userId;
 
-            if(!cars.Any())
+            if (!cars.Any())
             {
                 //viewModel.NoCarFoundMessage = "No cars were found!";
                 ModelState.AddModelError("NoCarFoundMessage", "No cars were found!");
@@ -245,6 +253,12 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddBrand(string Brand)
         {
+            BrandModel[] brands = _carDataManager.GetBrands();
+            if (brands.Any(x => x.Brand == Brand))
+            {
+                ModelState.AddModelError("BrandAlreadyExists", "This brand already exists in the system!");
+                return View("AddCarProperties");
+            }
             _carDataManager.AddBrand(Brand);
 
             return RedirectToAction(nameof(ShowCarProperties));
@@ -253,6 +267,12 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddFuelType(string FuelType)
         {
+            FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
+            if (fuelTypes.Any(x => x.FuelType == FuelType))
+            {
+                ModelState.AddModelError("FuelTypeAlreadyExists", "This fuel type already exists in the system!");
+                return View("AddCarProperties");
+            }
             _carDataManager.AddFuelType(FuelType);
 
             return RedirectToAction(nameof(ShowCarProperties));
@@ -261,6 +281,12 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddGearboxType(string Gearbox)
         {
+            GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
+            if (gearboxTypes.Any(x => x.Gearbox == Gearbox))
+            {
+                ModelState.AddModelError("GearboxTypeAlreadyExists", "This gearbox type already exists in the system!");
+                return View("AddCarProperties");
+            }
             _carDataManager.AddGearboxType(Gearbox);
 
             return RedirectToAction(nameof(ShowCarProperties));
@@ -269,6 +295,12 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddCarModel(string CarModel)
         {
+            CarModelModel[] carModels = _carDataManager.GetCarModels();
+            if (carModels.Any(x => x.Model == CarModel))
+            {
+                ModelState.AddModelError("ModelAlreadyExists", "This model already exists in the system!");
+                return View("AddCarProperties");
+            }
             _carDataManager.AddCarModel(CarModel);
 
             return RedirectToAction(nameof(ShowCarProperties));
@@ -277,6 +309,15 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddLocation(string City, string Street, string Number)
         {
+            LocationModel[] locations = _carDataManager.GetLocations();
+            if (locations.Any(x =>
+            (x.City == City) &&
+            (x.Street == Street) &&
+            (x.Number == Number)))
+            {
+                ModelState.AddModelError("LocationAlreadyExists", "This location already exists in the system!");
+                return View("AddCarProperties");
+            }
             _carDataManager.AddLocation(City, Street, Number);
 
             return RedirectToAction(nameof(ShowCarProperties));
@@ -313,6 +354,12 @@ namespace VehicleRentalSystem.Controllers
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
 
+            BrandModel[] brands = _carDataManager.GetBrands();
+            if (brands.Any(x => x.Brand == model.Brand))
+            {
+                ModelState.AddModelError("BrandAlreadyExists", "This brand already exists in the system!");
+                return View(model);
+            }
             _carDataManager.EditBrand(model.BrandId, model.Brand);
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -337,6 +384,12 @@ namespace VehicleRentalSystem.Controllers
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
 
+            CarModelModel[] carModels = _carDataManager.GetCarModels();
+            if (carModels.Any(x => x.Model == model.CarModel))
+            {
+                ModelState.AddModelError("ModelAlreadyExists", "This model already exists in the system!");
+                return View(model);
+            }
             _carDataManager.EditCarModel(model.CarModelId, model.CarModel);
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -361,6 +414,12 @@ namespace VehicleRentalSystem.Controllers
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
 
+            FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
+            if (fuelTypes.Any(x => x.FuelType == model.FuelType))
+            {
+                ModelState.AddModelError("FuelTypeAlreadyExists", "This fuel type already exists in the system!");
+                return View(model);
+            }
             _carDataManager.EditFuelType(model.FuelTypeId, model.FuelType);
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -385,6 +444,12 @@ namespace VehicleRentalSystem.Controllers
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
 
+            GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
+            if (gearboxTypes.Any(x => x.Gearbox == model.Gearbox))
+            {
+                ModelState.AddModelError("GearboxTypeAlreadyExists", "This gearbox type already exists in the system!");
+                return View(model);
+            }
             _carDataManager.EditGearboxType(model.GearboxId, model.Gearbox);
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -409,6 +474,15 @@ namespace VehicleRentalSystem.Controllers
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
 
+            LocationModel[] locations = _carDataManager.GetLocations();
+            if (locations.Any(x =>
+            (x.City == model.City) &&
+            (x.Street == model.Street) &&
+            (x.Number == model.Number)))
+            {
+                ModelState.AddModelError("LocationAlreadyExists", "This location already exists in the system!");
+                return View(model);
+            }
             _carDataManager.EditLocation(model.LocationId, model.City, model.Street, model.Number);
             return RedirectToAction(nameof(ShowCarProperties));
         }

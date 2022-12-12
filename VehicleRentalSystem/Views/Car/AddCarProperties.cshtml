@@ -1,5 +1,13 @@
 ﻿@model CarPropertiesViewModel
 
+<div>
+    @Html.ValidationMessage("BrandAlreadyExists")
+    @Html.ValidationMessage("ModelAlreadyExists")
+    @Html.ValidationMessage("FuelTypeAlreadyExists")
+    @Html.ValidationMessage("GearboxTypeAlreadyExists")
+    @Html.ValidationMessage("LocationAlreadyExists")
+</div>
+
 <h5>Add new properties for cars:</h5>
 <form asp-action="AddBrand" method="post">
     <label asp-for="Brand">New Brand</label>

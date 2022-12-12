@@ -131,7 +131,11 @@ namespace VehicleRentalSystem.Controllers
 
             ReservationViewModel viewModel = new ReservationViewModel();
             var reservations = _carDataManager.GetUserReservations(user);
-
+            /*if(!reservations.Any())
+            {
+                ModelState.AddModelError("NoUserReservations", "You don't have any reservations!");
+                return View("UserReservationHistory", viewModel);
+            }*/
             viewModel.Reservations = reservations;
             viewModel.UserId = user.Id;
 
@@ -145,6 +149,12 @@ namespace VehicleRentalSystem.Controllers
             ReservationViewModel viewModel = new ReservationViewModel();
             var reservations = _carDataManager.GetReservations();
             CarModel[] car = _carDataManager.GetCars();
+
+            /*if (!reservations.Any())
+            {
+                ModelState.AddModelError("NoReservations", "There aren't any reservations!");
+                return View("UserReservationHistory", viewModel);
+            }*/
 
             viewModel.Reservations = reservations;
             viewModel.UserId = user.Id;
@@ -265,14 +275,14 @@ namespace VehicleRentalSystem.Controllers
 
             if (model.StartDate < DateTime.Now || model.StartDate > model.EndDate || model.EndDate < DateTime.Now)
             {
-                ModelState.AddModelError("IncorrectDates", "Please input correct dates");
+                ModelState.AddModelError("IncorrectDates", "Please input correct dates!");
                 return View(nameof(EditReservation), model);
             }
 
             ReservationModel[] reservations = _carDataManager.CheckIfDatesValid(model.CarId, model.StartDate, model.EndDate);
             if (reservations.Any())
             {
-                ModelState.AddModelError("CarNotAvailable", "this car not available for this period");
+                ModelState.AddModelError("CarNotAvailable", "This car is not available for the selected period!");
                 return View(nameof(EditReservation), model);
             }
 

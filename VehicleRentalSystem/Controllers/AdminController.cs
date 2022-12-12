@@ -63,6 +63,11 @@ namespace VehicleRentalSystem.Controllers
                 role.Name = model.NewRole;
                 await _roleManager.CreateAsync(role);
             }
+            else
+            {
+                ModelState.AddModelError("RoleAlreadyExists", "This role already exists in the system!");
+                return RedirectToAction(nameof(Index), model);
+            }
 
 
             return RedirectToAction(nameof(Index));

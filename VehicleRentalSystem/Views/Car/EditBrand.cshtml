@@ -1,5 +1,9 @@
 ﻿@model CarPropertiesViewModel
 
+<div>
+    @Html.ValidationMessage("BrandAlreadyExists")
+</div>
+
 <h5>Edit the brand:</h5>
 <form asp-action="EditBrand" method="post" enctype="multipart/form-data">
     @Html.Hidden("BrandId", Model.BrandId)

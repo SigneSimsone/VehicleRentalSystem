@@ -548,28 +548,6 @@ namespace VehicleRentalSystem.Data.Managers
             result.AddRange(ReservationInPeriod);
 
             return result.ToArray();
-
-            /*IQueryable<CarModel>? cars = _dbContext
-               .Cars.Include(x => x.Brand)
-                    .Include(x => x.FuelType)
-                    .Include(x => x.GearboxType)
-                    .Include(x => x.Model)
-                    .Include(x => x.Location)
-                    .Include(x => x.Reservations)
-                    .AsQueryable();
-
-            CarModel[]? carList = cars.Where(x => x.Id == carId).ToArray();
-            List<CarModel> result = new List<CarModel>();
-
-            var carsWithReservation = carList.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
-            ((x.StartDate > requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate > requestedEndDate)) ||
-            ((x.StartDate < requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate > requestedEndDate)) ||
-            ((x.StartDate < requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate < requestedEndDate)) ||
-            ((x.StartDate > requestedStartDate && x.EndDate > requestedStartDate) && (x.StartDate < requestedEndDate && x.EndDate < requestedEndDate))));
-
-            result.AddRange(carsWithReservation);
-
-            return result.ToArray();*/
         }
 
 

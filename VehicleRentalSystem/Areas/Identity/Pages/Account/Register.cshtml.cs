@@ -81,6 +81,10 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account
             public string Surname { get; set; }
 
             [Required]
+            [Display(Name = "Phone Number")]
+            public string PhoneNr { get; set; }
+
+            [Required]
             [Range(0, 120)]
             [Display(Name = "Age")]
             public int Age { get; set; }

@@ -34,6 +34,8 @@ namespace VehicleRentalSystem.Models
         public float DailyPrice { get; set; }
 
         public double Amount { get; set; }
+
+        [Required(ErrorMessage = "The field Payment date is required.")]
         public DateTime? PaymentDate { get; set; }
         public string? PaymentDateString { get; set; }
 

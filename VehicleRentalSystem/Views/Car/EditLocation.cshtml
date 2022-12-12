@@ -1,5 +1,9 @@
 ﻿@model CarPropertiesViewModel
 
+<div>
+    @Html.ValidationMessage("LocationAlreadyExists")
+</div>
+
 <h5>Edit the location:</h5>
 <form asp-action="EditLocation" method="post" enctype="multipart/form-data">
     @Html.Hidden("LocationId", Model.LocationId)

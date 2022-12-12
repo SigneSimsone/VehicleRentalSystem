@@ -1,5 +1,9 @@
 ﻿@model CarPropertiesViewModel
 
+<div>
+    @Html.ValidationMessage("FuelTypeAlreadyExists")
+</div>
+
 <h5>Edit the fuel type:</h5>
 <form asp-action="EditFuelType" method="post" enctype="multipart/form-data">
     @Html.Hidden("FuelTypeId", Model.FuelTypeId)

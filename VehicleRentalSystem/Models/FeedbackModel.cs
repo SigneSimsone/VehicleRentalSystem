@@ -8,6 +8,7 @@ namespace VehicleRentalSystem.Models
         [Key]
         public Guid Id { get; set; }
 
+        [Required]
         public string Comment { get; set; }
         public DateTime Date { get; set; }
 

@@ -1,5 +1,9 @@
 ﻿@model CarPropertiesViewModel
 
+<div>
+    @Html.ValidationMessage("GearboxTypeAlreadyExists")
+</div>
+
 <h5>Edit the gearbox type:</h5>
 <form asp-action="EditGearbox" method="post" enctype="multipart/form-data">
     @Html.Hidden("GearboxId", Model.GearboxId)

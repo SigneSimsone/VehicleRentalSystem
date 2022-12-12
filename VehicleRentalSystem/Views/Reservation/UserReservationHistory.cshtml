@@ -9,7 +9,7 @@
                 <th>StartDate</th>
                 <th>EndDate</th>
                 @*<th>Car Brand</th>
-                <th>Car Model</th>*@
+                    <th>Car Model</th>*@
                 <th>Open</th>
                 <th>Edit</th>
                 <th>Cancel</th>
@@ -24,7 +24,7 @@
                         <td>@reservation.StartDate</td>
                         <td>@reservation.EndDate</td>
                         @*<td>@reservation.Car.Brand.Brand</td>
-                        <td>@reservation.Car.Model.Model</td>*@
+                            <td>@reservation.Car.Model.Model</td>*@
                         <td>
                             <form asp-action="OpenReservation" method="get">
                                 <input type="submit" value="Open" />
@@ -48,4 +48,10 @@
             }
         </tbody>
     </table>
+}
+else
+{
+    <div>
+        <p>You don't have any reservations!</p>
+    </div>
 }
