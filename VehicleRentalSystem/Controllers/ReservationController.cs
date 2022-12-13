@@ -259,62 +259,6 @@ namespace VehicleRentalSystem.Controllers
             return View(nameof(Confirmation), viewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> EditReservation(Guid ReservationId, ReservationViewModel model)
-        {
-            //if (!ModelState.IsValid)
-            //{
-            //    return RedirectToAction(nameof(Confirmation), model);
-            //}
-
-            if (model.StartDate < DateTime.Now || model.StartDate > model.EndDate || model.EndDate < DateTime.Now)
-            {
-                ModelState.AddModelError("IncorrectDates", "Please input correct dates!");
-                return View(nameof(EditReservation), model);
-            }
-
-            ReservationModel[] reservations = _carDataManager.CheckIfDatesValid(model.CarId, model.StartDate, model.EndDate);
-            if (reservations.Any())
-            {
-                ModelState.AddModelError("CarNotAvailable", "This car is not available for the selected period!");
-                return View(nameof(EditReservation), model);
-            }
-
-            var user = await _userManager.GetUserAsync(User);
-            ReservationModel reservation = _carDataManager.GetOneReservation(ReservationId);
-            CarModel car = _carDataManager.GetOneCar(model.CarId);
-            PaymentModel payment = _carDataManager.GetPayment(reservation.PaymentId);
-
-            TimeSpan timeSpan = model.EndDate - model.StartDate;
-            double days = timeSpan.TotalDays;
-            double amount = car.DailyPrice * days;
-            model.Amount = amount;
-            model.PaymentId = reservation.PaymentId;
-
-            _carDataManager.EditPayment(payment.Id, amount);
-            _carDataManager.EditReservation(ReservationId, model.StartDate, model.EndDate, car.Id, user, payment);
-
-            model.SuccessMessage = "Reservation successful!";
-            return RedirectToAction(nameof(Confirmation), model);
-        }
-
-        [HttpGet]
-        public IActionResult EditReservation(Guid ReservationId)
-        {
-            ReservationModel reservation = _carDataManager.GetOneReservation(ReservationId);
-            CarModel car = _carDataManager.GetOneCar(reservation.Car.Id);
-
-            ReservationViewModel viewModel = new ReservationViewModel();
-            viewModel.CarId = car.Id;
-            viewModel.Brand = car.Brand.Brand;
-            viewModel.CarModel = car.Model.Model;
-            viewModel.FuelType = car.FuelType.FuelType;
-            viewModel.GearboxType = car.GearboxType.Gearbox;
-            viewModel.Location = car.Location.FullLocation;
-            viewModel.DailyPrice = car.DailyPrice;
-
-            return View(viewModel);
-        }
 
         [HttpPost]
         public IActionResult DeleteReservation(Guid ReservationId)

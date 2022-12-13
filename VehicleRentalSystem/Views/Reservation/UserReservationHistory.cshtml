@@ -11,7 +11,6 @@
                 <th>Car Brand</th>
                 <th>Car Model</th>
                 <th>Open</th>
-                <th>Edit</th>
                 <th>Cancel</th>
             </tr>
         </thead>
@@ -28,12 +27,6 @@
                         <td>
                             <form asp-action="OpenReservation" method="get">
                                 <input type="submit" value="Open" />
-                                @Html.Hidden("ReservationId", reservation.Id)
-                            </form>
-                        </td>
-                        <td>
-                            <form asp-action="EditReservation" method="get">
-                                <input type="submit" value="Edit" />
                                 @Html.Hidden("ReservationId", reservation.Id)
                             </form>
                         </td>
