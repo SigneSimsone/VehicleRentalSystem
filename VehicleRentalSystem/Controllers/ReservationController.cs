@@ -73,12 +73,6 @@ namespace VehicleRentalSystem.Controllers
                 return View(nameof(AddReservation), model);
             }
 
-            //if (!_reservationValidator.AreDatesValid(model.CarId, model.StartDate, model.EndDate))
-            //{
-            //    ModelState.AddModelError("CarNotAvailable", "this car not available for this period");
-            //    return View(nameof(AddReservation), model);
-            //}
-
             ReservationModel[] reservations = _carDataManager.CheckIfDatesValid(model.CarId, model.StartDate, model.EndDate);
             if (reservations.Any())
             {

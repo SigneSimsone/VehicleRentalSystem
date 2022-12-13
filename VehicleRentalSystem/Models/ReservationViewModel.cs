@@ -8,12 +8,12 @@ namespace VehicleRentalSystem.Models
         public Guid ReservationId { get; set; }
         public Guid PaymentId { get; set; }
 
-        public ReservationModel[] Reservations { get; set; }
-        public string UserId { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Email { get; set; }
-        public string PhoneNr { get; set; }
+        public ReservationModel[]? Reservations { get; set; }
+        public string? UserId { get; set; }
+        public string? Name { get; set; }
+        public string? Surname { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNr { get; set; }
 
         public Guid CarId { get; set; }
 
@@ -23,8 +23,8 @@ namespace VehicleRentalSystem.Models
         [DataType(DataType.Date), Required]
         public DateTime EndDate { get; set; }
 
-        public string StartDateString { get; set; }
-        public string EndDateString { get; set; }
+        public string? StartDateString { get; set; }
+        public string? EndDateString { get; set; }
 
         public string Brand { get; set; }
         public string CarModel { get; set; }
@@ -39,6 +39,6 @@ namespace VehicleRentalSystem.Models
         public DateTime? PaymentDate { get; set; }
         public string? PaymentDateString { get; set; }
 
-        public string SuccessMessage { get; set; }
+        public string? SuccessMessage { get; set; }
     }
 }
