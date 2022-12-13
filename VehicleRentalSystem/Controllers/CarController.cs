@@ -254,7 +254,8 @@ namespace VehicleRentalSystem.Controllers
         public IActionResult AddBrand(string Brand)
         {
             BrandModel[] brands = _carDataManager.GetBrands();
-            if (brands.Any(x => x.Brand == Brand))
+
+            if (brands.Any(x => string.Equals(x.Brand, Brand, StringComparison.InvariantCultureIgnoreCase)))
             {
                 ModelState.AddModelError("BrandAlreadyExists", "This brand already exists in the system!");
                 return View("AddCarProperties");
@@ -265,10 +266,24 @@ namespace VehicleRentalSystem.Controllers
         }
 
         [HttpPost]
+        public IActionResult AddCarModel(string CarModel)
+        {
+            CarModelModel[] carModels = _carDataManager.GetCarModels();
+            if (carModels.Any(x => string.Equals(x.Model, CarModel, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                ModelState.AddModelError("ModelAlreadyExists", "This model already exists in the system!");
+                return View("AddCarProperties");
+            }
+            _carDataManager.AddCarModel(CarModel);
+
+            return RedirectToAction(nameof(ShowCarProperties));
+        }
+
+        [HttpPost]
         public IActionResult AddFuelType(string FuelType)
         {
             FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
-            if (fuelTypes.Any(x => x.FuelType == FuelType))
+            if (fuelTypes.Any(x => string.Equals(x.FuelType, FuelType, StringComparison.InvariantCultureIgnoreCase)))
             {
                 ModelState.AddModelError("FuelTypeAlreadyExists", "This fuel type already exists in the system!");
                 return View("AddCarProperties");
@@ -282,7 +297,7 @@ namespace VehicleRentalSystem.Controllers
         public IActionResult AddGearboxType(string Gearbox)
         {
             GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
-            if (gearboxTypes.Any(x => x.Gearbox == Gearbox))
+            if (gearboxTypes.Any(x => string.Equals(x.Gearbox, Gearbox, StringComparison.InvariantCultureIgnoreCase)))
             {
                 ModelState.AddModelError("GearboxTypeAlreadyExists", "This gearbox type already exists in the system!");
                 return View("AddCarProperties");
@@ -293,27 +308,13 @@ namespace VehicleRentalSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCarModel(string CarModel)
-        {
-            CarModelModel[] carModels = _carDataManager.GetCarModels();
-            if (carModels.Any(x => x.Model == CarModel))
-            {
-                ModelState.AddModelError("ModelAlreadyExists", "This model already exists in the system!");
-                return View("AddCarProperties");
-            }
-            _carDataManager.AddCarModel(CarModel);
-
-            return RedirectToAction(nameof(ShowCarProperties));
-        }
-
-        [HttpPost]
         public IActionResult AddLocation(string City, string Street, string Number)
         {
             LocationModel[] locations = _carDataManager.GetLocations();
             if (locations.Any(x =>
-            (x.City == City) &&
-            (x.Street == Street) &&
-            (x.Number == Number)))
+            string.Equals(x.City, City, StringComparison.InvariantCultureIgnoreCase) &&
+            string.Equals(x.Street, Street, StringComparison.InvariantCultureIgnoreCase) &&
+            string.Equals(x.Number, Number, StringComparison.InvariantCultureIgnoreCase)))
             {
                 ModelState.AddModelError("LocationAlreadyExists", "This location already exists in the system!");
                 return View("AddCarProperties");
@@ -353,12 +354,16 @@ namespace VehicleRentalSystem.Controllers
             //{
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
-
+            var existingBrand = _carDataManager.GetOneBrand(model.BrandId);
+            
             BrandModel[] brands = _carDataManager.GetBrands();
-            if (brands.Any(x => x.Brand == model.Brand))
+            if (brands.Any(x => string.Equals(x.Brand, model.Brand, StringComparison.InvariantCultureIgnoreCase)))
             {
-                ModelState.AddModelError("BrandAlreadyExists", "This brand already exists in the system!");
-                return View(model);
+                if (!string.Equals(existingBrand.Brand, model.Brand, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    ModelState.AddModelError("BrandAlreadyExists", "This brand already exists in the system!");
+                    return View(model);
+                }
             }
             _carDataManager.EditBrand(model.BrandId, model.Brand);
             return RedirectToAction(nameof(ShowCarProperties));
@@ -383,12 +388,16 @@ namespace VehicleRentalSystem.Controllers
             //{
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
+            var existingModel = _carDataManager.GetOneCarModel(model.CarModelId);
 
             CarModelModel[] carModels = _carDataManager.GetCarModels();
-            if (carModels.Any(x => x.Model == model.CarModel))
+            if (carModels.Any(x => string.Equals(x.Model, model.CarModel, StringComparison.InvariantCultureIgnoreCase)))
             {
-                ModelState.AddModelError("ModelAlreadyExists", "This model already exists in the system!");
-                return View(model);
+                if (!string.Equals(existingModel.Model, model.CarModel, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    ModelState.AddModelError("ModelAlreadyExists", "This model already exists in the system!");
+                    return View(model);
+                }
             }
             _carDataManager.EditCarModel(model.CarModelId, model.CarModel);
             return RedirectToAction(nameof(ShowCarProperties));
@@ -413,12 +422,16 @@ namespace VehicleRentalSystem.Controllers
             //{
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
+            var existingFuelType = _carDataManager.GetOneFuelType(model.FuelTypeId);
 
             FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
-            if (fuelTypes.Any(x => x.FuelType == model.FuelType))
+            if (fuelTypes.Any(x => string.Equals(x.FuelType, model.FuelType, StringComparison.InvariantCultureIgnoreCase)))
             {
-                ModelState.AddModelError("FuelTypeAlreadyExists", "This fuel type already exists in the system!");
-                return View(model);
+                if (!string.Equals(existingFuelType.FuelType, model.FuelType, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    ModelState.AddModelError("FuelTypeAlreadyExists", "This fuel type already exists in the system!");
+                    return View(model);
+                }
             }
             _carDataManager.EditFuelType(model.FuelTypeId, model.FuelType);
             return RedirectToAction(nameof(ShowCarProperties));
@@ -443,12 +456,16 @@ namespace VehicleRentalSystem.Controllers
             //{
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
+            var existingGearboxType = _carDataManager.GetOneGearboxType(model.GearboxId);
 
             GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
-            if (gearboxTypes.Any(x => x.Gearbox == model.Gearbox))
+            if (gearboxTypes.Any(x => string.Equals(x.Gearbox, model.Gearbox, StringComparison.InvariantCultureIgnoreCase)))
             {
-                ModelState.AddModelError("GearboxTypeAlreadyExists", "This gearbox type already exists in the system!");
-                return View(model);
+                if (!string.Equals(existingGearboxType.Gearbox, model.Gearbox, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    ModelState.AddModelError("GearboxTypeAlreadyExists", "This gearbox type already exists in the system!");
+                    return View(model);
+                }
             }
             _carDataManager.EditGearboxType(model.GearboxId, model.Gearbox);
             return RedirectToAction(nameof(ShowCarProperties));
@@ -473,15 +490,19 @@ namespace VehicleRentalSystem.Controllers
             //{
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
+            var existingLocation = _carDataManager.GetOneLocation(model.LocationId);
 
             LocationModel[] locations = _carDataManager.GetLocations();
             if (locations.Any(x =>
-            (x.City == model.City) &&
-            (x.Street == model.Street) &&
-            (x.Number == model.Number)))
+            string.Equals(x.City, model.City, StringComparison.InvariantCultureIgnoreCase) &&
+            string.Equals(x.Street, model.Street, StringComparison.InvariantCultureIgnoreCase) &&
+            string.Equals(x.Number, model.Number, StringComparison.InvariantCultureIgnoreCase)))
             {
-                ModelState.AddModelError("LocationAlreadyExists", "This location already exists in the system!");
-                return View(model);
+                if (!string.Equals(existingLocation.FullLocation, model.FullLocation, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    ModelState.AddModelError("LocationAlreadyExists", "This location already exists in the system!");
+                    return View(model);
+                }
             }
             _carDataManager.EditLocation(model.LocationId, model.City, model.Street, model.Number);
             return RedirectToAction(nameof(ShowCarProperties));
@@ -586,6 +607,10 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddFeedback(Guid CarId, string comment)
         {
+            if (string.IsNullOrWhiteSpace(comment))
+            {
+                return RedirectToAction(nameof(OpenCar), new { CarId });
+            }
             var user = _userManager.GetUserAsync(User).Result;
             _carDataManager.AddFeedback(CarId, comment, user);
 

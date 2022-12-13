@@ -65,7 +65,7 @@
 
     <form asp-action="AddFeedback" method="post">
         <label for="new-comment">Add comment:</label>
-        <input type="text" id="new-comment" name="comment" />
+        <input type="text" id="new-comment" name="comment"/>
         <input type="submit" value="Submit" />
         @Html.Hidden("CarId", Model.Id)
     </form>

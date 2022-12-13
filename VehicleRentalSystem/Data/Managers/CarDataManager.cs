@@ -168,7 +168,10 @@ namespace VehicleRentalSystem.Data.Managers
             item.AirConditioner = airConditioner;
             item.Availability = availability;
             item.DailyPrice = dailyPrice;
-            item.ImagePath = imagePath;
+            if(!string.IsNullOrEmpty(imagePath))
+            {
+                item.ImagePath = imagePath;
+            }
             item.Location = location;
 
             _dbContext.SaveChanges();
@@ -556,8 +559,11 @@ namespace VehicleRentalSystem.Data.Managers
             var result = _dbContext
                 .Reservations
                 .Include(x => x.Payment)
-                .Include(x => x.Car)
                 .Include(x => x.User)
+                .Include(x => x.Car)
+                .ThenInclude(x=>x.Brand)
+                .Include(x=>x.Car)
+                .ThenInclude(x=>x.Model)
                 .ToArray();
 
             return result;
@@ -593,6 +599,10 @@ namespace VehicleRentalSystem.Data.Managers
         {
             var result = _dbContext
                 .Reservations
+                .Include(x => x.Car)
+                .ThenInclude(x => x.Brand)
+                .Include(x => x.Car)
+                .ThenInclude(x => x.Model)
                 .Include(x => x.User)
                 .Where(x => x.User == user)
                 .ToArray();
