@@ -68,7 +68,6 @@ namespace VehicleRentalSystem.Models
         [Required(ErrorMessage = "The field Availability is required.")]
         public bool Availability { get; set; }
 
-        //[Required(ErrorMessage = "Image is required.")]
         public IFormFile? File { get; set; }
         public string? ImagePath { get; set; }
         #endregion

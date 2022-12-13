@@ -16,7 +16,7 @@ namespace VehicleRentalSystem.Models
         public bool AirConditioner { get; set; }
         public bool Availability { get; set; }
         public float DailyPrice { get; set; }
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
 
         public BrandModel Brand { get; set; }
         public FuelTypeModel FuelType { get; set; }
