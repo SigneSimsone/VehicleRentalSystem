@@ -3,6 +3,8 @@ using VehicleRentalSystem.Data;
 using VehicleRentalSystem.Data.Managers;
 using VehicleRentalSystem.Models;
 using Microsoft.AspNetCore.Identity;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +26,18 @@ builder.Services.AddDefaultIdentity<UserModel>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
     .AddDefaultTokenProviders();
+
+
+
+// Add ToastNotification
+builder.Services.AddNotyf(config =>
+{
+    config.DurationInSeconds = 5;
+    config.IsDismissable = true;
+    config.Position = NotyfPosition.TopRight;
+});
+
+
 
 /*builder.Services
     .AddControllersWithViews()
@@ -75,6 +89,9 @@ app.UseRouting();
 app.UseAuthentication(); ;
 
 app.UseAuthorization();
+
+app.UseNotyf();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(

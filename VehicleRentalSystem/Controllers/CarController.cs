@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VehicleRentalSystem.Data.Managers;
@@ -11,12 +12,14 @@ namespace VehicleRentalSystem.Controllers
         private readonly CarDataManager _carDataManager;
         private readonly UserManager<UserModel> _userManager;
         private readonly IWebHostEnvironment _hostingEnv;
+        private readonly INotyfService _notyfService;
 
-        public CarController(CarDataManager carDataManager, UserManager<UserModel> userManager, IWebHostEnvironment hostingEnv)
+        public CarController(CarDataManager carDataManager, UserManager<UserModel> userManager, IWebHostEnvironment hostingEnv, INotyfService notyfService)
         {
             _carDataManager = carDataManager;
             _userManager = userManager;
             _hostingEnv = hostingEnv;
+            _notyfService = notyfService;
         }
 
         [HttpGet]
@@ -355,7 +358,7 @@ namespace VehicleRentalSystem.Controllers
             //    return RedirectToAction(nameof(ShowCarProperties), model);
             //}
             var existingBrand = _carDataManager.GetOneBrand(model.BrandId);
-            
+
             BrandModel[] brands = _carDataManager.GetBrands();
             if (brands.Any(x => string.Equals(x.Brand, model.Brand, StringComparison.InvariantCultureIgnoreCase)))
             {
@@ -530,7 +533,7 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                ModelState.AddModelError("BrandMessage", "Can't delete a brand with an existing car!");
+                _notyfService.Error("Can not delete a brand with an existing car!");
                 return RedirectToAction(nameof(ShowCarProperties));
             }
 
@@ -546,7 +549,7 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                ModelState.AddModelError("CarModelMessage", "Can't delete a model with an existing car!");
+                _notyfService.Error("Can not delete a model with an existing car!");
                 return RedirectToAction(nameof(ShowCarProperties));
             }
 
@@ -562,7 +565,7 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                ModelState.AddModelError("FuelTypeMessage", "Can't delete a fuel type with an existing car!");
+                _notyfService.Error("Can not delete a fuel type with an existing car!");
                 return RedirectToAction(nameof(ShowCarProperties));
             }
 
@@ -578,7 +581,7 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                ModelState.AddModelError("GearboxMessage", "Can't delete a gearbox type with an existing car!");
+                _notyfService.Error("Can not delete a gearbox type with an existing car!");
                 return RedirectToAction(nameof(ShowCarProperties));
             }
 
@@ -594,7 +597,7 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                ModelState.AddModelError("LocationMessage", "Can't delete a location with an existing car!");
+                _notyfService.Error("Can not delete a location with an existing car!");
                 return RedirectToAction(nameof(ShowCarProperties));
             }
 
