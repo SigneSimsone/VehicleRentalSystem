@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VehicleRentalSystem.Data.Managers;
 using VehicleRentalSystem.Models;
+using AspNetCoreHero.ToastNotification.Abstractions;
+
 
 namespace VehicleRentalSystem.Controllers
 {
@@ -10,11 +12,12 @@ namespace VehicleRentalSystem.Controllers
     {
         private readonly CarDataManager _carDataManager;
         private readonly UserManager<UserModel> _userManager;
-
-        public ReservationController(CarDataManager carDataManager, UserManager<UserModel> userManager)
+        private readonly INotyfService _notyfService;
+        public ReservationController(CarDataManager carDataManager, UserManager<UserModel> userManager, INotyfService notyfService)
         {
             _carDataManager = carDataManager;
             _userManager = userManager;
+            _notyfService = notyfService;
         }
 
         [HttpGet]
@@ -61,7 +64,6 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReservation(ReservationViewModel model)
         {
-            //nav valid - nevar saglabat
             //if (!ModelState.IsValid)
             //{
             //    return RedirectToAction(nameof(AddReservation), model);
@@ -69,14 +71,14 @@ namespace VehicleRentalSystem.Controllers
 
             if (model.StartDate < DateTime.Now || model.StartDate > model.EndDate || model.EndDate < DateTime.Now)
             {
-                ModelState.AddModelError("IncorrectDates", "Please input correct dates");
+                ModelState.AddModelError("IncorrectDates", "Please input correct dates! Dates cannot be in the past. End date has to be larger than start date.");
                 return View(nameof(AddReservation), model);
             }
 
             ReservationModel[] reservations = _carDataManager.CheckIfDatesValid(model.CarId, model.StartDate, model.EndDate);
             if (reservations.Any())
             {
-                ModelState.AddModelError("CarNotAvailable", "this car not available for this period");
+                ModelState.AddModelError("CarNotAvailable", "This car is not available for the selected time period.");
                 return View(nameof(AddReservation), model);
             }
 
@@ -162,6 +164,7 @@ namespace VehicleRentalSystem.Controllers
         {
             ReservationModel reservation = _carDataManager.GetOneReservation(ReservationId);
             _carDataManager.AddPaymentDate(reservation.PaymentId, PaymentDate);
+            _notyfService.Success("Payment date added successfully!");
 
             return RedirectToAction(nameof(AllReservations));
         }

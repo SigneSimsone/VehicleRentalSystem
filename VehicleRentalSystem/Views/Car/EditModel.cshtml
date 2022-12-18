@@ -1,9 +1,5 @@
 ﻿@model CarPropertiesViewModel
 
-<div>
-    @Html.ValidationMessage("ModelAlreadyExists")
-</div>
-
 <h5>Edit the car model:</h5>
 <form asp-action="EditModel" method="post" enctype="multipart/form-data">
     @Html.Hidden("CarModelId", Model.CarModelId)

@@ -5,14 +5,6 @@
 </form>
 <br />
 
-<div>
-    @Html.ValidationMessage("BrandMessage")
-    @Html.ValidationMessage("CarModelMessage")
-    @Html.ValidationMessage("FuelTypeMessage")
-    @Html.ValidationMessage("GearboxMessage")
-    @Html.ValidationMessage("LocationMessage")
-</div>
-
 @if (Model != null && Model.Brands != null && Model.Brands.Any())
 {
     <h3 id="brands">Brands</h3>

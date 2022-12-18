@@ -1,12 +1,5 @@
 ﻿@model CarViewModel
 
-<div class="message">
-    @if (!string.IsNullOrEmpty(Model.SameRegNrMessage))
-    {
-        <p><strong>@Model.SameRegNrMessage </strong></p>
-    }
-</div>
-
 <h5>Add a new car:</h5>
 <form asp-action="AddCar" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

@@ -51,7 +51,7 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                model.SameRegNrMessage = "Car with the same registration number already exists!";
+                _notyfService.Error("Car with the same registration number already exists!");
                 return View("AddCar", model);
             }
 
@@ -77,6 +77,7 @@ namespace VehicleRentalSystem.Controllers
             }
 
             _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year.Value, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage.Value, model.Passengers.Value, model.Luggage.Value, model.Doors.Value, model.AirConditioner, model.Availability, model.DailyPrice.Value, relativeFilePath, locationmodel);
+            _notyfService.Success("Car added successfully!");
 
             return RedirectToAction(nameof(Index));
         }
@@ -93,8 +94,8 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                model.SameRegNrMessage = "Car with the same registration number already exists!";
-                return RedirectToAction(nameof(Index), model);
+                _notyfService.Error("Car with the same registration number already exists!");
+                return RedirectToAction(nameof(Edit), model);
             }
 
             string relativeFilePath = null;
@@ -119,6 +120,7 @@ namespace VehicleRentalSystem.Controllers
             }
 
             _carDataManager.Edit(CarId, brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year.Value, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage.Value, model.Passengers.Value, model.Luggage.Value, model.Doors.Value, model.AirConditioner, model.Availability, model.DailyPrice.Value, relativeFilePath, locationmodel);
+            _notyfService.Success("Car edited successfully!");
 
             return RedirectToAction(nameof(Index));
         }
@@ -187,14 +189,12 @@ namespace VehicleRentalSystem.Controllers
 
             if (reservations.Any())
             {
-                //CarViewModel viewModel = new CarViewModel();
-                //viewModel.ActiveReservationsMessage = "Can't delete a car with active reservations!";
-                //return RedirectToAction(nameof(Index), viewModel);
-                ModelState.AddModelError("ActiveReservationsMessage", "Can't delete a car with active reservations!");
-                return View(nameof(Index));
+                _notyfService.Error("Cannot delete a car with active reservations!");
+                return RedirectToAction(nameof(Index));
             }
 
             _carDataManager.Delete(CarId);
+            _notyfService.Success("Car deleted successfully!");
 
             return RedirectToAction(nameof(Index));
         }
@@ -211,8 +211,7 @@ namespace VehicleRentalSystem.Controllers
 
             if (!cars.Any())
             {
-                //viewModel.NoCarFoundMessage = "No cars were found!";
-                ModelState.AddModelError("NoCarFoundMessage", "No cars were found!");
+                ModelState.AddModelError("NoCarFoundMessage", "No cars were found that match your criteria!");
             }
 
             return View("Index", viewModel);
@@ -260,10 +259,11 @@ namespace VehicleRentalSystem.Controllers
 
             if (brands.Any(x => string.Equals(x.Brand, Brand, StringComparison.InvariantCultureIgnoreCase)))
             {
-                ModelState.AddModelError("BrandAlreadyExists", "This brand already exists in the system!");
+                _notyfService.Error("This brand already exists in the system!");
                 return View("AddCarProperties");
             }
             _carDataManager.AddBrand(Brand);
+            _notyfService.Success("Brand added successfully!");
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -274,10 +274,11 @@ namespace VehicleRentalSystem.Controllers
             CarModelModel[] carModels = _carDataManager.GetCarModels();
             if (carModels.Any(x => string.Equals(x.Model, CarModel, StringComparison.InvariantCultureIgnoreCase)))
             {
-                ModelState.AddModelError("ModelAlreadyExists", "This model already exists in the system!");
+                _notyfService.Error("This model already exists in the system!");
                 return View("AddCarProperties");
             }
             _carDataManager.AddCarModel(CarModel);
+            _notyfService.Success("Model added successfully!");
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -288,10 +289,11 @@ namespace VehicleRentalSystem.Controllers
             FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
             if (fuelTypes.Any(x => string.Equals(x.FuelType, FuelType, StringComparison.InvariantCultureIgnoreCase)))
             {
-                ModelState.AddModelError("FuelTypeAlreadyExists", "This fuel type already exists in the system!");
+                _notyfService.Error("This fuel type already exists in the system!");
                 return View("AddCarProperties");
             }
             _carDataManager.AddFuelType(FuelType);
+            _notyfService.Success("Fuel type added successfully!");
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -302,10 +304,11 @@ namespace VehicleRentalSystem.Controllers
             GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
             if (gearboxTypes.Any(x => string.Equals(x.Gearbox, Gearbox, StringComparison.InvariantCultureIgnoreCase)))
             {
-                ModelState.AddModelError("GearboxTypeAlreadyExists", "This gearbox type already exists in the system!");
+                _notyfService.Error("This gearbox type already exists in the system!");
                 return View("AddCarProperties");
             }
             _carDataManager.AddGearboxType(Gearbox);
+            _notyfService.Success("Gearbox type added successfully!");
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -319,10 +322,11 @@ namespace VehicleRentalSystem.Controllers
             string.Equals(x.Street, Street, StringComparison.InvariantCultureIgnoreCase) &&
             string.Equals(x.Number, Number, StringComparison.InvariantCultureIgnoreCase)))
             {
-                ModelState.AddModelError("LocationAlreadyExists", "This location already exists in the system!");
+                _notyfService.Error("This location already exists in the system!");
                 return View("AddCarProperties");
             }
             _carDataManager.AddLocation(City, Street, Number);
+            _notyfService.Success("Location added successfully!");
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -364,11 +368,13 @@ namespace VehicleRentalSystem.Controllers
             {
                 if (!string.Equals(existingBrand.Brand, model.Brand, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    ModelState.AddModelError("BrandAlreadyExists", "This brand already exists in the system!");
+                    _notyfService.Error("This brand already exists in the system!");
                     return View(model);
                 }
             }
             _carDataManager.EditBrand(model.BrandId, model.Brand);
+            _notyfService.Success("Brand edited successfully!");
+
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
@@ -398,11 +404,13 @@ namespace VehicleRentalSystem.Controllers
             {
                 if (!string.Equals(existingModel.Model, model.CarModel, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    ModelState.AddModelError("ModelAlreadyExists", "This model already exists in the system!");
+                    _notyfService.Error("This model already exists in the system!");
                     return View(model);
                 }
             }
             _carDataManager.EditCarModel(model.CarModelId, model.CarModel);
+            _notyfService.Success("Model edited successfully!");
+
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
@@ -432,11 +440,13 @@ namespace VehicleRentalSystem.Controllers
             {
                 if (!string.Equals(existingFuelType.FuelType, model.FuelType, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    ModelState.AddModelError("FuelTypeAlreadyExists", "This fuel type already exists in the system!");
+                    _notyfService.Error("This fuel type already exists in the system!");
                     return View(model);
                 }
             }
             _carDataManager.EditFuelType(model.FuelTypeId, model.FuelType);
+            _notyfService.Success("Fuel type edited successfully!");
+
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
@@ -466,11 +476,13 @@ namespace VehicleRentalSystem.Controllers
             {
                 if (!string.Equals(existingGearboxType.Gearbox, model.Gearbox, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    ModelState.AddModelError("GearboxTypeAlreadyExists", "This gearbox type already exists in the system!");
+                    _notyfService.Error("This gearbox type already exists in the system!");
                     return View(model);
                 }
             }
             _carDataManager.EditGearboxType(model.GearboxId, model.Gearbox);
+            _notyfService.Success("Gearbox type edited successfully!");
+
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
@@ -503,11 +515,13 @@ namespace VehicleRentalSystem.Controllers
             {
                 if (!string.Equals(existingLocation.FullLocation, model.FullLocation, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    ModelState.AddModelError("LocationAlreadyExists", "This location already exists in the system!");
+                    _notyfService.Error("This location already exists in the system!");
                     return View(model);
                 }
             }
             _carDataManager.EditLocation(model.LocationId, model.City, model.Street, model.Number);
+            _notyfService.Success("Location edited successfully!");
+
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
@@ -533,11 +547,12 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                _notyfService.Error("Can not delete a brand with an existing car!");
+                _notyfService.Error("Cannot delete a brand with an existing car!");
                 return RedirectToAction(nameof(ShowCarProperties));
             }
 
             _carDataManager.DeleteBrand(BrandId);
+            _notyfService.Success("Brand deleted successfully!");
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -549,11 +564,12 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                _notyfService.Error("Can not delete a model with an existing car!");
+                _notyfService.Error("Cannot delete a model with an existing car!");
                 return RedirectToAction(nameof(ShowCarProperties));
             }
 
             _carDataManager.DeleteCarModel(CarModelId);
+            _notyfService.Success("Model deleted successfully!");
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -565,11 +581,12 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                _notyfService.Error("Can not delete a fuel type with an existing car!");
+                _notyfService.Error("Cannot delete a fuel type with an existing car!");
                 return RedirectToAction(nameof(ShowCarProperties));
             }
 
             _carDataManager.DeleteFuelType(FuelTypeId);
+            _notyfService.Success("Fuel type deleted successfully!");
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -581,11 +598,12 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                _notyfService.Error("Can not delete a gearbox type with an existing car!");
+                _notyfService.Error("Cannot delete a gearbox type with an existing car!");
                 return RedirectToAction(nameof(ShowCarProperties));
             }
 
             _carDataManager.DeleteGearboxType(GearboxTypeId);
+            _notyfService.Success("Gearbox type deleted successfully!");
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -597,11 +615,12 @@ namespace VehicleRentalSystem.Controllers
 
             if (cars.Any())
             {
-                _notyfService.Error("Can not delete a location with an existing car!");
+                _notyfService.Error("Cannot delete a location with an existing car!");
                 return RedirectToAction(nameof(ShowCarProperties));
             }
 
             _carDataManager.DeleteLocation(LocationId);
+            _notyfService.Success("Location deleted successfully!");
 
             return RedirectToAction(nameof(ShowCarProperties));
         }
@@ -612,10 +631,12 @@ namespace VehicleRentalSystem.Controllers
         {
             if (string.IsNullOrWhiteSpace(comment))
             {
+                _notyfService.Error("Please input your comment!");
                 return RedirectToAction(nameof(OpenCar), new { CarId });
             }
             var user = _userManager.GetUserAsync(User).Result;
             _carDataManager.AddFeedback(CarId, comment, user);
+            _notyfService.Success("Feedback added successfully!");
 
             return RedirectToAction(nameof(OpenCar), new { CarId });
         }
@@ -624,6 +645,7 @@ namespace VehicleRentalSystem.Controllers
         public IActionResult DeleteFeedback(Guid FeedbackId, Guid CarId)
         {
             _carDataManager.DeleteFeedback(FeedbackId);
+            _notyfService.Success("Feedback deleted successfully!");
 
             return RedirectToAction(nameof(OpenCar), new { CarId });
         }

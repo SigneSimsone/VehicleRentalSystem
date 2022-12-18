@@ -6,6 +6,8 @@ using VehicleRentalSystem.Data.Managers;
 using VehicleRentalSystem.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
+
 
 namespace VehicleRentalSystem.Controllers
 {
@@ -14,12 +16,14 @@ namespace VehicleRentalSystem.Controllers
         private readonly AdminDataManager _adminDataManager;
         private readonly UserManager<UserModel> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly INotyfService _notyfService;
 
-        public AdminController(AdminDataManager adminDataManager, UserManager<UserModel> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminController(AdminDataManager adminDataManager, UserManager<UserModel> userManager, RoleManager<IdentityRole> roleManager, INotyfService notyfService)
         {
             _adminDataManager = adminDataManager;
             _userManager = userManager;
             _roleManager = roleManager;
+            _notyfService = notyfService;
         }
 
         [HttpGet]
@@ -53,8 +57,6 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRole(AdminViewModel model)
         {
-
-
             //Creating new role
             bool roleExists = await _roleManager.RoleExistsAsync(model.NewRole);
             if (!roleExists)
@@ -65,10 +67,9 @@ namespace VehicleRentalSystem.Controllers
             }
             else
             {
-                ModelState.AddModelError("RoleAlreadyExists", "This role already exists in the system!");
+                _notyfService.Error("This role already exists in the system!");
                 return RedirectToAction(nameof(Index), model);
             }
-
 
             return RedirectToAction(nameof(Index));
         }
@@ -83,12 +84,14 @@ namespace VehicleRentalSystem.Controllers
 
             if (roleExists)
             {
-
                 if (!await _userManager.IsInRoleAsync(user, model.SelectedRole))
                 {
                     await _userManager.AddToRoleAsync(user, model.SelectedRole);
                 }
-
+                else
+                {
+                    _notyfService.Error("This user already has this role!");
+                }
             }
 
             return RedirectToAction(nameof(Index));

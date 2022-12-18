@@ -10,11 +10,6 @@ namespace VehicleRentalSystem.Models
         public CarModel[]? Cars { get; set; }
         public string? UserId { get; set; }
 
-        //public string? NoCarFoundMessage { get; set; }
-        public string? SameRegNrMessage { get; set; }
-
-        //public string? ActiveReservationsMessage { get; set; }
-
         public SelectList? BrandDropdown { get; set; }
         public SelectList? CarModelDropdown { get; set; }
         public SelectList? GearboxTypeDropdown { get; set; }
