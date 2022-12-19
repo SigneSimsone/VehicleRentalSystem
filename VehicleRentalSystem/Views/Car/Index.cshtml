@@ -10,25 +10,8 @@
 </form>
 <br />
 
-@*<div class="message">
-    @if (!string.IsNullOrEmpty(Model.NoCarFoundMessage))
-    {
-        <p><strong>@Model.NoCarFoundMessage </strong></p>
-    }
-</div>*@
 <div>
     @Html.ValidationMessage("NoCarFoundMessage")
-</div>
-
-@*<div class="message">
-    @if (!string.IsNullOrEmpty(Model.ActiveReservationsMessage))
-    {
-        <p><strong>@Model.ActiveReservationsMessage </strong></p>
-    }
-</div>*@
-
-<div>
-    @Html.ValidationMessage("ActiveReservationsMessage")
 </div>
 
 
@@ -53,7 +36,7 @@
                 <tr>
                     <td>@car.Brand.Brand</td>
                     <td>@car.Model.Model</td>
-                    <td><img src="@car.ImagePath" width="200"></td>
+                    <td><img src="@car.ImagePath" class="img-fluid" width="200"></td>
                     <td>
                         <form asp-action="OpenCar" method="get">
                             <input type="submit" value="Open" />

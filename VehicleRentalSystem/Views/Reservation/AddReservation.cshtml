@@ -51,18 +51,6 @@
                         <input asp-for="EndDate" class="form-control" type = "datetime-local" value=""/>
                         <span asp-validation-for="EndDate" class="text-danger"></span><br />
 
-                        @*<div class="mb-3 row">
-                            <label class="col-3 col-form-label text-info">Reservation start date</label>
-                            <div class="col-9">
-                                @Html.TextBoxFor(m => m.StartDate, new { @case = "form-control", placeholder = "Enter start date", type = "datetime-local"})
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label text-info">Reservation end date</label>
-                            <div class="col-9">
-                                @Html.TextBoxFor(m => m.EndDate, new { @case = "form-control", placeholder = "Enter end date", type = "datetime-local"})
-                            </div>
-                        </div>*@
                         <div class="mb-3">
                             <button class="btn btn-sm p-2 btn-success" type="submit">Save</button>
                         </div>
