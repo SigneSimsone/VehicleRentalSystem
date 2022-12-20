@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using VehicleRentalSystem.Data.Managers;
 using VehicleRentalSystem.Models;
 
 namespace VehicleRentalSystem.Areas.Identity.Pages.Account.Manage
@@ -18,15 +19,18 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
+        private readonly CarDataManager _carDataManager;
 
         public DeletePersonalDataModel(
             UserManager<UserModel> userManager,
             SignInManager<UserModel> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
+            ILogger<DeletePersonalDataModel> logger,
+            CarDataManager carDataManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            this._carDataManager = carDataManager;
         }
 
         /// <summary>
@@ -87,6 +91,7 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            _carDataManager.DeleteUserReservations(user);
             var result = await _userManager.DeleteAsync(user);
             var userId = await _userManager.GetUserIdAsync(user);
             if (!result.Succeeded)

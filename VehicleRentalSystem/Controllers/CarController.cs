@@ -92,10 +92,19 @@ namespace VehicleRentalSystem.Controllers
 
             CarModel[] cars = _carDataManager.GetCarsByRegNr(model.RegistrationNumber);
 
-            if (cars.Any())
+            //if (cars.Any())
+            //{
+            //    _notyfService.Error("Car with the same registration number already exists!");
+            //    return RedirectToAction(nameof(Edit), model);
+            //}
+            var existingCar = _carDataManager.GetOneCar(CarId);
+            if (cars.Any(x => string.Equals(x.RegistrationNumber, model.RegistrationNumber, StringComparison.InvariantCultureIgnoreCase)))
             {
-                _notyfService.Error("Car with the same registration number already exists!");
-                return RedirectToAction(nameof(Edit), model);
+                if (!string.Equals(existingCar.RegistrationNumber, model.RegistrationNumber, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    _notyfService.Error("Car with the same registration number already exists!");
+                    return RedirectToAction(nameof(Edit), model);
+                }
             }
 
             string relativeFilePath = null;
@@ -248,6 +257,7 @@ namespace VehicleRentalSystem.Controllers
 
             viewModel.FuelConsumption = null;
 
+            ModelState.Clear();
             return View("AddCar", viewModel);
         }
 
@@ -362,10 +372,10 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> EditBrand(CarPropertiesViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return RedirectToAction(nameof(ShowCarProperties), model);
-            //}
+            if (string.IsNullOrWhiteSpace(model.Brand))
+            {
+                return RedirectToAction(nameof(ShowCarProperties), model);
+            }
             var existingBrand = _carDataManager.GetOneBrand(model.BrandId);
 
             BrandModel[] brands = _carDataManager.GetBrands();

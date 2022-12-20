@@ -31,14 +31,13 @@
 @if (Model != null)
 {
     <h2 id="users">Users</h2>
-    <table id="UsersTable">
-        <thead id="thead">
+    <table class="table" id="UsersTable">
+        <thead class="thead-light" id="thead">
             <tr>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Email</th>
-
-                <th>User roles</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Email</th>
+                <th scope="col">Roles</th>
             </tr>
         </thead>
         <tbody id="tbody">
@@ -46,7 +45,7 @@
             {
                 if (user.EmailConfirmed == true)
                 {
-                    <tr>
+                    <tr scope="row">
                         <td>@user.Name</td>
                         <td>@user.Surname</td>
                         <td>@user.Email</td>

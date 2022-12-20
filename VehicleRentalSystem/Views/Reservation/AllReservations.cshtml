@@ -3,24 +3,24 @@
 @if (Model != null && Model.Reservations.Length > 0)
 {
     <h2 id="AllUserReservations">All Reservations</h2>
-    <table id="AllUserReservationsTable">
-        <thead id="thead">
+    <table class="table" id="AllUserReservationsTable">
+        <thead class="thead-light" id="thead">
             <tr>
-                <th>User</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th>Car Brand</th>
-                <th>Car Model</th>
-                <th>Payment Date</th>
-                <th>Open</th>
-                <th>Cancel</th>
-                <th>Add Payment Date</th>
+                <th scope="col">User</th>
+                <th scope="col">StartDate</th>
+                <th scope="col">EndDate</th>
+                <th scope="col">Car Brand</th>
+                <th scope="col">Car Model</th>
+                <th scope="col">Payment Date</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody id="tbody">
             @foreach (var reservation in Model.Reservations)
             {
-                <tr>
+                <tr scope="row">
                     <td>@reservation.User.Email</td>
                     <td>@reservation.StartDate</td>
                     <td>@reservation.EndDate</td>

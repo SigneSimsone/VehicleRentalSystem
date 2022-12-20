@@ -650,6 +650,17 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext.SaveChanges();
         }
 
+        internal void DeleteUserReservations(UserModel user)
+        {
+            var items = _dbContext
+                .Reservations
+                .Where(x => x.User == user)
+                .ToArray();
+
+            _dbContext.Reservations.RemoveRange(items);
+            _dbContext.SaveChanges();
+        }
+
 
         internal Guid AddPayment(double amount)
         {

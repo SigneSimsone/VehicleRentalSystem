@@ -3,15 +3,15 @@
 @if (Model != null && Model.Reservations.Length > 0)
 {
     <h2 id="UserReservations">My Reservations</h2>
-    <table id="UserReservationsTable">
-        <thead id="thead">
+    <table class="table" id="UserReservationsTable">
+        <thead class="thead-light" id="thead">
             <tr>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th>Car Brand</th>
-                <th>Car Model</th>
-                <th>Open</th>
-                <th>Cancel</th>
+                <th scope="col">StartDate</th>
+                <th scope="col">EndDate</th>
+                <th scope="col">Car Brand</th>
+                <th scope="col">Car Model</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody id="tbody">
@@ -19,7 +19,7 @@
             {
                 if (reservation.User.Id == Model.UserId)
                 {
-                    <tr>
+                    <tr scope="row">
                         <td>@reservation.StartDate</td>
                         <td>@reservation.EndDate</td>
                         <td>@reservation.Car.Brand.Brand</td>
