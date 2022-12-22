@@ -64,11 +64,6 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReservation(ReservationViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return RedirectToAction(nameof(AddReservation), model);
-            //}
-
             if (model.StartDate < DateTime.Now || model.StartDate > model.EndDate || model.EndDate < DateTime.Now)
             {
                 ModelState.AddModelError("IncorrectDates", "Please input correct dates! Dates cannot be in the past. End date has to be larger than start date.");
@@ -127,11 +122,7 @@ namespace VehicleRentalSystem.Controllers
 
             ReservationViewModel viewModel = new ReservationViewModel();
             var reservations = _carDataManager.GetUserReservations(user);
-            /*if(!reservations.Any())
-            {
-                ModelState.AddModelError("NoUserReservations", "You don't have any reservations!");
-                return View("UserReservationHistory", viewModel);
-            }*/
+
             viewModel.Reservations = reservations;
             viewModel.UserId = user.Id;
 
@@ -145,12 +136,6 @@ namespace VehicleRentalSystem.Controllers
             ReservationViewModel viewModel = new ReservationViewModel();
             var reservations = _carDataManager.GetReservations();
             CarModel[] car = _carDataManager.GetCars();
-
-            /*if (!reservations.Any())
-            {
-                ModelState.AddModelError("NoReservations", "There aren't any reservations!");
-                return View("UserReservationHistory", viewModel);
-            }*/
 
             viewModel.Reservations = reservations;
             viewModel.UserId = user.Id;

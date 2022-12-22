@@ -14,57 +14,59 @@
     @Html.ValidationMessage("NoCarFoundMessage")
 </div>
 
-
-@if (Model != null && Model.Cars != null && Model.Cars.Any())
-{
-    <h2 id="cars">Cars</h2>
-    <table id="CarsTable">
-        <thead id="thead">
-            <tr>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Image</th>
-                <th>Open</th>
-                <th>Rent</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody id="tbody">
-            @foreach (var car in Model.Cars)
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            @if (Model != null && Model.Cars != null && Model.Cars.Any())
             {
-                <tr>
-                    <td>@car.Brand.Brand</td>
-                    <td>@car.Model.Model</td>
-                    <td><img src="@car.ImagePath" class="img-fluid" width="200"></td>
-                    <td>
-                        <form asp-action="OpenCar" method="get">
-                            <input type="submit" value="Open" />
-                            @Html.Hidden("CarId", car.Id)
-                        </form>
-                    </td>
-                    <td>
-                        <form asp-controller="Reservation" asp-action="AddReservation" method="get">
-                            <input type="submit" value="Rent" />
-                            @Html.Hidden("CarId", car.Id)
-                        </form>
-                    </td>
-                    <td>
-                        <form asp-action="Edit" method="get">
-                            <input type="submit" value="Edit" />
-                            @Html.Hidden("CarId", car.Id)
-                        </form>
-                    </td>
-                    <td>
-                        <form asp-action="Delete" method="post">
-                            <input type="submit" value="Delete" />
-                            @Html.Hidden("CarId", car.Id)
-                            @Html.Hidden("Feedbacks", car.Feedbacks)
-                        </form>
-                    </td>
+                <h2 id="cars">Cars</h2>
+                @foreach (var car in Model.Cars)
+                {
+                    <div class="card-deck" id="Cars">
+                        <div class="card" id="tbody">
 
-                </tr>
+                            <img src="@car.ImagePath" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">@car.Brand.Brand @car.Model.Model</h5>
+                                <p class="card-text">@car.DailyPrice EUR/day</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col">
+                                        <form asp-action="OpenCar" method="get">
+                                            <input type="submit" value="Open" />
+                                            @Html.Hidden("CarId", car.Id)
+                                        </form>
+                                    </div>
+                                    <div class="col">
+                                        <form asp-controller="Reservation" asp-action="AddReservation" method="get">
+                                            <input type="submit" value="Rent" />
+                                            @Html.Hidden("CarId", car.Id)
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <form asp-action="Edit" method="get">
+                                            <input type="submit" value="Edit" />
+                                            @Html.Hidden("CarId", car.Id)
+                                        </form>
+                                    </div>
+                                    <div class="col">
+                                        <form asp-action="Delete" method="post">
+                                            <input type="submit" value="Delete" />
+                                            @Html.Hidden("CarId", car.Id)
+                                            @Html.Hidden("Feedbacks", car.Feedbacks)
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                }
             }
-        </tbody>
-    </table>
-}
+        </div>
+    </div>
+</div>

@@ -57,6 +57,11 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRole(AdminViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.NewRole))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             //Creating new role
             bool roleExists = await _roleManager.RoleExistsAsync(model.NewRole);
             if (!roleExists)
@@ -78,6 +83,11 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserToRole(AdminViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.SelectedRole) || string.IsNullOrWhiteSpace(model.SelectedUser))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             var user = _adminDataManager.GetOneUserByEmail(model.SelectedUser);
 
             bool roleExists = await _roleManager.RoleExistsAsync(model.SelectedRole);

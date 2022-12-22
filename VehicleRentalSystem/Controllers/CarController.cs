@@ -92,11 +92,6 @@ namespace VehicleRentalSystem.Controllers
 
             CarModel[] cars = _carDataManager.GetCarsByRegNr(model.RegistrationNumber);
 
-            //if (cars.Any())
-            //{
-            //    _notyfService.Error("Car with the same registration number already exists!");
-            //    return RedirectToAction(nameof(Edit), model);
-            //}
             var existingCar = _carDataManager.GetOneCar(CarId);
             if (cars.Any(x => string.Equals(x.RegistrationNumber, model.RegistrationNumber, StringComparison.InvariantCultureIgnoreCase)))
             {
@@ -270,6 +265,11 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddBrand(string Brand)
         {
+            if (string.IsNullOrWhiteSpace(Brand))
+            {
+                return View("AddCarProperties");
+            }
+
             BrandModel[] brands = _carDataManager.GetBrands();
 
             if (brands.Any(x => string.Equals(x.Brand, Brand, StringComparison.InvariantCultureIgnoreCase)))
@@ -286,6 +286,11 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddCarModel(string CarModel)
         {
+            if (string.IsNullOrWhiteSpace(CarModel))
+            {
+                return View("AddCarProperties");
+            }
+
             CarModelModel[] carModels = _carDataManager.GetCarModels();
             if (carModels.Any(x => string.Equals(x.Model, CarModel, StringComparison.InvariantCultureIgnoreCase)))
             {
@@ -301,6 +306,11 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddFuelType(string FuelType)
         {
+            if (string.IsNullOrWhiteSpace(FuelType))
+            {
+                return View("AddCarProperties");
+            }
+
             FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
             if (fuelTypes.Any(x => string.Equals(x.FuelType, FuelType, StringComparison.InvariantCultureIgnoreCase)))
             {
@@ -316,6 +326,11 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddGearboxType(string Gearbox)
         {
+            if (string.IsNullOrWhiteSpace(Gearbox))
+            {
+                return View("AddCarProperties");
+            }
+
             GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
             if (gearboxTypes.Any(x => string.Equals(x.Gearbox, Gearbox, StringComparison.InvariantCultureIgnoreCase)))
             {
@@ -331,6 +346,11 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult AddLocation(string City, string Street, string Number)
         {
+            if (string.IsNullOrWhiteSpace(City) || string.IsNullOrWhiteSpace(Street) || string.IsNullOrWhiteSpace(Number))
+            {
+                return View("AddCarProperties");
+            }
+
             LocationModel[] locations = _carDataManager.GetLocations();
             if (locations.Any(x =>
             string.Equals(x.City, City, StringComparison.InvariantCultureIgnoreCase) &&
@@ -408,10 +428,10 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> EditModel(CarPropertiesViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return RedirectToAction(nameof(ShowCarProperties), model);
-            //}
+            if (string.IsNullOrWhiteSpace(model.CarModel))
+            {
+                return RedirectToAction(nameof(ShowCarProperties), model);
+            }
             var existingModel = _carDataManager.GetOneCarModel(model.CarModelId);
 
             CarModelModel[] carModels = _carDataManager.GetCarModels();
@@ -444,10 +464,10 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> EditFuelType(CarPropertiesViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return RedirectToAction(nameof(ShowCarProperties), model);
-            //}
+            if (string.IsNullOrWhiteSpace(model.FuelType))
+            {
+                return RedirectToAction(nameof(ShowCarProperties), model);
+            }
             var existingFuelType = _carDataManager.GetOneFuelType(model.FuelTypeId);
 
             FuelTypeModel[] fuelTypes = _carDataManager.GetFuelTypes();
@@ -480,10 +500,10 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> EditGearbox(CarPropertiesViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return RedirectToAction(nameof(ShowCarProperties), model);
-            //}
+            if (string.IsNullOrWhiteSpace(model.Gearbox))
+            {
+                return RedirectToAction(nameof(ShowCarProperties), model);
+            }
             var existingGearboxType = _carDataManager.GetOneGearboxType(model.GearboxId);
 
             GearboxModel[] gearboxTypes = _carDataManager.GetGearboxTypes();
@@ -516,10 +536,10 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> EditLocation(CarPropertiesViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return RedirectToAction(nameof(ShowCarProperties), model);
-            //}
+            if (string.IsNullOrWhiteSpace(model.City) || string.IsNullOrWhiteSpace(model.Street) || string.IsNullOrWhiteSpace(model.Number))
+            {
+                return RedirectToAction(nameof(ShowCarProperties), model);
+            }
             var existingLocation = _carDataManager.GetOneLocation(model.LocationId);
 
             LocationModel[] locations = _carDataManager.GetLocations();
