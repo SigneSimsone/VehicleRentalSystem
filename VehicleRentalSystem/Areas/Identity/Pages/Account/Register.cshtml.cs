@@ -80,9 +80,9 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account
             [Display(Name = "Surname")]
             public string Surname { get; set; }
 
-            [Required]
-            [Display(Name = "Phone Number")]
-            public string PhoneNr { get; set; }
+            //[Required]
+            //[Display(Name = "Phone Number")]
+            //public string PhoneNr { get; set; }
 
             [Required]
             [Range(0, 120)]
@@ -91,7 +91,7 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "Drivers Licence")]
-            public bool DriversLicense { get; set; }
+            public string DriversLicenseNr { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -140,7 +140,8 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account
                 user.Name = Input.Name;
                 user.Surname = Input.Surname;
                 user.Age = Input.Age;
-                user.DriversLicense = Input.DriversLicense;
+                user.DriversLicenseNr = Input.DriversLicenseNr;
+                //user.PhoneNumber = Input.
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

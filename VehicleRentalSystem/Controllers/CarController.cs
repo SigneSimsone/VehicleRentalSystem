@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -38,7 +39,7 @@ namespace VehicleRentalSystem.Controllers
             return View(viewModel);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddCar(CarViewModel model)
         {
@@ -82,6 +83,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Guid CarId, CarViewModel model)
         {
@@ -129,6 +131,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(Guid CarId)
         {
@@ -191,6 +194,7 @@ namespace VehicleRentalSystem.Controllers
             return View("OneCar", model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Delete(Guid CarId)
         {
@@ -226,7 +230,7 @@ namespace VehicleRentalSystem.Controllers
             return View("Index", viewModel);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult OpenAddCar(CarViewModel viewModel = null)
         {
@@ -256,12 +260,14 @@ namespace VehicleRentalSystem.Controllers
             return View("AddCar", viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult OpenAddCarProperties()
         {
             return View("AddCarProperties");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddBrand(string Brand)
         {
@@ -283,6 +289,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddCarModel(string CarModel)
         {
@@ -303,6 +310,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddFuelType(string FuelType)
         {
@@ -323,6 +331,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddGearboxType(string Gearbox)
         {
@@ -343,6 +352,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddLocation(string City, string Street, string Number)
         {
@@ -366,6 +376,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult ShowCarProperties(CarPropertiesViewModel viewModel = null)
         {
@@ -389,6 +400,7 @@ namespace VehicleRentalSystem.Controllers
             return View("ShowCarProperties", viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditBrand(CarPropertiesViewModel model)
         {
@@ -413,6 +425,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditBrand(Guid BrandId)
         {
@@ -425,6 +438,7 @@ namespace VehicleRentalSystem.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditModel(CarPropertiesViewModel model)
         {
@@ -449,6 +463,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditModel(Guid CarModelId)
         {
@@ -461,6 +476,7 @@ namespace VehicleRentalSystem.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditFuelType(CarPropertiesViewModel model)
         {
@@ -485,6 +501,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditFuelType(Guid FuelTypeId)
         {
@@ -497,6 +514,7 @@ namespace VehicleRentalSystem.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditGearbox(CarPropertiesViewModel model)
         {
@@ -521,6 +539,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditGearbox(Guid GearboxTypeId)
         {
@@ -533,6 +552,7 @@ namespace VehicleRentalSystem.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditLocation(CarPropertiesViewModel model)
         {
@@ -560,6 +580,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditLocation(Guid LocationId)
         {
@@ -575,6 +596,7 @@ namespace VehicleRentalSystem.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteBrand(Guid BrandId)
         {
@@ -592,6 +614,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteModel(Guid CarModelId)
         {
@@ -609,6 +632,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteFuelType(Guid FuelTypeId)
         {
@@ -626,6 +650,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteGearbox(Guid GearboxTypeId)
         {
@@ -643,6 +668,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(ShowCarProperties));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteLocation(Guid LocationId)
         {
@@ -661,6 +687,7 @@ namespace VehicleRentalSystem.Controllers
         }
 
 
+        [Authorize(Roles = "RegisteredUser")]
         [HttpPost]
         public IActionResult AddFeedback(Guid CarId, string comment)
         {
@@ -676,6 +703,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(OpenCar), new { CarId });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteFeedback(Guid FeedbackId, Guid CarId)
         {

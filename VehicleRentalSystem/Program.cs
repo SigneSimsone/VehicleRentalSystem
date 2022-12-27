@@ -37,7 +37,11 @@ builder.Services.AddNotyf(config =>
     config.Position = NotyfPosition.TopRight;
 });
 
-
+//builder.Services.AddAuthentication().AddFacebook(facebookOptions =>
+//{
+//    facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+//    facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+//});
 
 /*builder.Services
     .AddControllersWithViews()

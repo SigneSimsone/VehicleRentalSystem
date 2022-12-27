@@ -29,7 +29,7 @@
                     </td>
                     <td>
                         <form asp-action="DeleteBrand" method="post">
-                            <input type="submit" value="Delete" />
+                            <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
                             @Html.Hidden("BrandId", brand.Id)
                         </form>
                     </td>
@@ -63,7 +63,7 @@
                     </td>
                     <td>
                         <form asp-action="DeleteModel" method="post">
-                            <input type="submit" value="Delete" />
+                            <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
                             @Html.Hidden("CarModelId", carModel.Id)
                         </form>
                     </td>
@@ -97,7 +97,7 @@
                     </td>
                     <td>
                         <form asp-action="DeleteFuelType" method="post">
-                            <input type="submit" value="Delete" />
+                            <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
                             @Html.Hidden("FuelTypeId", fuelType.Id)
                         </form>
                     </td>
@@ -131,7 +131,7 @@
                     </td>
                     <td>
                         <form asp-action="DeleteGearbox" method="post">
-                            <input type="submit" value="Delete" />
+                            <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
                             @Html.Hidden("GearboxTypeId", gearboxType.Id)
                         </form>
                     </td>
@@ -165,7 +165,7 @@
                     </td>
                     <td>
                         <form asp-action="DeleteLocation" method="post">
-                            <input type="submit" value="Delete" />
+                            <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
                             @Html.Hidden("LocationId", location.Id)
                         </form>
                     </td>

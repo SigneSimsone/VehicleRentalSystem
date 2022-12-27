@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using VehicleRentalSystem.Data.Managers;
 using VehicleRentalSystem.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace VehicleRentalSystem.Controllers
 {
@@ -20,6 +20,7 @@ namespace VehicleRentalSystem.Controllers
             _notyfService = notyfService;
         }
 
+        [Authorize(Roles = "RegisteredUser")]
         [HttpGet]
         public IActionResult Confirmation(ReservationViewModel viewModel)
         {
@@ -61,6 +62,7 @@ namespace VehicleRentalSystem.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "RegisteredUser")]
         [HttpPost]
         public async Task<IActionResult> AddReservation(ReservationViewModel model)
         {
@@ -96,6 +98,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(Confirmation), model);
         }
 
+        [Authorize(Roles = "RegisteredUser")]
         [HttpGet]
         public IActionResult AddReservation(Guid carId)
         {
@@ -116,6 +119,8 @@ namespace VehicleRentalSystem.Controllers
         }
 
 
+        [Authorize(Roles = "RegisteredUser")]
+        //[HttpPost]
         public IActionResult UserReservationHistory()
         {
             var user = _userManager.GetUserAsync(User).Result;
@@ -129,6 +134,8 @@ namespace VehicleRentalSystem.Controllers
             return View("UserReservationHistory", viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
+        //[HttpPost]
         public IActionResult AllReservations()
         {
             var user = _userManager.GetUserAsync(User).Result;
@@ -144,6 +151,7 @@ namespace VehicleRentalSystem.Controllers
             return View("AllReservations", viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddPaymentDate(DateTime PaymentDate, Guid ReservationId, ReservationViewModel model)
         {
@@ -154,6 +162,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(AllReservations));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult AddPaymentDate(Guid ReservationId)
         {
@@ -181,6 +190,7 @@ namespace VehicleRentalSystem.Controllers
         }
 
 
+        [Authorize(Roles = "RegisteredUser")]
         [HttpGet]
         public IActionResult OpenReservation(Guid ReservationId)
         {
@@ -214,6 +224,7 @@ namespace VehicleRentalSystem.Controllers
             return View(nameof(Confirmation), viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult OpenReservationAdmin(Guid ReservationId)
         {
@@ -248,6 +259,7 @@ namespace VehicleRentalSystem.Controllers
         }
 
 
+        [Authorize(Roles = "RegisteredUser")]
         [HttpPost]
         public IActionResult DeleteReservation(Guid ReservationId)
         {
@@ -256,6 +268,7 @@ namespace VehicleRentalSystem.Controllers
             return RedirectToAction(nameof(UserReservationHistory));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteReservationAdmin(Guid ReservationId)
         {

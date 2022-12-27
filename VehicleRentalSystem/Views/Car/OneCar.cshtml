@@ -3,69 +3,39 @@
 @if (Model != null)
 {
     <h2 id="OneCar">Car information</h2>
-    <table id="OneCarTable">
-        <thead id="thead">
-            <tr>
-                <th>Year</th>
-                <th>RegistrationNumber</th>
-                <th>FuelConsumption</th>
-                <th>Mileage</th>
-                <th>Passengers</th>
-                <th>Luggage</th>
-                <th>Doors</th>
-                <th>AirConditioner</th>
-                <th>Availability</th>
-                <th>DailyPrice (EUR)</th>
-                <th>Brand</th>
-                <th>FuelType</th>
-                <th>GearboxType</th>
-                <th>Model</th>
-                <th>Location</th>
-                <th>Image</th>
-            </tr>
-        </thead>
-        <tbody id="tbody">
-            <tr>
-                <td>@Model.Year</td>
-                <td>@Model.RegistrationNumber</td>
-                <td>@Model.FuelConsumption</td>
-                <td>@Model.Mileage</td>
-                <td>@Model.Passengers</td>
-                <td>@Model.Luggage</td>
-                <td>@Model.Doors</td>
-                <td>@Model.AirConditioner</td>
-                <td>@Model.Availability</td>
-                <td>@Model.DailyPrice</td>
-                <td>@Model.Brand.Brand</td>
-                <td>@Model.FuelType.FuelType</td>
-                <td>@Model.GearboxType.Gearbox</td>
-                <td>@Model.Model.Model</td>
-                <td>@Model.Location.FullLocation</td>
-            </tr>
-        </tbody>
-    </table>
-    <br />
-    <br />
-
     <img src="@Model.ImagePath" width="200">
+    <br />
+    <br />
+    <ul class="list-group" id="OneCarTable">    
+        <li>Daily Price (EUR): @Model.DailyPrice</li>
+        <li>Brand: @Model.Brand.Brand</li>
+        <li>Model: @Model.Model.Model</li>
+        <li>FuelType: @Model.FuelType.FuelType</li>
+        <li>GearboxType: @Model.GearboxType.Gearbox</li>
+        <li>Location: @Model.Location.FullLocation</li>
+        <li>Year: @Model.Year</li>
+        <li>Registration Number: @Model.RegistrationNumber</li>
+        <li>Fuel Consumption: @Model.FuelConsumption</li>
+        <li>Mileage: @Model.Mileage</li>
+        <li>Passengers: @Model.Passengers</li>
+        <li>Luggage: @Model.Luggage</li>
+        <li>Doors: @Model.Doors</li>
+        <li>AirConditioner: @Model.AirConditioner</li>
+        <li>Availability: @Model.Availability</li>
+    </ul>
+    <br />
 
-    <br />
-    <br />
-    <br />
-
-    <td>
-        <form asp-controller="Reservation" asp-action="AddReservation" method="get">
-            <input type="submit" value="Rent" />
-            @Html.Hidden("CarId", Model.Id)
-        </form>
-    </td>
+    <form asp-controller="Reservation" asp-action="AddReservation" method="get">
+        <input type="submit" value="Rent" />
+        @Html.Hidden("CarId", Model.Id)
+    </form>
     <br />
 
     <h5>Feedback</h5>
 
     <form asp-action="AddFeedback" method="post">
         <label for="new-comment">Add comment:</label>
-        <input type="text" id="new-comment" name="comment"/>
+        <input type="text" id="new-comment" name="comment" />
         <input type="submit" value="Submit" />
         @Html.Hidden("CarId", Model.Id)
     </form>
@@ -78,12 +48,14 @@
             <br />
             @feedback.Date.ToString("dd/MM/yyyy HH:mm")
         </li>
-
-        <form asp-action="DeleteFeedback" method="post">
-            <input type="submit" value="Delete" />
-            @Html.Hidden("FeedbackId", feedback.Id)
-            @Html.Hidden("CarId", Model.Id)
-        </form>
+        @if (User.IsInRole("Admin"))
+        {
+            <form asp-action="DeleteFeedback" method="post">
+                <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
+                @Html.Hidden("FeedbackId", feedback.Id)
+                @Html.Hidden("CarId", Model.Id)
+            </form>
+        }
         <hr />
     }
 }

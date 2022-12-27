@@ -11,6 +11,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace VehicleRentalSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly AdminDataManager _adminDataManager;

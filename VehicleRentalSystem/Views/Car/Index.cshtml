@@ -1,12 +1,15 @@
 ﻿@model CarViewModel
 
-<form asp-action="OpenAddCar" method="get">
-    <input type="submit" value="Add Car" />
-</form>
-<br />
+@if (User.IsInRole("Admin"))
+{
+    <form asp-action="OpenAddCar" method="get">
+        <input class="btn btn-outline-dark" type="submit" value="Add Car" />
+    </form>
+    <br />
+}
 
 <form asp-controller="Search" asp-action="Index" method="get">
-    <input type="submit" value="Search" />
+    <input class="btn btn-outline-primary" type="submit" value="Search" />
 </form>
 <br />
 
@@ -14,14 +17,16 @@
     @Html.ValidationMessage("NoCarFoundMessage")
 </div>
 
+<h2 id="cars">Cars</h2>
+
 <div class="container">
     <div class="row">
-        <div class="col-3">
-            @if (Model != null && Model.Cars != null && Model.Cars.Any())
+
+        @if (Model != null && Model.Cars != null && Model.Cars.Any())
+        {
+            @foreach (var car in Model.Cars)
             {
-                <h2 id="cars">Cars</h2>
-                @foreach (var car in Model.Cars)
-                {
+                <div class="col-3">
                     <div class="card-deck" id="Cars">
                         <div class="card" id="tbody">
 
@@ -34,39 +39,41 @@
                                 <div class="row">
                                     <div class="col">
                                         <form asp-action="OpenCar" method="get">
-                                            <input type="submit" value="Open" />
+                                            <input class="btn btn-outline-primary" type="submit" value="More Info" />
                                             @Html.Hidden("CarId", car.Id)
                                         </form>
                                     </div>
                                     <div class="col">
                                         <form asp-controller="Reservation" asp-action="AddReservation" method="get">
-                                            <input type="submit" value="Rent" />
+                                            <input class="btn btn-outline-primary" type="submit" value="Rent" />
                                             @Html.Hidden("CarId", car.Id)
                                         </form>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <form asp-action="Edit" method="get">
-                                            <input type="submit" value="Edit" />
-                                            @Html.Hidden("CarId", car.Id)
-                                        </form>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <br>
+                                    <div class="row">
+                                        <div class="col">
+                                            <form asp-action="Edit" method="get">
+                                                <input class="btn btn-outline-dark" type="submit" value="Edit" />
+                                                @Html.Hidden("CarId", car.Id)
+                                            </form>
+                                        </div>
+                                        <div class="col">
+                                            <form asp-action="Delete" method="post">
+                                                <input class="btn btn-outline-dark" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
+                                                @Html.Hidden("CarId", car.Id)
+                                                @Html.Hidden("Feedbacks", car.Feedbacks)
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        <form asp-action="Delete" method="post">
-                                            <input type="submit" value="Delete" />
-                                            @Html.Hidden("CarId", car.Id)
-                                            @Html.Hidden("Feedbacks", car.Feedbacks)
-                                        </form>
-                                    </div>
-                                </div>
+                                }
                             </div>
-
-
                         </div>
                     </div>
-                }
+                </div>
             }
-        </div>
+        }
     </div>
 </div>

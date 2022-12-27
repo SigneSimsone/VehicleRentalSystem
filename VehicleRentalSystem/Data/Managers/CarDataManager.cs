@@ -168,7 +168,7 @@ namespace VehicleRentalSystem.Data.Managers
             item.AirConditioner = airConditioner;
             item.Availability = availability;
             item.DailyPrice = dailyPrice;
-            if(!string.IsNullOrEmpty(imagePath))
+            if (!string.IsNullOrEmpty(imagePath))
             {
                 item.ImagePath = imagePath;
             }
@@ -508,22 +508,48 @@ namespace VehicleRentalSystem.Data.Managers
                 return carList.ToArray();
             }
 
-            if (model.StartDate.HasValue)
+            //if (model.StartDate.HasValue)
+            //{
+            //    var carsWithReservation = carList.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
+            //    (x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) ||
+            //    (x.StartDate < model.StartDate.Value && x.EndDate < model.StartDate.Value)));
+
+            //    result.AddRange(carsWithReservation);
+            //}
+
+            //if (model.EndDate.HasValue)
+            //{
+            //    var carsWithReservation = result.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
+            //    (x.StartDate > model.EndDate.Value && x.EndDate > model.EndDate.Value) ||
+            //    (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value)));
+
+            //    result.AddRange(carsWithReservation);
+            //}
+
+            if (model.StartDate.HasValue && model.EndDate == null)
             {
-                var carsWithReservation = carList.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
+                var carsWithReservation = carList.Where(t => t.Reservations.Any() && !t.Reservations.All(x =>
                 (x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) ||
-                (x.StartDate < model.StartDate.Value && x.EndDate < model.StartDate.Value)));
+                (x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value)));
 
                 result.AddRange(carsWithReservation);
             }
 
-            if (model.EndDate.HasValue)
+            if (model.EndDate.HasValue && model.StartDate == null)
             {
-                var carsWithReservation = result.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
-                (x.StartDate > model.EndDate.Value && x.EndDate > model.EndDate.Value) ||
+                var carsWithReservation = result.Where(t => t.Reservations.Any() && !t.Reservations.All(x =>
                 (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value)));
 
                 result.AddRange(carsWithReservation);
+            }
+
+            if (model.StartDate.HasValue && model.EndDate.HasValue)
+            {
+                var carsWithReservation = carList.Where(t => t.Reservations.Any() && !t.Reservations.All(x =>
+                ((x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate > model.EndDate.Value)) ||
+                ((x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate > model.EndDate.Value)) ||
+                ((x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value)) ||
+                ((x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value))));
             }
 
             return result.ToArray();
@@ -561,9 +587,9 @@ namespace VehicleRentalSystem.Data.Managers
                 .Include(x => x.Payment)
                 .Include(x => x.User)
                 .Include(x => x.Car)
-                .ThenInclude(x=>x.Brand)
-                .Include(x=>x.Car)
-                .ThenInclude(x=>x.Model)
+                .ThenInclude(x => x.Brand)
+                .Include(x => x.Car)
+                .ThenInclude(x => x.Model)
                 .ToArray();
 
             return result;
