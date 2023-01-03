@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace VehicleRentalSystem.Models
 {
@@ -16,10 +17,20 @@ namespace VehicleRentalSystem.Models
         public Guid? SelectedGearboxType { get; set; }
         public Guid? SelectedFuelType { get; set; }
         public Guid? SelectedLocation { get; set; }
+
+        [RegularExpression("^[0-9]{4}$", ErrorMessage = "The field Year must contain exactly 4 numbers")]
         public int? Year { get; set; }
-        public int? FuelConsumption { get; set; }
+
+        [RegularExpression("^[0-9]+[0-9,.]*$", ErrorMessage = "Must input a positive number")]
+        public float? FuelConsumption { get; set; }
+
+        [RegularExpression("^[0-9]+[0-9]*$", ErrorMessage = "Must input a positive number")]
         public int? Mileage { get; set; }
+
+        [RegularExpression("^[0-9]+[0-9]*$", ErrorMessage = "Must input a positive number")]
         public int? Passengers { get; set; }
-        public float? DailyPrice { get; set; }
+
+        [RegularExpression("^[0-9]+[0-9,.]*$", ErrorMessage = "Must input a positive number")]
+        public decimal? DailyPrice { get; set; }
     }
 }

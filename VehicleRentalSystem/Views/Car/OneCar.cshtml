@@ -2,16 +2,16 @@
 
 @if (Model != null)
 {
-    <h2 id="OneCar">Car information</h2>
+    @*<h2 id="OneCar">More information</h2>*@
     <img src="@Model.ImagePath" width="200">
     <br />
     <br />
-    <ul class="list-group" id="OneCarTable">    
+    <ul class="list-group" id="OneCarTable">
         <li>Daily Price (EUR): @Model.DailyPrice</li>
         <li>Brand: @Model.Brand.Brand</li>
         <li>Model: @Model.Model.Model</li>
-        <li>FuelType: @Model.FuelType.FuelType</li>
-        <li>GearboxType: @Model.GearboxType.Gearbox</li>
+        <li>Fuel Type: @Model.FuelType.FuelType</li>
+        <li>Gearbox Type: @Model.GearboxType.Gearbox</li>
         <li>Location: @Model.Location.FullLocation</li>
         <li>Year: @Model.Year</li>
         <li>Registration Number: @Model.RegistrationNumber</li>
@@ -20,23 +20,35 @@
         <li>Passengers: @Model.Passengers</li>
         <li>Luggage: @Model.Luggage</li>
         <li>Doors: @Model.Doors</li>
-        <li>AirConditioner: @Model.AirConditioner</li>
-        <li>Availability: @Model.Availability</li>
+        @if(@Model.AirConditioner == true)
+        {
+        <li>Air Conditioner: Yes</li>
+        }
+        else{
+        <li>Air Conditioner: No</li>
+        }
+        @if(@Model.Availability == true)
+        {
+            <li>Available: Yes</li>
+        }
+        else{
+            <li>Available: No</li>
+        }
     </ul>
     <br />
 
     <form asp-controller="Reservation" asp-action="AddReservation" method="get">
-        <input type="submit" value="Rent" />
+        <input class="btn btn-outline-primary" type="submit" value="Rent" />
         @Html.Hidden("CarId", Model.Id)
     </form>
     <br />
 
-    <h5>Feedback</h5>
+    <h5>Feedbacks</h5>
 
     <form asp-action="AddFeedback" method="post">
         <label for="new-comment">Add comment:</label>
         <input type="text" id="new-comment" name="comment" />
-        <input type="submit" value="Submit" />
+        <input class="btn btn-outline-primary btn-sm" type="submit" value="Submit" />
         @Html.Hidden("CarId", Model.Id)
     </form>
     <br />
@@ -51,11 +63,16 @@
         @if (User.IsInRole("Admin"))
         {
             <form asp-action="DeleteFeedback" method="post">
-                <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
+                <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
                 @Html.Hidden("FeedbackId", feedback.Id)
                 @Html.Hidden("CarId", Model.Id)
             </form>
         }
         <hr />
+    }
+
+    @if (!Model.Feedbacks.Any())
+    {
+        <p> This car doesn't have any feedbacks!</p>
     }
 }

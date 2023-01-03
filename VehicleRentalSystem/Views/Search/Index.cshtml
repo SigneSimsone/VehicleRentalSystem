@@ -25,15 +25,19 @@
 
     <label asp-for="Year">Year</label>
     <input asp-for="Year" class="form-control" />
+    <span asp-validation-for="Year" class="text-danger"></span><br />
 
     <label asp-for="FuelConsumption">Fuel Consumption</label>
     <input asp-for="FuelConsumption" class="form-control" />
+    <span asp-validation-for="FuelConsumption" class="text-danger"></span><br />
 
     <label asp-for="Mileage">Mileage</label>
     <input asp-for="Mileage" class="form-control" />
+    <span asp-validation-for="Mileage" class="text-danger"></span><br />
 
     <label asp-for="Passengers">Passengers</label>
     <input asp-for="Passengers" class="form-control" />
+    <span asp-validation-for="Passengers" class="text-danger"></span><br />
 
     <label asp-for="DailyPrice">Daily Price (EUR)</label>
     <input asp-for="DailyPrice" class="form-control" />
@@ -46,19 +50,6 @@
     <label asp-for="EndDate">Reservation end date</label>
     <input asp-for="EndDate" class="form-control" type="datetime-local" value="" />
     <span asp-validation-for="EndDate" class="text-danger"></span><br />
-
-    @*<div class="mb-3 row"> 
-        <label class="col-3 col-form-label text-info">Start date</label>
-        <div class="col-9">
-            @Html.TextBoxFor(m => m.StartDate, new { @case = "form-control", placeholder = "Reservation start date", type = "datetime-local"})
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <label class="col-3 col-form-label text-info">End date</label>
-        <div class="col-9">
-            @Html.TextBoxFor(m => m.EndDate, new { @case = "form-control", placeholder = "Reservation end date", type = "datetime-local"})
-        </div>
-    </div>*@
 
     <input type="submit" value="Submit" />
 </form>

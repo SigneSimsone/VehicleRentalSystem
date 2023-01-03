@@ -34,31 +34,38 @@ namespace VehicleRentalSystem.Models
         public Guid SelectedLocation { get; set; }
 
         [Required(ErrorMessage = "The field Year is required.")]
+        [RegularExpression("^[0-9]{4}$", ErrorMessage = "The field Year must contain exactly 4 numbers")]
         public int? Year { get; set; }
 
         [Required(ErrorMessage = "The field Registration Number is required.")]
         public string? RegistrationNumber { get; set; }
 
         [Required(ErrorMessage = "The field Fuel Consumption is required.")]
-        public int? FuelConsumption { get; set; }
+        [RegularExpression("^[0-9]+[0-9,.]*$", ErrorMessage = "Must input a positive number")]
+        public float? FuelConsumption { get; set; }
 
         [Required(ErrorMessage = "The field Mileage is required.")]
+        [RegularExpression("^[0-9]+[0-9]*$", ErrorMessage = "Must input a positive number")]
         public int? Mileage { get; set; }
 
         [Required(ErrorMessage = "The field Passengers is required.")]
+        [RegularExpression("^[0-9]+[0-9]*$", ErrorMessage = "Must input a positive number")]
         public int? Passengers { get; set; }
 
         [Required(ErrorMessage = "The field Luggage is required.")]
+        [RegularExpression("^[0-9]+[0-9]*$", ErrorMessage = "Must input a positive number")]
         public int? Luggage { get; set; }
 
         [Required(ErrorMessage = "The field Doors is required.")]
+        [RegularExpression("^[0-9]+[0-9]*$", ErrorMessage = "Must input a positive number")]
         public int? Doors { get; set; }
 
         [Required(ErrorMessage = "The field Air Conditioner is required.")]
         public bool AirConditioner { get; set; }
 
         [Required(ErrorMessage = "The field Daily Price is required.")]
-        public float? DailyPrice { get; set; }
+        [RegularExpression("^[0-9]+[0-9,.]*$", ErrorMessage = "Must input a positive number")]
+        public decimal? DailyPrice { get; set; }
 
         [Required(ErrorMessage = "The field Availability is required.")]
         public bool Availability { get; set; }

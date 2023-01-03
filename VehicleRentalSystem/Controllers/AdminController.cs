@@ -70,6 +70,7 @@ namespace VehicleRentalSystem.Controllers
                 var role = new IdentityRole();
                 role.Name = model.NewRole;
                 await _roleManager.CreateAsync(role);
+                _notyfService.Success("Role created successfully!");
             }
             else
             {
@@ -98,6 +99,7 @@ namespace VehicleRentalSystem.Controllers
                 if (!await _userManager.IsInRoleAsync(user, model.SelectedRole))
                 {
                     await _userManager.AddToRoleAsync(user, model.SelectedRole);
+                    _notyfService.Success("Role assigned successfully!");
                 }
                 else
                 {

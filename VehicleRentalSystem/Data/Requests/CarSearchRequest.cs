@@ -10,10 +10,10 @@ namespace VehicleRentalSystem.Data.Requests
         public LocationModel? Location { get; set; }
 
         public int? Year { get; set; }
-        public int? FuelConsumption { get; set; }
+        public float? FuelConsumption { get; set; }
         public int? Mileage { get; set; }
         public int? Passengers { get; set; }
-        public float? DailyPrice { get; set; }
+        public decimal? DailyPrice { get; set; }
 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

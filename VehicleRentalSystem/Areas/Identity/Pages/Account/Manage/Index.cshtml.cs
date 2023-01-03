@@ -32,6 +32,14 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public string Username { get; set; }
 
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public int Age { get; set; }
+
+        [Display(Name = "Drivers license number")]
+        public string DriversLicenseNr { get; set; }
+
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -65,8 +73,16 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var name = user.Name;
+            var surname = user.Surname;
+            var age = user.Age;
+            var driversLicenseNr = user.DriversLicenseNr;
 
             Username = userName;
+            Name = name;
+            Surname = surname;
+            Age = age;
+            DriversLicenseNr = driversLicenseNr;
 
             Input = new InputModel
             {

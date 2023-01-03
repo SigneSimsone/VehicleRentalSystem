@@ -31,13 +31,14 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<UserModel> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<UserModel> userManager,
             IUserStore<UserModel> userStore,
             SignInManager<UserModel> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -45,6 +46,7 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -85,7 +87,7 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account
             //public string PhoneNr { get; set; }
 
             [Required]
-            [Range(0, 120)]
+            [Range(16, 100)]
             [Display(Name = "Age")]
             public int Age { get; set; }
 
@@ -141,7 +143,6 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account
                 user.Surname = Input.Surname;
                 user.Age = Input.Age;
                 user.DriversLicenseNr = Input.DriversLicenseNr;
-                //user.PhoneNumber = Input.
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -159,7 +160,7 @@ namespace VehicleRentalSystem.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
-
+                    await _userManager.AddToRoleAsync(user, "RegisteredUser");
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 

@@ -125,7 +125,22 @@ namespace VehicleRentalSystem.Data.Managers
         }
 
 
-        internal void AddCar(BrandModel brand, CarModelModel model, GearboxModel gearbox, FuelTypeModel fuelType, int year, string registrationNumber, int fuelConsumption, int mileage, int passengers, int luggage, int doors, bool airConditioner, bool availability, float dailyPrice, string imagePath, LocationModel location)
+        internal void AddCar(BrandModel brand,
+                             CarModelModel model,
+                             GearboxModel gearbox,
+                             FuelTypeModel fuelType,
+                             int year,
+                             string registrationNumber,
+                             float fuelConsumption,
+                             int mileage,
+                             int passengers,
+                             int luggage,
+                             int doors,
+                             bool airConditioner,
+                             bool availability,
+                             decimal dailyPrice,
+                             string imagePath,
+                             LocationModel location)
         {
             var item = new CarModel()
             {
@@ -151,7 +166,23 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext.SaveChanges();
         }
 
-        internal void Edit(Guid id, BrandModel brand, CarModelModel model, GearboxModel gearbox, FuelTypeModel fuelType, int year, string registrationNumber, int fuelConsumption, int mileage, int passengers, int luggage, int doors, bool airConditioner, bool availability, float dailyPrice, string imagePath, LocationModel location)
+        internal void Edit(Guid id,
+                           BrandModel brand,
+                           CarModelModel model,
+                           GearboxModel gearbox,
+                           FuelTypeModel fuelType,
+                           int year,
+                           string registrationNumber,
+                           float fuelConsumption,
+                           int mileage,
+                           int passengers,
+                           int luggage,
+                           int doors,
+                           bool airConditioner,
+                           bool availability,
+                           decimal dailyPrice,
+                           string imagePath,
+                           LocationModel location)
         {
             var item = _dbContext.Cars.First(x => x.Id == id);
             item.Brand = brand;
@@ -410,7 +441,7 @@ namespace VehicleRentalSystem.Data.Managers
             var item = new FeedbackModel()
             {
                 Comment = comment,
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 User = user,
                 Car = car
             };
@@ -528,28 +559,45 @@ namespace VehicleRentalSystem.Data.Managers
 
             if (model.StartDate.HasValue && model.EndDate == null)
             {
-                var carsWithReservation = carList.Where(t => t.Reservations.Any() && !t.Reservations.All(x =>
-                (x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) ||
-                (x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value)));
+                var carsWithReservation = carList.Where(t => t.Reservations.Any() && 
+                                                            !t.Reservations.All(x =>
+                                                                (x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) ||
+                                                                (x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value)));
 
                 result.AddRange(carsWithReservation);
             }
 
             if (model.EndDate.HasValue && model.StartDate == null)
             {
-                var carsWithReservation = result.Where(t => t.Reservations.Any() && !t.Reservations.All(x =>
-                (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value)));
+                var carsWithReservation = carList.Where(t => t.Reservations.Any() && 
+                                                            t.Reservations.All(x =>
+                                                                (x.EndDate > model.EndDate.Value && x.StartDate > model.EndDate.Value) ||
+                                                                (x.EndDate < model.EndDate.Value && x.EndDate < model.EndDate.Value && x.EndDate < DateTime.UtcNow)));
 
                 result.AddRange(carsWithReservation);
             }
 
             if (model.StartDate.HasValue && model.EndDate.HasValue)
             {
+                //var carsWithReservation = carList.Where(t => t.Reservations.Any() &&
+                //                            !t.Reservations.All(x =>
+                //                                (x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) ||
+                //                                (x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value)));
+
+                //carsWithReservation = carsWithReservation.Where(t => t.Reservations.Any() &&
+                //                                                t.Reservations.All(x =>
+                //                                                   (x.EndDate > model.EndDate.Value && x.StartDate > model.EndDate.Value) ||
+                //                                                   (x.EndDate < model.EndDate.Value && x.EndDate < model.EndDate.Value && x.EndDate < DateTime.UtcNow)));
+                //result.AddRange(carsWithReservation);
+
+
                 var carsWithReservation = carList.Where(t => t.Reservations.Any() && !t.Reservations.All(x =>
                 ((x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate > model.EndDate.Value)) ||
                 ((x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate > model.EndDate.Value)) ||
                 ((x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value)) ||
                 ((x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value))));
+                result.AddRange(carsWithReservation);
+
             }
 
             return result.ToArray();
@@ -653,19 +701,6 @@ namespace VehicleRentalSystem.Data.Managers
             return item.Id;
         }
 
-        internal void EditReservation(Guid ReservationId, DateTime startDate, DateTime endDate, Guid carId, UserModel user, PaymentModel payment)
-        {
-            var car = GetOneCar(carId);
-            var item = _dbContext.Reservations.FirstOrDefault(x => x.Id == ReservationId);
-            item.StartDate = startDate;
-            item.EndDate = endDate;
-            item.Car = car;
-            item.User = user;
-            item.Payment = payment;
-
-            _dbContext.SaveChanges();
-        }
-
         internal void DeleteReservation(Guid reservationId)
         {
             var item = _dbContext
@@ -688,7 +723,7 @@ namespace VehicleRentalSystem.Data.Managers
         }
 
 
-        internal Guid AddPayment(double amount)
+        internal Guid AddPayment(decimal amount)
         {
             var item = new PaymentModel()
             {
@@ -714,15 +749,6 @@ namespace VehicleRentalSystem.Data.Managers
         {
             var item = _dbContext.Payments.FirstOrDefault(x => x.Id == paymentId);
             item.Date = paymentDate;
-
-            _dbContext.SaveChanges();
-        }
-
-        internal void EditPayment(Guid paymentId, double amount)
-        {
-            var item = _dbContext.Payments.FirstOrDefault(x => x.Id == paymentId);
-            item.Date = DateTime.Now;
-            item.Amount = amount;
 
             _dbContext.SaveChanges();
         }

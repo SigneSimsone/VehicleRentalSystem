@@ -66,9 +66,21 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReservation(ReservationViewModel model)
         {
-            if (model.StartDate < DateTime.Now || model.StartDate > model.EndDate || model.EndDate < DateTime.Now)
+            if (model.StartDate < DateTime.UtcNow || model.EndDate < DateTime.UtcNow)
             {
-                ModelState.AddModelError("IncorrectDates", "Please input correct dates! Dates cannot be in the past. End date has to be larger than start date.");
+                ModelState.AddModelError("IncorrectDates", "Please input correct dates! Dates cannot be in the past.");
+                return View(nameof(AddReservation), model);
+            }
+
+            if (model.StartDate > model.EndDate)
+            {
+                ModelState.AddModelError("IncorrectDates", "Please input correct dates! End date has to be larger than start date.");
+                return View(nameof(AddReservation), model);
+            }
+
+            if (model.StartDate == model.EndDate)
+            {
+                ModelState.AddModelError("IncorrectDates", "Please input correct dates! Start and end time cannot be the same in the same day.");
                 return View(nameof(AddReservation), model);
             }
 
@@ -84,8 +96,8 @@ namespace VehicleRentalSystem.Controllers
             CarModel car = _carDataManager.GetOneCar(model.CarId);
 
             TimeSpan timeSpan = model.EndDate - model.StartDate;
-            double days = timeSpan.TotalDays;
-            double amount = car.DailyPrice * days;
+            decimal days = (decimal)timeSpan.TotalDays;
+            decimal amount = car.DailyPrice * days;
 
             model.PaymentId = _carDataManager.AddPayment(amount);
             PaymentModel payment = _carDataManager.GetPayment(model.PaymentId);
@@ -264,6 +276,7 @@ namespace VehicleRentalSystem.Controllers
         public IActionResult DeleteReservation(Guid ReservationId)
         {
             _carDataManager.DeleteReservation(ReservationId);
+            _notyfService.Success("Reservation deleted successfully!");
 
             return RedirectToAction(nameof(UserReservationHistory));
         }
@@ -273,6 +286,7 @@ namespace VehicleRentalSystem.Controllers
         public IActionResult DeleteReservationAdmin(Guid ReservationId)
         {
             _carDataManager.DeleteReservation(ReservationId);
+            _notyfService.Success("Reservation deleted successfully!");
 
             return RedirectToAction(nameof(AllReservations));
         }

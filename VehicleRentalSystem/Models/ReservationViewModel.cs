@@ -31,9 +31,10 @@ namespace VehicleRentalSystem.Models
         public string GearboxType { get; set; }
         public string FuelType { get; set; }
         public string Location { get; set; }
-        public float DailyPrice { get; set; }
-
-        public double Amount { get; set; }
+        public decimal DailyPrice { get; set; }
+        
+        [DisplayFormat(DataFormatString = "{0:#,##0.0#}", ApplyFormatInEditMode = true)]
+        public decimal Amount { get; set; }
 
         [Required(ErrorMessage = "The field Payment date is required.")]
         public DateTime? PaymentDate { get; set; }

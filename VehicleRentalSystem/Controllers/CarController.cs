@@ -36,6 +36,11 @@ namespace VehicleRentalSystem.Controllers
             viewModel.Cars = cars;
             viewModel.UserId = userId;
 
+            if (!cars.Any())
+            {
+                ModelState.AddModelError("NoCarsAdded", "No cars have been added in the system!");
+            }
+
             return View(viewModel);
         }
 
@@ -77,7 +82,24 @@ namespace VehicleRentalSystem.Controllers
                 relativeFilePath = Path.Combine("\\img", fileName);
             }
 
-            _carDataManager.AddCar(brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year.Value, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage.Value, model.Passengers.Value, model.Luggage.Value, model.Doors.Value, model.AirConditioner, model.Availability, model.DailyPrice.Value, relativeFilePath, locationmodel);
+            var dailyPrice = Math.Round(model.DailyPrice.Value);
+
+            _carDataManager.AddCar(brandmodel,
+                                   carmodelmodel,
+                                   gearboxmodel,
+                                   fueltypemodel,
+                                   model.Year.Value,
+                                   model.RegistrationNumber,
+                                   model.FuelConsumption.Value,
+                                   model.Mileage.Value,
+                                   model.Passengers.Value,
+                                   model.Luggage.Value,
+                                   model.Doors.Value,
+                                   model.AirConditioner,
+                                   model.Availability,
+                                   dailyPrice,
+                                   relativeFilePath,
+                                   locationmodel);
             _notyfService.Success("Car added successfully!");
 
             return RedirectToAction(nameof(Index));
@@ -125,7 +147,23 @@ namespace VehicleRentalSystem.Controllers
                 relativeFilePath = Path.Combine("\\img", fileName);
             }
 
-            _carDataManager.Edit(CarId, brandmodel, carmodelmodel, gearboxmodel, fueltypemodel, model.Year.Value, model.RegistrationNumber, model.FuelConsumption.Value, model.Mileage.Value, model.Passengers.Value, model.Luggage.Value, model.Doors.Value, model.AirConditioner, model.Availability, model.DailyPrice.Value, relativeFilePath, locationmodel);
+            _carDataManager.Edit(CarId,
+                                 brandmodel,
+                                 carmodelmodel,
+                                 gearboxmodel,
+                                 fueltypemodel,
+                                 model.Year.Value,
+                                 model.RegistrationNumber,
+                                 model.FuelConsumption.Value,
+                                 model.Mileage.Value,
+                                 model.Passengers.Value,
+                                 model.Luggage.Value,
+                                 model.Doors.Value,
+                                 model.AirConditioner,
+                                 model.Availability,
+                                 model.DailyPrice.Value,
+                                 relativeFilePath,
+                                 locationmodel);
             _notyfService.Success("Car edited successfully!");
 
             return RedirectToAction(nameof(Index));

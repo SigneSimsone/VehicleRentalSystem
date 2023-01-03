@@ -8,14 +8,14 @@ namespace VehicleRentalSystem.Models
         public Guid Id { get; set; }
         public int Year { get; set; }
         public string RegistrationNumber { get; set; }
-        public int FuelConsumption { get; set; }
+        public float FuelConsumption { get; set; }
         public int Mileage { get; set; }
         public int Passengers { get; set; }
         public int Luggage { get; set; }
         public int Doors { get; set; }
         public bool AirConditioner { get; set; }
         public bool Availability { get; set; }
-        public float DailyPrice { get; set; }
+        public decimal DailyPrice { get; set; }
         public string? ImagePath { get; set; }
 
         public BrandModel Brand { get; set; }
