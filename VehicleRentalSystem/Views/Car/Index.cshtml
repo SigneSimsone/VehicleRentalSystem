@@ -25,7 +25,7 @@
 
         @if (Model != null && Model.Cars != null && Model.Cars.Any())
         {
-            @foreach (var car in Model.Cars)
+            @foreach (var car in Model.Cars.OrderByDescending(r => r.Availability).ThenBy(r => r.DailyPrice).ThenBy(r => r.Brand))
             {
                 <div class="col-3">
                     <div class="card-deck" id="Cars">
@@ -40,30 +40,36 @@
                                 <div class="row">
                                     <div class="col">
                                         <form asp-action="OpenCar" method="get">
-                                            <input class="btn btn-outline-primary" type="submit" value="More Info" />
+                                            <button class="btn btn-outline-primary col-12" type="submit">More Info</button>
                                             @Html.Hidden("CarId", car.Id)
                                         </form>
                                     </div>
-                                    <div class="col">
-                                        <form asp-controller="Reservation" asp-action="AddReservation" method="get">
-                                            <input class="btn btn-outline-primary" type="submit" value="Rent" />
-                                            @Html.Hidden("CarId", car.Id)
-                                        </form>
-                                    </div>
+                                    @if (car.Availability != false)
+                                    {
+                                        <div class="col">
+                                            <form asp-controller="Reservation" asp-action="AddReservation" method="get">
+                                                <button class="btn btn-outline-primary col-12" type="submit">Rent</button>
+                                                @Html.Hidden("CarId", car.Id)
+                                            </form>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p>This car is currently not available for reservation!</p> 
+                                    }
                                 </div>
                                 @if (User.IsInRole("Admin"))
                                 {
-                                    <br>
                                     <div class="row">
                                         <div class="col">
                                             <form asp-action="Edit" method="get">
-                                                <input class="btn btn-outline-dark" type="submit" value="Edit" />
+                                                <button class="btn btn-outline-dark col-12" type="submit">Edit</button>
                                                 @Html.Hidden("CarId", car.Id)
                                             </form>
                                         </div>
                                         <div class="col">
                                             <form asp-action="Delete" method="post">
-                                                <input class="btn btn-outline-dark" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
+                                                <button class="btn btn-outline-dark col-12" type="submit" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                                                 @Html.Hidden("CarId", car.Id)
                                                 @Html.Hidden("Feedbacks", car.Feedbacks)
                                             </form>

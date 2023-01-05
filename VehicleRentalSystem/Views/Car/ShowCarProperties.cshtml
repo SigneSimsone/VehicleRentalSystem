@@ -5,6 +5,14 @@
 </form>
 <br />
 
+<div>
+    @Html.ValidationMessage("NoBrandsAdded")
+    @Html.ValidationMessage("NoModelsAdded")
+    @Html.ValidationMessage("NoFuelTypesAdded")
+    @Html.ValidationMessage("NoGearboxTypesAdded")
+    @Html.ValidationMessage("NoLocationsAdded")
+</div>
+
 @if (Model != null && Model.Brands != null && Model.Brands.Any())
 {
     <h3 id="brands">Brands</h3>
@@ -17,7 +25,7 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            @foreach (var brand in Model.Brands)
+            @foreach (var brand in Model.Brands.OrderBy(r => r.Brand))
             {
                 <tr>
                     <td>@brand.Brand</td>
@@ -51,7 +59,7 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            @foreach (var carModel in Model.Models)
+            @foreach (var carModel in Model.Models.OrderBy(r => r.Model))
             {
                 <tr>
                     <td>@carModel.Model</td>
@@ -85,7 +93,7 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            @foreach (var fuelType in Model.FuelTypes)
+            @foreach (var fuelType in Model.FuelTypes.OrderBy(r => r.FuelType))
             {
                 <tr>
                     <td>@fuelType.FuelType</td>
@@ -119,7 +127,7 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            @foreach (var gearboxType in Model.GearboxTypes)
+            @foreach (var gearboxType in Model.GearboxTypes.OrderBy(r => r.Gearbox))
             {
                 <tr>
                     <td>@gearboxType.Gearbox</td>
@@ -153,7 +161,7 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            @foreach (var location in Model.Locations)
+            @foreach (var location in Model.Locations.OrderBy(r => r.FullLocation))
             {
                 <tr>
                     <td>@location.FullLocation</td>

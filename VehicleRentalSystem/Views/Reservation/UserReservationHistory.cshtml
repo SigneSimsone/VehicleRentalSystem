@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            @foreach (var reservation in Model.Reservations)
+            @foreach (var reservation in Model.Reservations.OrderBy(r => r.StartDate).ThenBy(r => r.EndDate))
             {
                 if (reservation.User.Id == Model.UserId)
                 {

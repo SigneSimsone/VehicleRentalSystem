@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody id="tbody">
-            @foreach (var reservation in Model.Reservations)
+            @foreach (var reservation in Model.Reservations.OrderBy(r => r.StartDate).ThenBy(r => r.EndDate))
             {
                 <tr scope="row">
                     <td>@reservation.User.Email</td>

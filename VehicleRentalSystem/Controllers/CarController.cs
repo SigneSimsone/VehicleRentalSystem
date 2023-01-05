@@ -60,7 +60,7 @@ namespace VehicleRentalSystem.Controllers
                 _notyfService.Error("Car with the same registration number already exists!");
                 return View("AddCar", model);
             }
-
+            
             string relativeFilePath = null;
             BrandModel brandmodel = _carDataManager.GetOneBrand(model.SelectedBrand);
             CarModelModel carmodelmodel = _carDataManager.GetOneCarModel(model.SelectedCarModel);
@@ -82,7 +82,7 @@ namespace VehicleRentalSystem.Controllers
                 relativeFilePath = Path.Combine("\\img", fileName);
             }
 
-            var dailyPrice = Math.Round(model.DailyPrice.Value);
+            var dailyPrice = Math.Round(model.DailyPrice.Value, 2);
 
             _carDataManager.AddCar(brandmodel,
                                    carmodelmodel,
@@ -434,6 +434,27 @@ namespace VehicleRentalSystem.Controllers
             viewModel.FuelTypes = fuelTypes;
             viewModel.GearboxTypes = gearboxTypes;
             viewModel.Locations = locations;
+
+            if (!brands.Any())
+            {
+                ModelState.AddModelError("NoBrandsAdded", "No brands have been added in the system!");
+            }
+            if (!models.Any())
+            {
+                ModelState.AddModelError("NoModelsAdded", "No models have been added in the system!");
+            }
+            if (!fuelTypes.Any())
+            {
+                ModelState.AddModelError("NoFuelTypesAdded", "No fuel types have been added in the system!");
+            }
+            if (!gearboxTypes.Any())
+            {
+                ModelState.AddModelError("NoGearboxTypesAdded", "No gearbox types have been added in the system!");
+            }
+            if (!locations.Any())
+            {
+                ModelState.AddModelError("NoLocationsAdded", "No locations have been added in the system!");
+            }
 
             return View("ShowCarProperties", viewModel);
         }

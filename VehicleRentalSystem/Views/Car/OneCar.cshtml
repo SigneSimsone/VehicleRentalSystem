@@ -20,28 +20,37 @@
         <li>Passengers: @Model.Passengers</li>
         <li>Luggage: @Model.Luggage</li>
         <li>Doors: @Model.Doors</li>
-        @if(@Model.AirConditioner == true)
+        @if (@Model.AirConditioner == true)
         {
-        <li>Air Conditioner: Yes</li>
+            <li>Air Conditioner: Yes</li>
         }
-        else{
-        <li>Air Conditioner: No</li>
+        else
+        {
+            <li>Air Conditioner: No</li>
         }
-        @if(@Model.Availability == true)
+        @if (@Model.Availability == true)
         {
             <li>Available: Yes</li>
         }
-        else{
+        else
+        {
             <li>Available: No</li>
         }
     </ul>
     <br />
 
-    <form asp-controller="Reservation" asp-action="AddReservation" method="get">
-        <input class="btn btn-outline-primary" type="submit" value="Rent" />
-        @Html.Hidden("CarId", Model.Id)
-    </form>
-    <br />
+    @if (Model.Availability != false)
+    {
+        <form asp-controller="Reservation" asp-action="AddReservation" method="get">
+            <input class="btn btn-outline-primary" type="submit" value="Rent" />
+            @Html.Hidden("CarId", Model.Id)
+        </form>
+        <br />
+    }
+    else
+    {
+        <p>This car is currently not available for reservation!</p>
+    }
 
     <h5>Feedbacks</h5>
 

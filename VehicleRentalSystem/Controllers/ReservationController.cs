@@ -51,6 +51,7 @@ namespace VehicleRentalSystem.Controllers
 
             viewModel.StartDateString = reservation.StartDate.ToString("dd/MM/yyyy HH:mm");
             viewModel.EndDateString = reservation.EndDate.ToString("dd/MM/yyyy HH:mm");
+
             viewModel.Amount = payment.Amount;
             viewModel.PaymentDateString = payment.Date.ToString();
 
@@ -98,6 +99,7 @@ namespace VehicleRentalSystem.Controllers
             TimeSpan timeSpan = model.EndDate - model.StartDate;
             decimal days = (decimal)timeSpan.TotalDays;
             decimal amount = car.DailyPrice * days;
+            amount = Math.Round(amount, 2);
 
             model.PaymentId = _carDataManager.AddPayment(amount);
             PaymentModel payment = _carDataManager.GetPayment(model.PaymentId);
