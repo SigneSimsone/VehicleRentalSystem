@@ -26,13 +26,13 @@
                             <td>@reservation.Car.Model.Model</td>
                         <td>
                             <form asp-action="OpenReservation" method="get">
-                                <input type="submit" value="Open" />
+                                <input class="btn btn-outline-primary" type="submit" value="Open" />
                                 @Html.Hidden("ReservationId", reservation.Id)
                             </form>
                         </td>
                         <td>
                             <form asp-action="DeleteReservation" method="post">
-                                <input type="submit" value="Cancel" onclick="return confirm('Are you sure you want to cancel this reservation?')" />
+                                <input class="btn btn-outline-danger" type="submit" value="Cancel" onclick="return confirm('Are you sure you want to cancel this reservation?')" />
                                 @Html.Hidden("ReservationId", reservation.Id)
                             </form>
                         </td>

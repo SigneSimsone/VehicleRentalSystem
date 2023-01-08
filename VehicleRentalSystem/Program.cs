@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 
-
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
@@ -37,43 +36,6 @@ builder.Services.AddNotyf(config =>
     config.Position = NotyfPosition.TopRight;
 });
 
-//builder.Services.AddAuthentication().AddFacebook(facebookOptions =>
-//{
-//    facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
-//    facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
-//});
-
-/*builder.Services
-    .AddControllersWithViews()
-    .AddDataAnnotationsLocalization(x =>
-    {
-        x.DataAnnotationLocalizerProvider = (type, factory) =>
-        {
-            return factory.Create(typeof(SharedResource));
-        };
-    })
-
-    .AddViewLocalization();*/
-
-
-/*builder.Services.AddLocalization(options =>
-{
-    options.ResourcesPath = "Resources";
-});
-
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    options.SetDefaultCulture("en-US");
-    options.AddSupportedUICultures("en-US", "lv-LV");
-    options.FallBackToParentUICultures = true;
-
-    options
-        .RequestCultureProviders
-        .Remove(typeof(AcceptLanguageHeaderRequestCultureProvider));
-});
-
-builder.Services.AddScoped<RequestLocalizationCookiesMiddleware>();
-*/
 
 
 var app = builder.Build();
@@ -103,5 +65,6 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Home}/{action=Index}/{id?}");
     endpoints.MapRazorPages();
 });
+
 
 app.Run();

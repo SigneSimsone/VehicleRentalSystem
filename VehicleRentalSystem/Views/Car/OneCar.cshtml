@@ -2,86 +2,101 @@
 
 @if (Model != null)
 {
-    @*<h2 id="OneCar">More information</h2>*@
-    <img src="@Model.ImagePath" width="200">
-    <br />
-    <br />
-    <ul class="list-group" id="OneCarTable">
-        <li>Daily Price (EUR): @Model.DailyPrice</li>
-        <li>Brand: @Model.Brand.Brand</li>
-        <li>Model: @Model.Model.Model</li>
-        <li>Fuel Type: @Model.FuelType.FuelType</li>
-        <li>Gearbox Type: @Model.GearboxType.Gearbox</li>
-        <li>Location: @Model.Location.FullLocation</li>
-        <li>Year: @Model.Year</li>
-        <li>Registration Number: @Model.RegistrationNumber</li>
-        <li>Fuel Consumption: @Model.FuelConsumption</li>
-        <li>Mileage: @Model.Mileage</li>
-        <li>Passengers: @Model.Passengers</li>
-        <li>Luggage: @Model.Luggage</li>
-        <li>Doors: @Model.Doors</li>
-        @if (@Model.AirConditioner == true)
-        {
-            <li>Air Conditioner: Yes</li>
-        }
-        else
-        {
-            <li>Air Conditioner: No</li>
-        }
-        @if (@Model.Availability == true)
-        {
-            <li>Available: Yes</li>
-        }
-        else
-        {
-            <li>Available: No</li>
-        }
-    </ul>
-    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-6 offset-3">
+                <div class="mt-3 p-3 shadow rounded">
+                    <div class="text-center border-bottom mb-3 p-3">
+                        <h3 class="text-info">More Information</h3>
+                    </div>
+                    <div class="p-3">
+                        <img class="rounded mx-auto d-block" src="@Model.ImagePath" width="400">
+                        <div class="card-body">
+                            <h4 class="card-title text-center">@Model.Brand.Brand @Model.Model.Model</h4>
+                            <p class="card-text text-center">@Model.DailyPrice EUR/day</p>
+                        </div>
+                        <br />
+                        <h6>About car:</h6>
+                        <ul class="list-group col-6 offset-1" id="OneCar">                          
+                            <li>Fuel Type: @Model.FuelType.FuelType</li>
+                            <li>Gearbox Type: @Model.GearboxType.Gearbox</li>
+                            <li>Location: @Model.Location.FullLocation</li>
+                            <li>Year: @Model.Year</li>
+                            <li>Registration Number: @Model.RegistrationNumber</li>
+                            <li>Fuel Consumption: @Model.FuelConsumption l/100km</li>
+                            <li>Mileage: @Model.Mileage km</li>
+                            <li>Passengers: @Model.Passengers</li>
+                            <li>Luggage: @Model.Luggage</li>
+                            <li>Doors: @Model.Doors</li>
+                            @if (@Model.AirConditioner == true)
+                            {
+                                <li>Air Conditioner: Yes</li>
+                            }
+                            else
+                            {
+                                <li>Air Conditioner: No</li>
+                            }
+                            @if (@Model.Availability == true)
+                            {
+                                <li>Available: Yes</li>
+                            }
+                            else
+                            {
+                                <li>Available: No</li>
+                            }
+                        </ul>
+                        <br />
 
-    @if (Model.Availability != false)
-    {
-        <form asp-controller="Reservation" asp-action="AddReservation" method="get">
-            <input class="btn btn-outline-primary" type="submit" value="Rent" />
-            @Html.Hidden("CarId", Model.Id)
-        </form>
-        <br />
-    }
-    else
-    {
-        <p>This car is currently not available for reservation!</p>
-    }
+                        @if (Model.Availability != false)
+                        {
+                            <form asp-controller="Reservation" asp-action="AddReservation" method="get">
+                                <input class="btn btn-outline-primary" type="submit" value="Rent" />
+                                @Html.Hidden("CarId", Model.Id)
+                            </form>
+                            <br />
+                        }
+                        else
+                        {
+                            <p>This car is currently not available for reservation!</p>
+                        }
 
-    <h5>Feedbacks</h5>
+                        <hr>
+                        <h5 class="text-center">Feedbacks</h5>
+                        <br>
+                        <form asp-action="AddFeedback" method="post">
+                            <label for="new-comment">Add comment:</label>
+                            <input type="text" id="new-comment" name="comment" />
+                            <input class="btn btn-outline-primary btn-sm" type="submit" value="Submit" />
+                            @Html.Hidden("CarId", Model.Id)
+                        </form>
+                        <br />
 
-    <form asp-action="AddFeedback" method="post">
-        <label for="new-comment">Add comment:</label>
-        <input type="text" id="new-comment" name="comment" />
-        <input class="btn btn-outline-primary btn-sm" type="submit" value="Submit" />
-        @Html.Hidden("CarId", Model.Id)
-    </form>
-    <br />
+                        @foreach (var feedback in Model.Feedbacks)
+                        {
+                            <li>
+                                @feedback.Comment
+                                <br />
+                                @feedback.Date.ToString("dd/MM/yyyy HH:mm")
+                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <form asp-action="DeleteFeedback" method="post">
+                                    <input class="btn btn-outline-danger btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
+                                    @Html.Hidden("FeedbackId", feedback.Id)
+                                    @Html.Hidden("CarId", Model.Id)
+                                </form>
+                            }
+                            <hr />
+                        }
 
-    @foreach (var feedback in Model.Feedbacks)
-    {
-        <li>
-            @feedback.Comment
-            <br />
-            @feedback.Date.ToString("dd/MM/yyyy HH:mm")
-        </li>
-        @if (User.IsInRole("Admin"))
-        {
-            <form asp-action="DeleteFeedback" method="post">
-                <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
-                @Html.Hidden("FeedbackId", feedback.Id)
-                @Html.Hidden("CarId", Model.Id)
-            </form>
-        }
-        <hr />
-    }
+                        @if (!Model.Feedbacks.Any())
+                        {
+                            <p> This car currently doesn't have any feedbacks!</p>
+                        }
 
-    @if (!Model.Feedbacks.Any())
-    {
-        <p> This car doesn't have any feedbacks!</p>
-    }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }

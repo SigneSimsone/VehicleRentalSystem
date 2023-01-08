@@ -55,11 +55,13 @@
                                     }
                                     else
                                     {
+                                        <br /><br />
                                         <p>This car is currently not available for reservation!</p> 
                                     }
                                 </div>
                                 @if (User.IsInRole("Admin"))
                                 {
+                                    <hr />
                                     <div class="row">
                                         <div class="col">
                                             <form asp-action="Edit" method="get">

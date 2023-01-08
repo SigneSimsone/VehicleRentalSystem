@@ -5,7 +5,7 @@
         <div class="col-6 offset-3">
             <div class="mt-3 p-3 shadow rounded">
                 <div class="text-center border-bottom mb-3 p-3">
-                    <h2 class="text-info">Reservation information</h2>
+                    <h3 class="text-info">Reservation Information</h3>
                 </div>
                 <div class="green">
                     @if (!string.IsNullOrEmpty(Model.SuccessMessage))
@@ -18,54 +18,82 @@
 
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        <label asp-for="Brand">Brand</label>
+                        <div class="form-floating">
+                        <input asp-for="Name" class="form-control" readonly />
+                        <label asp-for="Name">Name</label><br />
+                        </div>
+                        
+                        <div class="form-floating">
+                        <input asp-for="Surname" class="form-control" readonly />
+                        <label asp-for="Surname">Surname</label><br />
+                        </div>
+                        
+                        <div class="form-floating">
+                        <input asp-for="Email" class="form-control" readonly />
+                        <label asp-for="Email">E-mail Address</label><br />
+                        </div>
+                        
+                        <div class="form-floating">
+                        <input asp-for="PhoneNr" class="form-control" readonly />
+                        <label asp-for="PhoneNr">Phone Number</label><br />
+                        </div>
+
+                        <div class="form-floating">
                         <input asp-for="Brand" class="form-control" readonly />
+                        <label asp-for="Brand">Brand</label><br />
+                        </div>
 
-                        <label asp-for="CarModel">Model</label>
+                        <div class="form-floating">
                         <input asp-for="CarModel" class="form-control" readonly />
-
-                        <label asp-for="FuelType">Fuel Type</label>
+                        <label asp-for="CarModel">Model</label><br />
+                        </div>
+                        
+                        <div class="form-floating">
                         <input asp-for="FuelType" class="form-control" readonly />
-
-                        <label asp-for="GearboxType">Gearbox Type</label>
+                        <label asp-for="FuelType">Fuel Type</label><br />
+                        </div>
+                        
+                        <div class="form-floating">
                         <input asp-for="GearboxType" class="form-control" readonly />
-
-                        <label asp-for="Location">Location</label>
+                        <label asp-for="GearboxType">Gearbox Type</label><br />
+                        </div>
+                        
+                        <div class="form-floating">
                         <input asp-for="Location" class="form-control" readonly />
-
-                        <label asp-for="DailyPrice">Daily Price (EUR)</label>
+                        <label asp-for="Location">Location</label><br />
+                        </div>
+                        
+                        <div class="form-floating">
                         <input asp-for="DailyPrice" class="form-control" readonly />
-
-                        <label asp-for="StartDateString">Reservation start date</label>
+                        <label asp-for="DailyPrice">Daily Price (EUR)</label><br />
+                        </div>
+                        
+                        <div class="form-floating">
                         <input asp-for="StartDateString" class="form-control" readonly />
-
-                        <label asp-for="EndDateString">Reservation end date</label>
+                        <label asp-for="StartDateString">Reservation Start Date</label><br />
+                        </div>
+                        
+                        <div class="form-floating">
                         <input asp-for="EndDateString" class="form-control" readonly />
-
-                        <label asp-for="Amount">Total amount (EUR)</label>
+                        <label asp-for="EndDateString">Reservation End Date</label><br />
+                        </div>
+                        
+                        <div class="form-floating">
                         <input asp-for="Amount" class="form-control" readonly />
-
-                        <label asp-for="PaymentDateString">Payment Date</label>                      
+                        <label asp-for="Amount">Total Amount (EUR)</label><br />
+                        </div>
+                                                                                        
                         @if (string.IsNullOrEmpty(Model.PaymentDateString))
                         {
                             <p>Payment has not been made.</p>
                         }
                         else
                         {
+                            <div class="form-floating">
                             <input asp-for="PaymentDateString" class="form-control" readonly />
-                        }
-
-                        <label asp-for="Name">Name</label>
-                        <input asp-for="Name" class="form-control" readonly />
-
-                        <label asp-for="Surname">Surname</label>
-                        <input asp-for="Surname" class="form-control" readonly />
-
-                        <label asp-for="Email">E-mail Address</label>
-                        <input asp-for="Email" class="form-control" readonly />
-
-                        <label asp-for="PhoneNr">Phone Number</label>
-                        <input asp-for="PhoneNr" class="form-control" readonly />
+                            <label asp-for="PaymentDateString">Payment Date</label><br /> 
+                            </div> 
+                        }                                                                 
                     </form>
                 </div>
             </div>

@@ -18,19 +18,19 @@ namespace VehicleRentalSystem.Models
         public Guid? SelectedFuelType { get; set; }
         public Guid? SelectedLocation { get; set; }
 
-        [RegularExpression("^[0-9]{4}$", ErrorMessage = "The field Year must contain exactly 4 numbers")]
+        [RegularExpression("^[0-9]{4}$", ErrorMessage = "The field Year must contain exactly 4 numbers.")]
         public int? Year { get; set; }
 
-        [RegularExpression("^[0-9]+[0-9,.]*$", ErrorMessage = "Must input a positive number")]
+        [RegularExpression("^[0-9]+[0-9,]*$", ErrorMessage = "Must input a positive number, decimal separator must be a comma.")]
         public float? FuelConsumption { get; set; }
 
-        [RegularExpression("^[0-9]+[0-9]*$", ErrorMessage = "Must input a positive number")]
+        [RegularExpression("^[0-9]+[0-9]*$", ErrorMessage = "Must input a positive number.")]
         public int? Mileage { get; set; }
 
-        [RegularExpression("^[0-9]+[0-9]*$", ErrorMessage = "Must input a positive number")]
+        [RegularExpression("^[0-9]+[0-9]*$", ErrorMessage = "Must input a positive number.")]
         public int? Passengers { get; set; }
 
-        [RegularExpression("^[0-9]+[0-9,.]*$", ErrorMessage = "Must input a positive number")]
+        [RegularExpression("^[0-9]+[0-9,]*$", ErrorMessage = "Must input a positive number, decimal separator must be a comma.")]
         public decimal? DailyPrice { get; set; }
     }
 }

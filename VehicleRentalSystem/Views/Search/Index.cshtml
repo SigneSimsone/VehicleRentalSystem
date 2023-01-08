@@ -1,55 +1,89 @@
 ﻿@model SearchViewModel
 
-<h5>Search cars:</h5>
-<form asp-controller="Search" asp-action="SearchCars" method="post">
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="mt-3 p-3 shadow rounded">
+                <div class="text-center border-bottom mb-3 p-3">
+                    <h3 class="text-info">Search Cars</h3>
+                </div>
+                <div class="p-3">
+                    <form asp-controller="Search" asp-action="SearchCars" method="post">
 
-    <label asp-for="SelectedBrand">Brand</label>
-    <select asp-for="SelectedBrand" asp-items="Model.BrandDropdown" class="form-control">
-        <option value="">Select brand</option>
-    </select>
+                        <div class="form-floating">
+                            <select asp-for="SelectedBrand" asp-items="Model.BrandDropdown" class="form-control">
+                                <option value="">Select brand</option>
+                            </select>
+                            <label asp-for="SelectedBrand">Brand</label><br />
+                        </div>
 
-    <label asp-for="SelectedGearboxType">Gearbox type</label>
-    <select asp-for="SelectedGearboxType" asp-items="Model.GearboxTypeDropdown" class="form-control">
-        <option value="">Select gearbox type</option>
-    </select>
+                        <div class="form-floating">
+                            <select asp-for="SelectedGearboxType" asp-items="Model.GearboxTypeDropdown" class="form-control">
+                                <option value="">Select gearbox type</option>
+                            </select>
+                            <label asp-for="SelectedGearboxType">Gearbox type</label><br />
+                        </div>
 
-    <label asp-for="SelectedFuelType">Fuel type</label>
-    <select asp-for="SelectedFuelType" asp-items="Model.FuelTypeDropdown" class="form-control">
-        <option value="">Select fuel type</option>
-    </select>
+                        <div class="form-floating">
+                            <select asp-for="SelectedFuelType" asp-items="Model.FuelTypeDropdown" class="form-control">
+                                <option value="">Select fuel type</option>
+                            </select>
+                            <label asp-for="SelectedFuelType">Fuel type</label><br />
+                        </div>
 
-    <label asp-for="SelectedLocation">Location</label>
-    <select asp-for="SelectedLocation" asp-items="Model.LocationDropdown" class="form-control">
-        <option value="">Select location</option>
-    </select>
+                        <div class="form-floating">
+                            <select asp-for="SelectedLocation" asp-items="Model.LocationDropdown" class="form-control">
+                                <option value="">Select location</option>
+                            </select>
+                            <label asp-for="SelectedLocation">Location</label><br />
+                        </div>
 
-    <label asp-for="Year">Year</label>
-    <input asp-for="Year" class="form-control" />
-    <span asp-validation-for="Year" class="text-danger"></span><br />
+                        <div class="form-floating">
+                            <input asp-for="Year" class="form-control" />
+                            <label asp-for="Year">Year</label>
+                            <span asp-validation-for="Year" class="text-danger"></span><br />
+                        </div>
 
-    <label asp-for="FuelConsumption">Fuel Consumption</label>
-    <input asp-for="FuelConsumption" class="form-control" />
-    <span asp-validation-for="FuelConsumption" class="text-danger"></span><br />
+                        <div class="form-floating">
+                            <input asp-for="FuelConsumption" class="form-control" />
+                            <label asp-for="FuelConsumption">Fuel Consumption (Max)</label>
+                            <span asp-validation-for="FuelConsumption" class="text-danger"></span><br />
+                        </div>
 
-    <label asp-for="Mileage">Mileage</label>
-    <input asp-for="Mileage" class="form-control" />
-    <span asp-validation-for="Mileage" class="text-danger"></span><br />
+                        <div class="form-floating">
+                            <input asp-for="Mileage" class="form-control" />
+                            <label asp-for="Mileage">Mileage (Max)</label>
+                            <span asp-validation-for="Mileage" class="text-danger"></span><br />
+                        </div>
 
-    <label asp-for="Passengers">Passengers</label>
-    <input asp-for="Passengers" class="form-control" />
-    <span asp-validation-for="Passengers" class="text-danger"></span><br />
+                        <div class="form-floating">
+                            <input asp-for="Passengers" class="form-control" />
+                            <label asp-for="Passengers">Minimal No. Of Seats</label>
+                            <span asp-validation-for="Passengers" class="text-danger"></span><br />
+                        </div>
 
-    <label asp-for="DailyPrice">Daily Price (EUR)</label>
-    <input asp-for="DailyPrice" class="form-control" />
-    <span asp-validation-for="DailyPrice" class="text-danger"></span><br />
+                        <div class="form-floating">
+                            <input asp-for="DailyPrice" class="form-control" />
+                            <label asp-for="DailyPrice">Daily Price/EUR (Max)</label>
+                            <span asp-validation-for="DailyPrice" class="text-danger"></span><br />
+                        </div>
 
-    <label asp-for="StartDate">Reservation start date</label>
-    <input asp-for="StartDate" class="form-control" value="" />
-    <span asp-validation-for="StartDate" class="text-danger"></span><br />
+                        <div class="form-floating">
+                            <input asp-for="StartDate" class="form-control" value="" />
+                            <label asp-for="StartDate">Reservation Start Date</label>
+                            <span asp-validation-for="StartDate" class="text-danger"></span><br />
+                        </div>
 
-    <label asp-for="EndDate">Reservation end date</label>
-    <input asp-for="EndDate" class="form-control" type="datetime-local" value="" />
-    <span asp-validation-for="EndDate" class="text-danger"></span><br />
+                        <div class="form-floating">
+                            <input asp-for="EndDate" class="form-control" type="datetime-local" value="" />
+                            <label asp-for="EndDate">Reservation End Date</label>
+                            <span asp-validation-for="EndDate" class="text-danger"></span><br />
+                        </div>
 
-    <input type="submit" value="Submit" />
-</form>
+                        <input class="btn btn-outline-primary" type="submit" value="Search" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

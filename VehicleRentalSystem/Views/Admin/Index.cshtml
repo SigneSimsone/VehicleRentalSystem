@@ -1,57 +1,96 @@
 ﻿@model AdminViewModel
 
-<h5>Assign a new role to a user:</h5>
-<form asp-action=AddUserToRole method="post">
-    <label asp-for="SelectedUser">User</label>
-    <select asp-for="SelectedUser" asp-items="Model.UserDropdown" class="form-control">
-        <option value="">Select user</option>
-    </select>
-    <span asp-validation-for="SelectedUser" class="text-danger"></span><br />
-    
-    <label asp-for="SelectedRole">Role</label>
-    <select asp-for="SelectedRole" asp-items="Model.RoleDropdown" class="form-control">
-        <option value="">Select role</option>
-    </select>
-    <span asp-validation-for="SelectedRole" class="text-danger"></span><br />
-    <input type="submit" value="Submit" />
-</form>
-<br />
-
-<h5>Create a role:</h5>
-<form asp-action="CreateRole" method="post">
-    <label asp-for="NewRole">New Role</label>
-    <input asp-for="NewRole" class="form-control" />
-    <span asp-validation-for="NewRole" class="text-danger"></span><br />
-    <input type="submit" value="Submit" />
-</form>
-<br />
-
-
 @if (Model != null)
 {
-    <h2 id="users">Users</h2>
-    <table class="table" id="UsersTable">
-        <thead class="thead-light" id="thead">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Surname</th>
-                <th scope="col">Email</th>
-                <th scope="col">Roles</th>
-            </tr>
-        </thead>
-        <tbody id="tbody">
-            @foreach (var user in Model.Users.OrderBy(u => u.RolesAsString).ThenBy(u => u.Surname))
-            {
-                if (user.EmailConfirmed == true)
-                {
-                    <tr scope="row">
-                        <td>@user.Name</td>
-                        <td>@user.Surname</td>
-                        <td>@user.Email</td>
-                        <td>@user.RolesAsString</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
+    <div class="container">
+        <div class="row">
+            <div class="col-6 offset-3">
+                <div class="mt-3 p-3 shadow rounded">
+                    <div class="text-center border-bottom mb-3 p-3">
+                        <h3 class="text-info">Users</h3>
+                    </div>
+                    <div class="p-3">
+                        <table class="table" id="UsersTable">
+                            <thead class="thead-light" id="thead">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Surname</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Roles</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+                                @foreach (var user in Model.Users.OrderBy(u => u.RolesAsString).ThenBy(u => u.Surname))
+                                {
+                                    if (user.EmailConfirmed == true)
+                                    {
+                                        <tr scope="row">
+                                            <td>@user.Name</td>
+                                            <td>@user.Surname</td>
+                                            <td>@user.Email</td>
+                                            <td>@user.RolesAsString</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="mt-3 p-3 shadow rounded">
+                <div class="text-center border-bottom mb-3 p-3">
+                    <h4 class="text-info">Assign Role To User</h4>
+                </div>
+                <div class="p-3">
+                    <form asp-action=AddUserToRole method="post">
+                        <div class="form-floating">
+                            <select asp-for="SelectedUser" asp-items="Model.UserDropdown" class="form-control">
+                                <option value="">Select user</option>
+                            </select>
+                            <label asp-for="SelectedUser">User</label>
+                            <span asp-validation-for="SelectedUser" class="text-danger"></span><br />
+                        </div>
+
+                        <div class="form-floating">
+                            <select asp-for="SelectedRole" asp-items="Model.RoleDropdown" class="form-control">
+                                <option value="">Select role</option>
+                            </select>
+                            <label asp-for="SelectedRole">Role</label>
+                            <span asp-validation-for="SelectedRole" class="text-danger"></span><br />
+                        </div>
+                        <input class="btn btn-outline-primary" type="submit" value="Submit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="mt-3 p-3 shadow rounded">
+                <div class="text-center border-bottom mb-3 p-3">
+                    <h4 class="text-info">Create Role</h4>
+                </div>
+                <div class="p-3">
+                    <form asp-action="CreateRole" method="post">
+                        <div class="form-floating">
+                            <input asp-for="NewRole" class="form-control" />
+                            <label asp-for="NewRole">New Role</label>
+                            <span asp-validation-for="NewRole" class="text-danger"></span><br />
+                        </div>
+                        <input class="btn btn-outline-primary" type="submit" value="Submit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

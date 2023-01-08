@@ -66,7 +66,8 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "RegisteredUser")]
         [HttpPost]
         public async Task<IActionResult> AddReservation(ReservationViewModel model)
-        {
+        {//add a new reservation
+            //check if input is correct
             if (model.StartDate < DateTime.UtcNow || model.EndDate < DateTime.UtcNow)
             {
                 ModelState.AddModelError("IncorrectDates", "Please input correct dates! Dates cannot be in the past.");
@@ -85,6 +86,7 @@ namespace VehicleRentalSystem.Controllers
                 return View(nameof(AddReservation), model);
             }
 
+            //check if car is available in the period
             ReservationModel[] reservations = _carDataManager.CheckIfDatesValid(model.CarId, model.StartDate, model.EndDate);
             if (reservations.Any())
             {
@@ -96,6 +98,7 @@ namespace VehicleRentalSystem.Controllers
 
             CarModel car = _carDataManager.GetOneCar(model.CarId);
 
+            //calculate payment amount
             TimeSpan timeSpan = model.EndDate - model.StartDate;
             decimal days = (decimal)timeSpan.TotalDays;
             decimal amount = car.DailyPrice * days;

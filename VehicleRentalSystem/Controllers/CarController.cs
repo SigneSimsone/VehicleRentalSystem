@@ -47,20 +47,20 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddCar(CarViewModel model)
-        {
+        {//add a new car
             if (!ModelState.IsValid)
             {
                 return RedirectToAction(nameof(Index), model);
             }
-
+            //check if reg nr does not match
             CarModel[] cars = _carDataManager.GetCarsByRegNr(model.RegistrationNumber);
 
             if (cars.Any())
             {
                 _notyfService.Error("Car with the same registration number already exists!");
-                return View("AddCar", model);
+                return RedirectToAction(nameof(OpenAddCar), model);
             }
-            
+
             string relativeFilePath = null;
             BrandModel brandmodel = _carDataManager.GetOneBrand(model.SelectedBrand);
             CarModelModel carmodelmodel = _carDataManager.GetOneCarModel(model.SelectedCarModel);
@@ -108,7 +108,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Guid CarId, CarViewModel model)
-        {
+        {//save edited information
             if (!ModelState.IsValid)
             {
                 return RedirectToAction(nameof(Index), model);
@@ -172,7 +172,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(Guid CarId)
-        {
+        {//show car info for editing
             // get car from database (CarModel)
             CarModel car = _carDataManager.GetOneCar(CarId);
             CarViewModel viewModel = new CarViewModel();
@@ -220,7 +220,7 @@ namespace VehicleRentalSystem.Controllers
 
         [HttpGet]
         public IActionResult OpenCar(Guid CarId)
-        {
+        {//open more information about a car
             if (CarId == Guid.Empty)
             {
                 return RedirectToAction(nameof(Index));
@@ -235,7 +235,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Delete(Guid CarId)
-        {
+        {//delete a car
             ReservationModel[] reservations = _carDataManager.GetReservations(CarId);
 
             if (reservations.Any())
@@ -252,7 +252,7 @@ namespace VehicleRentalSystem.Controllers
 
         [HttpGet]
         public IActionResult ShowFilteredCars(Guid[] carsId)
-        {
+        {//show cars that match search criteria
             var userId = _userManager.GetUserId(User);
             CarModel[] cars = _carDataManager.GetCars(carsId.ToList());
 
@@ -271,7 +271,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult OpenAddCar(CarViewModel viewModel = null)
-        {
+        {//open view to add a new car
             BrandModel[] brands = _carDataManager.GetBrands();
             var brandList = brands.Select(x => new { x.Id, x.Brand }).ToList();
             viewModel.BrandDropdown = new SelectList(brandList, "Id", "Brand");
@@ -292,8 +292,6 @@ namespace VehicleRentalSystem.Controllers
             var locationList = locations.Select(x => new { x.Id, x.FullLocation }).ToList();
             viewModel.LocationDropdown = new SelectList(locationList, "Id", "FullLocation");
 
-            viewModel.FuelConsumption = null;
-
             ModelState.Clear();
             return View("AddCar", viewModel);
         }
@@ -301,7 +299,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult OpenAddCarProperties()
-        {
+        {//open view to add new car properties
             return View("AddCarProperties");
         }
 
