@@ -23,7 +23,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "RegisteredUser")]
         [HttpGet]
         public IActionResult Confirmation(ReservationViewModel viewModel)
-        {
+        {//show info about reservation
             var userId = _userManager.GetUserId(User);
 
             if (viewModel == null)
@@ -118,7 +118,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "RegisteredUser")]
         [HttpGet]
         public IActionResult AddReservation(Guid carId)
-        {
+        {//show car info while adding new reservation
             // get car from database (CarModel)
             CarModel car = _carDataManager.GetOneCar(carId);
 
@@ -137,9 +137,8 @@ namespace VehicleRentalSystem.Controllers
 
 
         [Authorize(Roles = "RegisteredUser")]
-        //[HttpPost]
         public IActionResult UserReservationHistory()
-        {
+        {//show all reservations user has
             var user = _userManager.GetUserAsync(User).Result;
 
             ReservationViewModel viewModel = new ReservationViewModel();
@@ -152,9 +151,8 @@ namespace VehicleRentalSystem.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        //[HttpPost]
         public IActionResult AllReservations()
-        {
+        {//show all reservations that are in the system
             var user = _userManager.GetUserAsync(User).Result;
 
             ReservationViewModel viewModel = new ReservationViewModel();
@@ -171,7 +169,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddPaymentDate(DateTime PaymentDate, Guid ReservationId, ReservationViewModel model)
-        {
+        {//add date when user has paid for reservation
             ReservationModel reservation = _carDataManager.GetOneReservation(ReservationId);
             _carDataManager.AddPaymentDate(reservation.PaymentId, PaymentDate);
             _notyfService.Success("Payment date added successfully!");
@@ -182,7 +180,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult AddPaymentDate(Guid ReservationId)
-        {
+        {//open add payment date form and show info about reservation
             if (ReservationId == Guid.Empty)
             {
                 return RedirectToAction(nameof(AllReservations));
@@ -210,7 +208,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "RegisteredUser")]
         [HttpGet]
         public IActionResult OpenReservation(Guid ReservationId)
-        {
+        {//show info about reservation to user
             if (ReservationId == Guid.Empty)
             {
                 return RedirectToAction(nameof(UserReservationHistory));
@@ -244,7 +242,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult OpenReservationAdmin(Guid ReservationId)
-        {
+        {//show info about reservation to admin
             if (ReservationId == Guid.Empty)
             {
                 return RedirectToAction(nameof(AllReservations));
@@ -279,7 +277,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "RegisteredUser")]
         [HttpPost]
         public IActionResult DeleteReservation(Guid ReservationId)
-        {
+        {//user deletes reservation
             _carDataManager.DeleteReservation(ReservationId);
             _notyfService.Success("Reservation deleted successfully!");
 
@@ -289,7 +287,7 @@ namespace VehicleRentalSystem.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteReservationAdmin(Guid ReservationId)
-        {
+        {//admin deletes reservation
             _carDataManager.DeleteReservation(ReservationId);
             _notyfService.Success("Reservation deleted successfully!");
 

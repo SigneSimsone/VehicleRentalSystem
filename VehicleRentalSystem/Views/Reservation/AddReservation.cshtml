@@ -7,9 +7,9 @@
                 <div class="text-center border-bottom mb-3 p-3">
                     <h2 class="text-info">Reservation</h2>
                 </div>
-                <div>
-                    @Html.ValidationMessage("IncorrectDates")
-                    @Html.ValidationMessage("CarNotAvailable")
+                <div class="text-center">
+                    <b>@Html.ValidationMessage("IncorrectDates")</b>
+                    <b>@Html.ValidationMessage("CarNotAvailable")</b>
                 </div>
                 <div class="p-3">
                     <form action="/Reservation/AddReservation" method="post" autocomplete="off">
@@ -20,31 +20,31 @@
                         <div class="form-floating">
                             <input asp-for="Brand" class="form-control" readonly />
                             <label asp-for="Brand">Brand</label>
-                            <span asp-validation-for="Brand" class="text-danger"></span><br />
+                            <span asp-validation-for="Brand" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating">
                             <input asp-for="CarModel" class="form-control" readonly />
                             <label asp-for="CarModel">Model</label>
-                            <span asp-validation-for="CarModel" class="text-danger"></span><br />
+                            <span asp-validation-for="CarModel" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating">
                             <input asp-for="FuelType" class="form-control" readonly />
                             <label asp-for="FuelType">Fuel Type</label>
-                            <span asp-validation-for="FuelType" class="text-danger"></span><br />
+                            <span asp-validation-for="FuelType" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating">
                             <input asp-for="GearboxType" class="form-control" readonly />
                             <label asp-for="GearboxType">Gearbox Type</label>
-                            <span asp-validation-for="GearboxType" class="text-danger"></span><br />
+                            <span asp-validation-for="GearboxType" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating">
                             <input asp-for="Location" class="form-control" readonly />
                             <label asp-for="Location">Location</label>
-                            <span asp-validation-for="Location" class="text-danger"></span><br />
+                            <span asp-validation-for="Location" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating">
@@ -56,7 +56,7 @@
                         <div class="form-floating">
                             <input asp-for="StartDate" class="form-control" type="datetime-local" value="" />
                             <label asp-for="StartDate">Reservation start date</label>
-                            <span asp-validation-for="StartDate" class="text-danger"></span><br />
+                            <span asp-validation-for="StartDate" class="text-danger"></span>
                         </div>
 
                         <div class="form-floating">

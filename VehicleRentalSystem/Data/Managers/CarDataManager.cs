@@ -166,6 +166,7 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext.SaveChanges();
         }
 
+        //edit car info
         internal void Edit(Guid id,
                            BrandModel brand,
                            CarModelModel model,
@@ -208,6 +209,7 @@ namespace VehicleRentalSystem.Data.Managers
             _dbContext.SaveChanges();
         }
 
+        //delete car
         internal void Delete(Guid id)
         {
             var item = _dbContext
@@ -470,6 +472,7 @@ namespace VehicleRentalSystem.Data.Managers
                      .Include(x => x.Reservations)
                      .AsQueryable();
 
+            //check for the requirements and get all the cars that match
             if (model.Brand != null)
             {
                 cars = cars.Where(x => x.Brand.Brand.Contains(model.Brand.Brand));
@@ -539,65 +542,35 @@ namespace VehicleRentalSystem.Data.Managers
                 return carList.ToArray();
             }
 
-            //if (model.StartDate.HasValue)
-            //{
-            //    var carsWithReservation = carList.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
-            //    (x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) ||
-            //    (x.StartDate < model.StartDate.Value && x.EndDate < model.StartDate.Value)));
-
-            //    result.AddRange(carsWithReservation);
-            //}
-
-            //if (model.EndDate.HasValue)
-            //{
-            //    var carsWithReservation = result.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
-            //    (x.StartDate > model.EndDate.Value && x.EndDate > model.EndDate.Value) ||
-            //    (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value)));
-
-            //    result.AddRange(carsWithReservation);
-            //}
-
+            //if only start date has input
             if (model.StartDate.HasValue && model.EndDate == null)
-            {
-                var carsWithReservation = carList.Where(t => t.Reservations.Any() && 
-                                                            !t.Reservations.All(x =>
-                                                                (x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) ||
-                                                                (x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value)));
+            {               
+                var carsWithReservation = carList.Where(t => t.Reservations.Any() &&
+                                                            t.Reservations.All(x =>
+                                                                (x.StartDate < model.StartDate.Value && x.EndDate < model.StartDate.Value)));
 
                 result.AddRange(carsWithReservation);
             }
 
+            //if only end date has input
             if (model.EndDate.HasValue && model.StartDate == null)
             {
                 var carsWithReservation = carList.Where(t => t.Reservations.Any() && 
                                                             t.Reservations.All(x =>
                                                                 (x.EndDate > model.EndDate.Value && x.StartDate > model.EndDate.Value) ||
-                                                                (x.EndDate < model.EndDate.Value && x.EndDate < model.EndDate.Value && x.EndDate < DateTime.UtcNow)));
+                                                                (x.EndDate < model.EndDate.Value && x.StartDate < model.EndDate.Value && x.EndDate < DateTime.UtcNow)));
 
                 result.AddRange(carsWithReservation);
             }
 
+            //if start date and end date has input
             if (model.StartDate.HasValue && model.EndDate.HasValue)
-            {
-                //var carsWithReservation = carList.Where(t => t.Reservations.Any() &&
-                //                            !t.Reservations.All(x =>
-                //                                (x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) ||
-                //                                (x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value)));
+            {               
+                var carsWithReservation = carList.Where(t => t.Reservations.Any() && t.Reservations.All(x =>
+               (x.StartDate < model.StartDate.Value && x.EndDate < model.StartDate.Value) ||
+               (x.EndDate > model.EndDate.Value && x.StartDate > model.EndDate.Value)));
 
-                //carsWithReservation = carsWithReservation.Where(t => t.Reservations.Any() &&
-                //                                                t.Reservations.All(x =>
-                //                                                   (x.EndDate > model.EndDate.Value && x.StartDate > model.EndDate.Value) ||
-                //                                                   (x.EndDate < model.EndDate.Value && x.EndDate < model.EndDate.Value && x.EndDate < DateTime.UtcNow)));
-                //result.AddRange(carsWithReservation);
-
-
-                var carsWithReservation = carList.Where(t => t.Reservations.Any() && !t.Reservations.All(x =>
-                ((x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate > model.EndDate.Value)) ||
-                ((x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate > model.EndDate.Value)) ||
-                ((x.StartDate < model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value)) ||
-                ((x.StartDate > model.StartDate.Value && x.EndDate > model.StartDate.Value) && (x.StartDate < model.EndDate.Value && x.EndDate < model.EndDate.Value))));
                 result.AddRange(carsWithReservation);
-
             }
 
             return result.ToArray();
@@ -605,7 +578,7 @@ namespace VehicleRentalSystem.Data.Managers
 
 
         internal ReservationModel[] CheckIfDatesValid(Guid carId, DateTime requestedStartDate, DateTime requestedEndDate)
-        {
+        {//check if car has reservations in the selected period
             IQueryable<ReservationModel>? reservations = _dbContext
                      .Reservations
                      .Include(x => x.Car)

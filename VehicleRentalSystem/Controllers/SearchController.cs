@@ -16,7 +16,7 @@ namespace VehicleRentalSystem.Controllers
         }
 
         public IActionResult Index()
-        {
+        {//show search form
             SearchViewModel viewModel = new SearchViewModel();
 
             BrandModel[] brands = _carDataManager.GetBrands();
@@ -41,7 +41,6 @@ namespace VehicleRentalSystem.Controllers
         [HttpPost]
         public IActionResult SearchCars(SearchViewModel model)
         {
-
             BrandModel brandmodel = null;
             GearboxModel gearboxmodel = null;
             FuelTypeModel fueltypemodel = null;
@@ -83,6 +82,7 @@ namespace VehicleRentalSystem.Controllers
                 EndDate = model.EndDate
             };
 
+            //get data from database
             CarModel[] cars = _carDataManager.SearchCars(requestModel);
 
             Guid[] carIdList = cars.Select(x => x.Id).ToArray();

@@ -13,36 +13,36 @@
                         <img class="rounded mx-auto d-block" src="@Model.ImagePath" width="400">
                         <div class="card-body">
                             <h4 class="card-title text-center">@Model.Brand.Brand @Model.Model.Model</h4>
-                            <p class="card-text text-center">@Model.DailyPrice EUR/day</p>
+                            <h5 class="card-text text-center">@Model.DailyPrice EUR/day</h5>
                         </div>
                         <br />
-                        <h6>About car:</h6>
+                        <h5>About Car:</h5>
                         <ul class="list-group col-6 offset-1" id="OneCar">                          
-                            <li>Fuel Type: @Model.FuelType.FuelType</li>
-                            <li>Gearbox Type: @Model.GearboxType.Gearbox</li>
-                            <li>Location: @Model.Location.FullLocation</li>
-                            <li>Year: @Model.Year</li>
-                            <li>Registration Number: @Model.RegistrationNumber</li>
-                            <li>Fuel Consumption: @Model.FuelConsumption l/100km</li>
-                            <li>Mileage: @Model.Mileage km</li>
-                            <li>Passengers: @Model.Passengers</li>
-                            <li>Luggage: @Model.Luggage</li>
-                            <li>Doors: @Model.Doors</li>
+                            <li><b>Fuel Type:</b> @Model.FuelType.FuelType</li>
+                            <li><b>Gearbox Type:</b> @Model.GearboxType.Gearbox</li>
+                            <li><b>Location:</b> @Model.Location.FullLocation</li>
+                            <li><b>Year:</b> @Model.Year</li>
+                            <li><b>Registration Number:</b> @Model.RegistrationNumber</li>
+                            <li><b>Fuel Consumption:</b> @Model.FuelConsumption l/100km</li>
+                            <li><b>Mileage:</b> @Model.Mileage km</li>
+                            <li><b>Passengers:</b> @Model.Passengers</li>
+                            <li><b>Luggage:</b> @Model.Luggage</li>
+                            <li><b>Doors:</b> @Model.Doors</li>
                             @if (@Model.AirConditioner == true)
                             {
-                                <li>Air Conditioner: Yes</li>
+                                <li><b>Air Conditioner:</b> Yes</li>
                             }
                             else
                             {
-                                <li>Air Conditioner: No</li>
+                                <li><b>Air Conditioner:</b> No</li>
                             }
                             @if (@Model.Availability == true)
                             {
-                                <li>Available: Yes</li>
+                                <li><b>Available:</b> Yes</li>
                             }
                             else
                             {
-                                <li>Available: No</li>
+                                <li><b>Available:</b> No</li>
                             }
                         </ul>
                         <br />
@@ -57,15 +57,16 @@
                         }
                         else
                         {
-                            <p>This car is currently not available for reservation!</p>
+                            <p class="text-center"><b>This car currently is not available for reservation!</b></p>
                         }
 
                         <hr>
-                        <h5 class="text-center">Feedbacks</h5>
+                        <br>
+                        <h4 class="text-center">Feedbacks</h4>
                         <br>
                         <form asp-action="AddFeedback" method="post">
-                            <label for="new-comment">Add comment:</label>
-                            <input type="text" id="new-comment" name="comment" />
+                            <label for="new-comment">Add comment:</label><br>
+                            <input type="text" id="new-comment" name="comment" /><br>
                             <input class="btn btn-outline-primary btn-sm" type="submit" value="Submit" />
                             @Html.Hidden("CarId", Model.Id)
                         </form>

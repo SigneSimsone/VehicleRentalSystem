@@ -73,7 +73,7 @@ namespace VehicleRentalSystem.Controllers
                 _notyfService.Success("Role created successfully!");
             }
             else
-            {
+            {//check if role already exists
                 _notyfService.Error("This role already exists in the system!");
                 return RedirectToAction(nameof(Index), model);
             }
@@ -84,7 +84,7 @@ namespace VehicleRentalSystem.Controllers
 
         [HttpPost]
         public async Task<IActionResult> AddUserToRole(AdminViewModel model)
-        {
+        {//select user and add him to a selected role
             if (string.IsNullOrWhiteSpace(model.SelectedRole) || string.IsNullOrWhiteSpace(model.SelectedUser))
             {
                 return RedirectToAction(nameof(Index));
@@ -102,7 +102,7 @@ namespace VehicleRentalSystem.Controllers
                     _notyfService.Success("Role assigned successfully!");
                 }
                 else
-                {
+                {//check if user is not in the role
                     _notyfService.Error("This user already has this role!");
                 }
             }

@@ -3,21 +3,21 @@
 @if (User.IsInRole("Admin"))
 {
     <form asp-action="OpenAddCar" method="get">
-        <input class="btn btn-outline-dark" type="submit" value="Add Car" />
+        <input class="btn btn-outline-dark col-6 offset-3" type="submit" value="Add Car" />
     </form>
     <br />
 }
 
 <form asp-controller="Search" asp-action="Index" method="get">
-    <input class="btn btn-outline-primary" type="submit" value="Search" />
+    <input class="btn btn-outline-primary col-6 offset-3" type="submit" value="Search" />
 </form>
 <br />
 
 @*<h2 id="cars">Cars</h2>*@
 
-<div>
-    @Html.ValidationMessage("NoCarFoundMessage")
-    @Html.ValidationMessage("NoCarsAdded")
+<div class="text-center">
+    <b>@Html.ValidationMessage("NoCarFoundMessage")</b>
+     <b>@Html.ValidationMessage("NoCarsAdded")</b>
 </div>
 
 <div class="container">
@@ -33,8 +33,8 @@
 
                             <img src="@car.ImagePath" class="card-img-top">
                             <div class="card-body">
-                                <h5 class="card-title">@car.Brand.Brand @car.Model.Model</h5>
-                                <p class="card-text">@car.DailyPrice EUR/day</p>
+                                <h5 class="card-title text-center">@car.Brand.Brand @car.Model.Model</h5>
+                                <p class="card-text text-center">@car.DailyPrice EUR/day</p>
                             </div>
                             <div class="card-footer">
                                 <div class="row">
@@ -52,11 +52,6 @@
                                                 @Html.Hidden("CarId", car.Id)
                                             </form>
                                         </div>
-                                    }
-                                    else
-                                    {
-                                        <br /><br />
-                                        <p>This car is currently not available for reservation!</p> 
                                     }
                                 </div>
                                 @if (User.IsInRole("Admin"))

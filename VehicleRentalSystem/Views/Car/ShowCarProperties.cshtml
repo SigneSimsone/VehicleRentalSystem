@@ -9,58 +9,53 @@
                 </div>
                 <div class="p-3">
                     <form asp-action="OpenAddCarProperties" method="get">
-                        <input class="btn btn-outline-primary" type="submit" value="Add Car Properties" />
+                        <input class="btn btn-outline-dark col-6 offset-3" type="submit" value="Add Car Properties" />
                     </form>
                     <br />
-
-                    <div>
-                        @Html.ValidationMessage("NoBrandsAdded")
-                        @Html.ValidationMessage("NoModelsAdded")
-                        @Html.ValidationMessage("NoFuelTypesAdded")
-                        @Html.ValidationMessage("NoGearboxTypesAdded")
-                        @Html.ValidationMessage("NoLocationsAdded")
-
-                        @if (Model != null && Model.Brands != null && Model.Brands.Any())
-                        {
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mt-3 p-3 shadow rounded">
-                                            <div class="text-center border-bottom mb-3 p-3">
-                                                <h3 class="text-info">Brands</h3>
-                                            </div>
-                                            <div class="p-3">
-                                                <table id="BrandsTable" class="table">
-                                                    <tbody id="tbody">
-                                                        @foreach (var brand in Model.Brands.OrderBy(r => r.Brand))
-                                                        {
-                                                            <tr scope="row">
-                                                                <td>@brand.Brand</td>
-                                                                <td>
-                                                                    <form asp-action="EditBrand" method="get">
-                                                                        <input class="btn btn-outline-dark btn-sm" type="submit" value="Edit" />
-                                                                        @Html.Hidden("BrandId", brand.Id)
-                                                                    </form>
-                                                                </td>
-                                                                <td>
-                                                                    <form asp-action="DeleteBrand" method="post">
-                                                                        <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
-                                                                        @Html.Hidden("BrandId", brand.Id)
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                    @if (Model != null && Model.Brands != null && Model.Brands.Any())
+                    {
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mt-3 p-3 shadow rounded">
+                                        <div class="text-center border-bottom mb-3 p-3">
+                                            <h3 class="text-info">Brands</h3>
+                                        </div>
+                                        <div class="text-center">
+                                            <b>@Html.ValidationMessage("NoBrandsAdded")</b>
+                                        </div>
+                                        <div class="p-3">
+                                            <table id="BrandsTable" class="table">
+                                                <tbody id="tbody">
+                                                    @foreach (var brand in Model.Brands.OrderBy(r => r.Brand))
+                                                    {
+                                                        <tr scope="row">
+                                                            <td>@brand.Brand</td>
+                                                            <td>
+                                                                <form asp-action="EditBrand" method="get">
+                                                                    <input class="btn btn-outline-dark btn-sm" type="submit" value="Edit" />
+                                                                    @Html.Hidden("BrandId", brand.Id)
+                                                                </form>
+                                                            </td>
+                                                            <td>
+                                                                <form asp-action="DeleteBrand" method="post">
+                                                                    <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
+                                                                    @Html.Hidden("BrandId", brand.Id)
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        }
-                        <br />
-                        @if (Model != null && Model.Models != null && Model.Models.Any())
-                        {
+                        </div>
+                    }
+                    <br />
+                    @if (Model != null && Model.Models != null && Model.Models.Any())
+                    {
                         <div class="container">
                             <div class="row">
                                 <div class="col-12">
@@ -68,153 +63,164 @@
                                         <div class="text-center border-bottom mb-3 p-3">
                                             <h3 class="text-info">Models</h3>
                                         </div>
+                                        <div class="text-center">
+                                            <b>@Html.ValidationMessage("NoModelsAdded")</b>
+                                        </div>
                                         <div class="p-3">
                                             <table id="ModelsTable" class="table">
                                                 <tbody id="tbody">
                                                     @foreach (var carModel in Model.Models.OrderBy(r => r.Model))
-                                                        {
-                                                            <tr scope="row">
-                                                                <td>@carModel.Model</td>
-                                                                <td>
-                                                                    <form asp-action="EditModel" method="get">
-                                                                        <input class="btn btn-outline-dark btn-sm" type="submit" value="Edit" />
-                                                                        @Html.Hidden("CarModelId", carModel.Id)
-                                                                    </form>
-                                                                </td>
-                                                                <td>
-                                                                    <form asp-action="DeleteModel" method="post">
-                                                                        <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
-                                                                        @Html.Hidden("CarModelId", carModel.Id)
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                    {
+                                                        <tr scope="row">
+                                                            <td>@carModel.Model</td>
+                                                            <td>
+                                                                <form asp-action="EditModel" method="get">
+                                                                    <input class="btn btn-outline-dark btn-sm" type="submit" value="Edit" />
+                                                                    @Html.Hidden("CarModelId", carModel.Id)
+                                                                </form>
+                                                            </td>
+                                                            <td>
+                                                                <form asp-action="DeleteModel" method="post">
+                                                                    <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
+                                                                    @Html.Hidden("CarModelId", carModel.Id)
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        }
-                        <br />
-                        @if (Model != null && Model.FuelTypes != null && Model.FuelTypes.Any())
-                        {
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mt-3 p-3 shadow rounded">
-                                            <div class="text-center border-bottom mb-3 p-3">
-                                                <h3 class="text-info">Fuel Types</h3>
-                                            </div>
-                                            <div class="p-3">
-                                                <table id="FuelTypesTable" class="table">
-                                                    <tbody id="tbody">
-                                                        @foreach (var fuelType in Model.FuelTypes.OrderBy(r => r.FuelType))
-                                                        {
-                                                            <tr scope="row">
-                                                                <td>@fuelType.FuelType</td>
-                                                                <td>
-                                                                    <form asp-action="EditFuelType" method="get">
-                                                                        <input class="btn btn-outline-dark btn-sm" type="submit" value="Edit" />
-                                                                        @Html.Hidden("FuelTypeId", fuelType.Id)
-                                                                    </form>
-                                                                </td>
-                                                                <td>
-                                                                    <form asp-action="DeleteFuelType" method="post">
-                                                                        <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
-                                                                        @Html.Hidden("FuelTypeId", fuelType.Id)
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                        </div>
+                    }
+                    <br />
+                    @if (Model != null && Model.FuelTypes != null && Model.FuelTypes.Any())
+                    {
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mt-3 p-3 shadow rounded">
+                                        <div class="text-center border-bottom mb-3 p-3">
+                                            <h3 class="text-info">Fuel Types</h3>
+                                        </div>
+                                        <div class="text-center">
+                                            <b>@Html.ValidationMessage("NoFuelTypesAdded")</b>
+                                        </div>
+                                        <div class="p-3">
+                                            <table id="FuelTypesTable" class="table">
+                                                <tbody id="tbody">
+                                                    @foreach (var fuelType in Model.FuelTypes.OrderBy(r => r.FuelType))
+                                                    {
+                                                        <tr scope="row">
+                                                            <td>@fuelType.FuelType</td>
+                                                            <td>
+                                                                <form asp-action="EditFuelType" method="get">
+                                                                    <input class="btn btn-outline-dark btn-sm" type="submit" value="Edit" />
+                                                                    @Html.Hidden("FuelTypeId", fuelType.Id)
+                                                                </form>
+                                                            </td>
+                                                            <td>
+                                                                <form asp-action="DeleteFuelType" method="post">
+                                                                    <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
+                                                                    @Html.Hidden("FuelTypeId", fuelType.Id)
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        }
-                        <br />
-                        @if (Model != null && Model.GearboxTypes != null && Model.GearboxTypes.Any())
-                        {
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mt-3 p-3 shadow rounded">
-                                            <div class="text-center border-bottom mb-3 p-3">
-                                                <h3 class="text-info">Gearbox Types</h3>
-                                            </div>
-                                            <div class="p-3">
-                                                <table id="GearboxTypesTable" class="table">
-                                                    <tbody id="tbody">
-                                                        @foreach (var gearboxType in Model.GearboxTypes.OrderBy(r => r.Gearbox))
-                                                        {
-                                                            <tr scope="row">
-                                                                <td>@gearboxType.Gearbox</td>
-                                                                <td>
-                                                                    <form asp-action="EditGearbox" method="get">
-                                                                        <input class="btn btn-outline-dark btn-sm" type="submit" value="Edit" />
-                                                                        @Html.Hidden("GearboxTypeId", gearboxType.Id)
-                                                                    </form>
-                                                                </td>
-                                                                <td>
-                                                                    <form asp-action="DeleteGearbox" method="post">
-                                                                        <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
-                                                                        @Html.Hidden("GearboxTypeId", gearboxType.Id)
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                        </div>
+                    }
+                    <br />
+                    @if (Model != null && Model.GearboxTypes != null && Model.GearboxTypes.Any())
+                    {
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mt-3 p-3 shadow rounded">
+                                        <div class="text-center border-bottom mb-3 p-3">
+                                            <h3 class="text-info">Gearbox Types</h3>
+                                        </div>
+                                        <div class="text-center">
+                                            <b>@Html.ValidationMessage("NoGearboxTypesAdded")</b>
+                                        </div>
+                                        <div class="p-3">
+                                            <table id="GearboxTypesTable" class="table">
+                                                <tbody id="tbody">
+                                                    @foreach (var gearboxType in Model.GearboxTypes.OrderBy(r => r.Gearbox))
+                                                    {
+                                                        <tr scope="row">
+                                                            <td>@gearboxType.Gearbox</td>
+                                                            <td>
+                                                                <form asp-action="EditGearbox" method="get">
+                                                                    <input class="btn btn-outline-dark btn-sm" type="submit" value="Edit" />
+                                                                    @Html.Hidden("GearboxTypeId", gearboxType.Id)
+                                                                </form>
+                                                            </td>
+                                                            <td>
+                                                                <form asp-action="DeleteGearbox" method="post">
+                                                                    <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
+                                                                    @Html.Hidden("GearboxTypeId", gearboxType.Id)
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        }
-                        <br />
-                        @if (Model != null && Model.Locations != null && Model.Locations.Any())
-                        {
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mt-3 p-3 shadow rounded">
-                                            <div class="text-center border-bottom mb-3 p-3">
-                                                <h3 class="text-info">Locations</h3>
-                                            </div>
-                                            <div class="p-3">
-                                                <table id="LocationsTable" class="table">
-                                                    <tbody id="tbody">
-                                                        @foreach (var location in Model.Locations.OrderBy(r => r.FullLocation))
-                                                        {
-                                                            <tr scope="row">
-                                                                <td>@location.FullLocation</td>
-                                                                <td>
-                                                                    <form asp-action="EditLocation" method="get">
-                                                                        <input class="btn btn-outline-dark btn-sm" type="submit" value="Edit" />
-                                                                        @Html.Hidden("LocationId", location.Id)
-                                                                    </form>
-                                                                </td>
-                                                                <td>
-                                                                    <form asp-action="DeleteLocation" method="post">
-                                                                        <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
-                                                                        @Html.Hidden("LocationId", location.Id)
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                        </div>
+                    }
+                    <br />
+                    @if (Model != null && Model.Locations != null && Model.Locations.Any())
+                    {
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mt-3 p-3 shadow rounded">
+                                        <div class="text-center border-bottom mb-3 p-3">
+                                            <h3 class="text-info">Locations</h3>
+                                        </div>
+                                        <div class="text-center">
+                                            <b>@Html.ValidationMessage("NoLocationsAdded")</b>
+                                        </div>
+                                        <div class="p-3">
+                                            <table id="LocationsTable" class="table">
+                                                <tbody id="tbody">
+                                                    @foreach (var location in Model.Locations.OrderBy(r => r.FullLocation))
+                                                    {
+                                                        <tr scope="row">
+                                                            <td>@location.FullLocation</td>
+                                                            <td>
+                                                                <form asp-action="EditLocation" method="get">
+                                                                    <input class="btn btn-outline-dark btn-sm" type="submit" value="Edit" />
+                                                                    @Html.Hidden("LocationId", location.Id)
+                                                                </form>
+                                                            </td>
+                                                            <td>
+                                                                <form asp-action="DeleteLocation" method="post">
+                                                                    <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" />
+                                                                    @Html.Hidden("LocationId", location.Id)
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        }
-                    </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

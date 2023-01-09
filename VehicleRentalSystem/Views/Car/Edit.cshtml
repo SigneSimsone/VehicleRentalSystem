@@ -62,13 +62,13 @@
 
                         <div class="form-floating">
                             <input asp-for="FuelConsumption" class="form-control" />
-                            <label asp-for="FuelConsumption">Fuel Consumption</label>
+                            <label asp-for="FuelConsumption">Fuel Consumption (l/100km)</label>
                             <span asp-validation-for="FuelConsumption" class="text-danger"></span><br />
                         </div>
 
                         <div class="form-floating">
                             <input asp-for="Mileage" class="form-control" />
-                            <label asp-for="Mileage">Mileage</label>
+                            <label asp-for="Mileage">Mileage (km)</label>
                             <span asp-validation-for="Mileage" class="text-danger"></span><br />
                         </div>
 
@@ -99,7 +99,7 @@
                         <label asp-for="AirConditioner">Air Conditioner</label>
                         @Html.CheckBoxFor(t=>t.AirConditioner) <br /><br />
 
-                        <label asp-for="Availability">Availability</label>
+                        <label asp-for="Availability">Available</label>
                         @Html.CheckBoxFor(t=>t.Availability) <br /><br />
 
                         <input asp-for="File" class="form-control" />
