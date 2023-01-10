@@ -25,7 +25,7 @@
                                             <b>@Html.ValidationMessage("NoBrandsAdded")</b>
                                         </div>
                                         <div class="p-3">
-                                            <table id="BrandsTable" class="table">
+                                            <table id="BrandsTable" class="table w-auto offset-3">
                                                 <tbody id="tbody">
                                                     @foreach (var brand in Model.Brands.OrderBy(r => r.Brand))
                                                     {
@@ -67,7 +67,7 @@
                                             <b>@Html.ValidationMessage("NoModelsAdded")</b>
                                         </div>
                                         <div class="p-3">
-                                            <table id="ModelsTable" class="table">
+                                            <table id="ModelsTable" class="table w-auto offset-3">
                                                 <tbody id="tbody">
                                                     @foreach (var carModel in Model.Models.OrderBy(r => r.Model))
                                                     {
@@ -109,7 +109,7 @@
                                             <b>@Html.ValidationMessage("NoFuelTypesAdded")</b>
                                         </div>
                                         <div class="p-3">
-                                            <table id="FuelTypesTable" class="table">
+                                            <table id="FuelTypesTable" class="table w-auto offset-4">
                                                 <tbody id="tbody">
                                                     @foreach (var fuelType in Model.FuelTypes.OrderBy(r => r.FuelType))
                                                     {
@@ -151,7 +151,7 @@
                                             <b>@Html.ValidationMessage("NoGearboxTypesAdded")</b>
                                         </div>
                                         <div class="p-3">
-                                            <table id="GearboxTypesTable" class="table">
+                                            <table id="GearboxTypesTable" class="table w-auto offset-3">
                                                 <tbody id="tbody">
                                                     @foreach (var gearboxType in Model.GearboxTypes.OrderBy(r => r.Gearbox))
                                                     {
@@ -193,7 +193,7 @@
                                             <b>@Html.ValidationMessage("NoLocationsAdded")</b>
                                         </div>
                                         <div class="p-3">
-                                            <table id="LocationsTable" class="table">
+                                            <table id="LocationsTable" class="table w-auto offset-2">
                                                 <tbody id="tbody">
                                                     @foreach (var location in Model.Locations.OrderBy(r => r.FullLocation))
                                                     {
